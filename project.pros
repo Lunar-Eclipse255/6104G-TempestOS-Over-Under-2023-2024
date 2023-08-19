@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "LVGL Test",
+    "project_name": "Blitz",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -310,7 +310,9 @@
     },
     "upload_options": {
       "slot": 1,
-      "after": "run"
+      "after": "run",
+      "description": "Pls Run",
+      "icon": "pros"
     }
   }
 }
