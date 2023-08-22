@@ -22,7 +22,7 @@ void on_center_button() {
 }
 
 //sets up motor groups for the left and right motors
-MotorGroup leftChassis ({-1, 1});
+MotorGroup leftChassis ({-1, 11});
 MotorGroup rightChassis ({10,-20});
 
 //Digitally Builds the Chassis
