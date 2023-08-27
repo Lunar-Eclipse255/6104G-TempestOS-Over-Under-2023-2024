@@ -11,7 +11,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
+#include "sylib/sylib.hpp"
 #ifndef _PROS_MAIN_H_
 #define _PROS_MAIN_H_
 
@@ -36,6 +36,7 @@
 
 #include "api.h"
 #include "pros/apix.h"
+
 /**
  * You should add more #includes here
  */
