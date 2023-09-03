@@ -101,6 +101,7 @@ void opcontrol() {
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
 		ControllerButton catapultButton(ControllerDigital::L2);
+		ControllerButton catapultButtonBack(ControllerDigital::up);
 
 		//pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
@@ -113,7 +114,9 @@ void opcontrol() {
 		if (catapultButton.isPressed()) {
         	catapultMotor.moveVoltage(12000);
     	} 
-
+		else if (catapultButtonBack.isPressed()) {
+        	catapultMotor.moveVoltage(-12000);
+		}
 		else {
         	catapultMotor.moveVoltage(0);
     	}
