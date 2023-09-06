@@ -34,7 +34,7 @@ std::shared_ptr<ChassisController> drive =
 			rightChassis
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
-		.withDimensions(AbstractMotor::gearset::green, {{3.25_in, 17.645_in}, imev5GreenTPR})
+		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
     	.withOdometry() // Use the same scales as the chassis (above)
 		.withGains(
 			{0.001, 0, 0.0001}, // Distance controller gains
