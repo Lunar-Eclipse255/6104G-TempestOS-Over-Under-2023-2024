@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "BlitzOS",
+    "project_name": "Blitz",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -450,7 +450,7 @@
       }
     },
     "upload_options": {
-      "after": "run",
+      "after": "screen",
       "description": "Pls Run",
       "icon": "pros",
       "slot": 1

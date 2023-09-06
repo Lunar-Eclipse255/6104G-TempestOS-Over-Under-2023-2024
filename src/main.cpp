@@ -21,15 +21,8 @@ void on_center_button() {
 	}
 }
 
-//sets up motor groups for the left and right motors
-/*
-const int leftMotor1Port = 1;
-const int leftMotor2Port = 2;
-const int leftMotor3Port = 3;
-const int rightMotor1Port = 4;
-const int rightMotor2Port = 5;
-const int rightMotor3Port = 6;
-*/
+
+
 MotorGroup rightChassis ({-1, -12, -11});
 MotorGroup leftChassis ({10,19,-20});
 
@@ -40,10 +33,7 @@ std::shared_ptr<ChassisController> drive =
 		.withMotors(
 			leftChassis,
 			rightChassis
-			/*
-			{leftMotor1Port, leftMotor2Port, leftMotor3Port},
-        	{rightMotor1Port, rightMotor2Port, rightMotor3Port}
-			*/
+
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
 		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
