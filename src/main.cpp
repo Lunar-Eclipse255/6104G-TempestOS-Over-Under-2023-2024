@@ -22,8 +22,8 @@ void on_center_button() {
 }
 
 //sets up motor groups for the left and right motors
-MotorGroup leftChassis ({-1, 11});
-MotorGroup rightChassis ({10,-20});
+MotorGroup rightChassis ({-1, -12, -11});
+MotorGroup leftChassis ({10,19,-20});
 
 //Digitally Builds the Chassis
 std::shared_ptr<ChassisController> drive =
@@ -34,11 +34,12 @@ std::shared_ptr<ChassisController> drive =
 			rightChassis
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
-		.withDimensions(AbstractMotor::gearset::green, {{4.125_in, 10_in}, imev5GreenTPR})
+		.withDimensions(AbstractMotor::gearset::green, {{3.25_in, 17.645_in}, imev5GreenTPR})
+    	.withOdometry() // Use the same scales as the chassis (above)
 		.withGains(
-			{0.001},
-			{0.1}, //tune
-			{0.0001}
+			{0.001, 0, 0.0001}, // Distance controller gains
+        	{0.001, 0, 0.0001}, // Turn controller gains
+        	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
 		)
 		.build();
 
