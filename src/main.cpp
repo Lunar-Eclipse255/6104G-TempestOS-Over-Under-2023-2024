@@ -23,16 +23,16 @@ void on_center_button() {
 
 
 
-MotorGroup rightChassis ({-1, -12, -11});
-MotorGroup leftChassis ({10,19,-20});
+MotorGroup rightChassis ({-1, -3, -11});
+MotorGroup leftChassis ({10 ,9, 20});
 
 //Digitally Builds the Chassis
 std::shared_ptr<ChassisController> drive =
 	ChassisControllerBuilder()
 		//.withMotors(leftChassis,rightChassis)
 		.withMotors(
-			leftChassis,
-			rightChassis
+			rightChassis,
+			leftChassis
 
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
@@ -45,9 +45,9 @@ std::shared_ptr<ChassisController> drive =
 		)
 		.build();
 
-Motor intakeMotorTwo (2);
+Motor intakeMotorTwo (3);
 Motor intakeMotorOne (-9);
-Motor catapultMotor (12);
+Motor catapultMotor (2);
 ADIButton catapultLimit ('A');
 
 
