@@ -23,8 +23,8 @@ void on_center_button() {
 
 
 
-MotorGroup rightChassis ({-1, -3, -11});
-MotorGroup leftChassis ({10 ,9, 20});
+MotorGroup rightChassis ({1, 2, 11});
+MotorGroup leftChassis ({-10 ,-9, -20});
 
 //Digitally Builds the Chassis
 std::shared_ptr<ChassisController> drive =
@@ -45,9 +45,9 @@ std::shared_ptr<ChassisController> drive =
 		)
 		.build();
 
-Motor intakeMotorTwo (3);
-Motor intakeMotorOne (-9);
-Motor catapultMotor (2);
+Motor intakeMotorTwo (12);
+Motor intakeMotorOne (-19);
+Motor catapultMotor (3);
 ADIButton catapultLimit ('A');
 
 
@@ -99,7 +99,19 @@ void opcontrol() {
 
 	while (true) {
 		// Arcade drive with the left stick.
-		drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
+		double leftJoystickInput = controller.getAnalog(okapi::ControllerAnalog::leftY);
+		double rightJoystickInput = controller.getAnalog(okapi::ControllerAnalog::rightY);
+
+		double leftScaledValue = pow(leftJoystickInput, 3);   
+		double rightScaledValue = pow(rightJoystickInput, 3); 
+		leftChassis.moveVoltage(leftScaledValue * 12000);   
+		rightChassis.moveVoltage(rightScaledValue * 12000); 
+		drive->getModel()->arcade(leftChassis.getVoltage(), rightChassis.getVoltage());
+
+
+
+
+
 
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
@@ -109,9 +121,17 @@ void opcontrol() {
 		//pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
 		
-	
+	pros::lcd::clear_line(3);
+	double drivetrainVelocity = rightChassis.getActualVelocity();
+
+    // Print the drivetrain velocity to the PROS terminal (or LCD screen)
+    pros::screen::set_pen(COLOR_RED);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 1, "%d", drivetrainVelocity);
+        // Print the motor velocity to the controller's display on line 3
 	if (catapultLimit.isPressed()) {
     	catapultMotor.moveVelocity(0);
+		pros::delay(1000);
+		catapultMotor.moveVelocity(12000);
 	}
 	else {
 		if (catapultButton.isPressed()) {

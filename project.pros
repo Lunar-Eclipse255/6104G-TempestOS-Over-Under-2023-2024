@@ -450,7 +450,7 @@
       }
     },
     "upload_options": {
-      "after": "screen",
+      "after": "run",
       "description": "Pls Run",
       "icon": "pros",
       "slot": 1
