@@ -193,18 +193,8 @@ void opcontrol() {
 	while (true) {
 		// Arcade drive with the left stick.
 		// Read input values for throttle and turn from your input device (e.g., joystick)
-        double throttle = controller.getAnalog(ControllerAnalog::leftY);
-        double turn = controller.getAnalog(ControllerAnalog::rightX);
-
-        // Calculate motor outputs using the cheesyDrive function
-        std::pair<double, double> motorOutputs = cheesyDrive(throttle, turn);
-
-        // Set the left and right motor voltages using the calculated outputs
-        drive->getModel()->arcade(
-            motorOutputs.first * 12000.0, // Scale the outputs to the motor voltage range
-            motorOutputs.second * 12000.0
-        );
-		drive->getModel()->tank(leftChassis.getVoltage(), rightChassis.getVoltage());
+        cheesyDrive(controller.getAnalog(okapi::ControllerAnalog::leftY),
+                       controller.getAnalog(okapi::ControllerAnalog::rightX));
 
 
 
