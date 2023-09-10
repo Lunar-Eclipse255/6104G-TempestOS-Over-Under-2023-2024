@@ -42,6 +42,7 @@
  */
 #include "okapi/api.hpp"
 #include "pros/api_legacy.h"
+//Set up universal motors
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -54,6 +55,13 @@
 // using namespace pros;
 // using namespace pros::literals;
 using namespace okapi;
+
+
+// We apply a sinusoidal curve (twice) to the joystick input to give finer
+// control at small inputs.
+
+
+
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

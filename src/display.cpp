@@ -1,13 +1,11 @@
 #include "main.h"
 #include "display.hpp"
 #include "autons.hpp"
+#include "motors.h"
 
 #define DO_NOT_RUN 1982
-
 //Adds Placeholder Script
 void placeHolder(void){};
-
-
 //Sets up Variables
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
@@ -64,6 +62,9 @@ lv_obj_t* skillsOption2;
 lv_obj_t* profile1;
 lv_obj_t* profile2;
 
+//test button for debug
+lv_obj_t* driveButtonDebug;
+
 
 
 //Creates used Functions
@@ -104,6 +105,32 @@ static lv_res_t backButton_click_event(lv_obj_t* button)
 {
     // Switch to Screen 2
     lv_scr_load(mainMenuScreen);
+    return LV_RES_OK;
+}
+
+//test button for debug
+
+static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
+{
+    pros::screen::set_pen(COLOR_BLUE);
+    backRightDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Back Right");
+    pros::delay(1000);
+    middleRightDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Middle Right");
+    pros::delay(1000);
+    frontRightDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Front Right");
+    pros::delay(1000);
+    backLeftDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Back Left");
+    pros::delay(1000);
+    middleLeftDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Middle Left");
+    pros::delay(1000);
+    frontLeftDriveMotor.moveVoltage(12000);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Front Left");
+    pros::delay(1000);
     return LV_RES_OK;
 }
 
@@ -342,6 +369,17 @@ void MainLVGL(void)
     //Gives the button a label
     lv_obj_t* backLabelDebug = lv_label_create(backButtonDebug, NULL);
     lv_label_set_text(backLabelDebug, "Back");
+
+
+    //test button for debug
+    
+    driveButtonDebug = lv_btn_create(debugScreen, NULL);
+    lv_btn_set_action(driveButtonDebug, LV_BTN_ACTION_CLICK, driveButtonDebug_click_event);
+    lv_obj_align(driveButtonDebug, NULL, LV_ALIGN_CENTER,0,0);
+    lv_obj_set_size(driveButtonDebug, 150,50);
+    lv_obj_t* driveLabelDebug = lv_label_create(driveButtonDebug, NULL);
+    lv_label_set_text(driveLabelDebug, "Drivetrain Test");
+    
 
 
     //Creates Profile Screen
