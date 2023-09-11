@@ -110,27 +110,27 @@ static lv_res_t backButton_click_event(lv_obj_t* button)
 
 //test button for debug
 
+
 static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
 {
-    pros::screen::set_pen(COLOR_BLUE);
     backRightDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Back Right");
     pros::delay(1000);
+    backRightDriveMotor.moveVoltage(0);
     middleRightDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Middle Right");
     pros::delay(1000);
+    middleRightDriveMotor.moveVoltage(0);
     frontRightDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Front Right");
     pros::delay(1000);
+    frontRightDriveMotor.moveVoltage(0);
     backLeftDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Back Left");
     pros::delay(1000);
+    backLeftDriveMotor.moveVoltage(0);
     middleLeftDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Middle Left");
     pros::delay(1000);
+    middleLeftDriveMotor.moveVoltage(0);
     frontLeftDriveMotor.moveVoltage(12000);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Front Left");
     pros::delay(1000);
+    frontLeftDriveMotor.moveVoltage(0);
     return LV_RES_OK;
 }
 

@@ -2,7 +2,13 @@
 #include "display.hpp"
 #include "autons.hpp"
 #include "motors.h"
-#include "drive.h"
+#define INDEX_PORT 'B'
+//#define ENDGAME_PORT 'C'
+
+
+
+
+
 
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -15,6 +21,7 @@ void on_center_button() {
 		pros::lcd::clear_line(2);
 	}
 }
+
 
 Motor backLeftDriveMotor (-10);
 Motor middleLeftDriveMotor (-9);
@@ -30,22 +37,21 @@ std::shared_ptr<ChassisController> drive =
 	ChassisControllerBuilder()
 		//.withMotors(leftChassis,rightChassis)
 		.withMotors(
-			rightChassis,
-			leftChassis
-
+			leftChassis,
+			rightChassis
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
-    	.withOdometry() // Use the same scales as the chassis (above)
+		.withDimensions({AbstractMotor::gearset::green, (60.0 / 36.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
+    	/*.withOdometry() // Use the same scales as the chassis (above)
 		.withGains(
 			{0.001, 0, 0.0001}, // Distance controller gains
         	{0.001, 0, 0.0001}, // Turn controller gains
         	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
-		)
+		) */
 		.build();
-		
-Motor intakeMotorOne (-19);
-Motor intakeMotorTwo (12);
+
+Motor intakeMotorTwo (4);
+Motor intakeMotorOne (-8);
 Motor catapultMotor (3);
 ADIButton catapultLimit ('A');
 
@@ -98,34 +104,20 @@ void opcontrol() {
 
 	while (true) {
 		// Arcade drive with the left stick.
-		// Read input values for throttle and turn from your input device (e.g., joystick)
-        cheesyDrive(controller.getAnalog(okapi::ControllerAnalog::leftY),
-                       controller.getAnalog(okapi::ControllerAnalog::rightX));
-
-
-
-
-
+		drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
 		ControllerButton catapultButton(ControllerDigital::L2);
 		ControllerButton catapultButtonBack(ControllerDigital::up);
+		ControllerButton indexCloseThreeButton(ControllerDigital::Y);
 
-		//pros::ADIDigitalOut index (INDEX_PORT);
+		pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
 		
-	pros::lcd::clear_line(3);
-	double drivetrainVelocity = rightChassis.getActualVelocity();
-
-    // Print the drivetrain velocity to the PROS terminal (or LCD screen)
-    pros::screen::set_pen(COLOR_RED);
-    //pros::screen::print(pros::E_TEXT_MEDIUM, 1, "%d", scaledRightX);
-        // Print the motor velocity to the controller's display on line 3
+	
 	if (catapultLimit.isPressed()) {
     	catapultMotor.moveVelocity(0);
-		pros::delay(1000);
-		catapultMotor.moveVelocity(12000);
 	}
 	else {
 		if (catapultButton.isPressed()) {
@@ -152,6 +144,21 @@ void opcontrol() {
         	intakeMotorOne.moveVoltage(0);
 			intakeMotorTwo.moveVoltage(0);
     	}
+		if (indexCloseThreeButton.isPressed()) {
+			pros::delay(3000);
+			index.set_value(true);
+			pros::delay(500);
+			index.set_value(false);
+			pros::delay(500);
+			index.set_value(true);
+			pros::delay(500);
+			index.set_value(false);
+			pros::delay(500);
+			index.set_value(true);
+			pros::delay(500);
+			index.set_value(false);
+			pros::delay(500);
+    	} 
 		
 		
 		// Wait and give up the time we don't need to other tasks.
