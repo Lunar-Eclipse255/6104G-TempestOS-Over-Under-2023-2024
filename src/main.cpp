@@ -7,7 +7,20 @@
 
 
 
+double calculateMotorPower(double joystickInput) {
+    // Quadratic regression coefficients (you'll need to adjust these based on your collected data)
+    double a = 1.0; // Adjust these coefficients
+    double b = 0.0; // Adjust these coefficients
+    double c = 0.0; // Adjust these coefficients
 
+    // Calculate motor power using the quadratic regression model
+    double motorPower = a * pow(joystickInput, 2) + b * joystickInput + c;
+
+    // Ensure the motor power is within a valid range (adjust as needed)
+    motorPower = std::min(100.0, std::max(-100.0, motorPower));
+
+    return motorPower;
+}
 
 
 
@@ -104,7 +117,14 @@ void opcontrol() {
 
 	while (true) {
 		// Arcade drive with the left stick.
-		drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
+		double joystickInput = controller.getAnalog(ControllerAnalog::leftY);
+
+        // Calculate motor power using the quadratic regression model
+        double motorPower = calculateMotorPower(joystickInput);
+
+        // Set motor power to the drive motors
+        drive->getModel()->arcade(motorPower, controller.getAnalog(ControllerAnalog::rightX));
+		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
