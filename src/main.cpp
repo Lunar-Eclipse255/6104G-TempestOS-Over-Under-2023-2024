@@ -7,22 +7,41 @@
 
 
 
-double calculateMotorPower(double joystickInput) {
-    // Quadratic regression coefficients (you'll need to adjust these based on your collected data)
-    double a = 1.0; // Adjust these coefficients
-    double b = 0.0; // Adjust these coefficients
-    double c = 0.0; // Adjust these coefficients
+double motorVelocityCalc(double joystickInput) {
+	//Coefficients for Cubic model
+    double a = 1.0; 
+    double b = 0.0; 
+    double c = 0.0; 
 
-    // Calculate motor power using the quadratic regression model
-    double motorPower = a * pow(joystickInput, 2) + b * joystickInput + c;
+	//Original value for pow is 2
+	//Maybe remove the absolute value
+	//motorVelocity = ax^3 + bx + c, where x is the absolute value of the joystick value: Cubic Linear regression model
+    double motorVelocity = a * pow(fabs(joystickInput), 3) + b * fabs(joystickInput) + c;
 
-    // Ensure the motor power is within a valid range (adjust as needed)
-    motorPower = std::min(100.0, std::max(-100.0, motorPower));
+    //Adjusts value to fit into expected input value 
+    motorVelocity = std::min(100.0, std::max(-100.0, motorVelocity));
 
-    return motorPower;
+    //Adds the direction back to the motor power
+    return (joystickInput < 0) ? -motorVelocity : motorVelocity;
 }
 
+double turningValueCalc(double joystickInput) {
+    //Coefficients for Quartic model
+    double a = 1.0; 
+    double b = 0.0; 
+	double c = 0.0; 
+	double d = 0.0; 
+	double e = 0.0; 
 
+    //motorVelocity = ax^4+ bx^3 + cx^2 + dx + e, where x is the joystick value: Quartic Linear regression model
+    double turningValue = (a * pow(joystickInput, 4)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
+
+    //Adjusts value to fit into expected input value 
+    turningValue = std::min(1.0, std::max(-1.0, turningValue));
+
+	//returns the turningValue
+    return turningValue;
+}
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
 void on_center_button() {
@@ -117,13 +136,19 @@ void opcontrol() {
 
 	while (true) {
 		// Arcade drive with the left stick.
-		double joystickInput = controller.getAnalog(ControllerAnalog::leftY);
+		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
 
-        // Calculate motor power using the quadratic regression model
-        double motorPower = calculateMotorPower(joystickInput);
+        // Calculate turning behavior using the regression model
+        double turningValue = turningValueCalc(joysticTurning);
 
-        // Set motor power to the drive motors
-        drive->getModel()->arcade(motorPower, controller.getAnalog(ControllerAnalog::rightX));
+        // Read joystick input for forward/backward motion (left joystick's Y-axis)
+        double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
+
+        // Calculate motor power using the quadratic regression model for motion
+        double motorVelocity = motorVelocityCalc(joysticMotion);
+
+        // Apply the calculated turning behavior and motor power to control the robot
+        drive->getModel()->arcade(motorVelocity, turningValue);
 		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		ControllerButton intakeOutButton(ControllerDigital::R2);
@@ -134,8 +159,9 @@ void opcontrol() {
 
 		pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
-		
-	
+	pros::screen::set_pen(COLOR_BLUE);
+    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
+	pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
 	if (catapultLimit.isPressed()) {
     	catapultMotor.moveVelocity(0);
 	}
