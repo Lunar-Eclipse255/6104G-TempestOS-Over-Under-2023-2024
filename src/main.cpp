@@ -12,11 +12,12 @@ double motorVelocityCalc(double joystickInput) {
     double a = 1.0; 
     double b = 0.0; 
     double c = 0.0; 
+	double d = 0.0; 
 
 	//Original value for pow is 2
 	//Maybe remove the absolute value
-	//motorVelocity = ax^3 + bx + c, where x is the absolute value of the joystick value: Cubic Linear regression model
-    double motorVelocity = a * pow(fabs(joystickInput), 3) + b * fabs(joystickInput) + c;
+	//motorVelocity = ax^3 + bx^2 + cx +d, where x is the absolute value of the joystick value: Cubic Linear regression model
+    double motorVelocity = (a * pow(fabs(joystickInput), 3)) + (b * pow(fabs(joystickInput), 2)) + (c * fabs(joystickInput)) + c;
 
     //Adjusts value to fit into expected input value 
     motorVelocity = std::min(100.0, std::max(-100.0, motorVelocity));
