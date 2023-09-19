@@ -17,7 +17,7 @@ double motorVelocityCalc(double joystickInput) {
 	//Original value for pow is 2
 	//Maybe remove the absolute value
 	//motorVelocity = ax^3 + bx^2 + cx +d, where x is the absolute value of the joystick value: Cubic Linear regression model
-    double motorVelocity = (a * pow(fabs(joystickInput), 3)) + (b * pow(fabs(joystickInput), 2)) + (c * fabs(joystickInput)) + c;
+    double motorVelocity = (a * pow(fabs(joystickInput), 2)) + (b * pow(fabs(joystickInput), 2)) + (c * fabs(joystickInput)) + c;
 
     //Adjusts value to fit into expected input value 
     motorVelocity = std::min(100.0, std::max(-100.0, motorVelocity));
@@ -28,7 +28,7 @@ double motorVelocityCalc(double joystickInput) {
 
 double turningValueCalc(double joystickInput) {
     //Coefficients for Quartic model
-    double a = 1.0; 
+    double a = 20.0; 
     double b = 0.0; 
 	double c = 0.0; 
 	double d = 0.0; 
@@ -41,7 +41,7 @@ double turningValueCalc(double joystickInput) {
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-    return turningValue;
+    return (joystickInput < 0) ? -turningValue : turningValue;
 }
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -163,6 +163,15 @@ void opcontrol() {
 	pros::screen::set_pen(COLOR_BLUE);
     pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 	pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
+
+	/*if (Controller1.ButtonL1.pressing()){
+    if (limitswitch.pressing()){
+      Catapult.stop(brakeType::coast);
+    } else {
+      Catapult.spin(vex::directionType::rev, 200, vex::velocityUnits::pct);
+    }
+  }
+}*/
 	if (catapultLimit.isPressed()) {
     	catapultMotor.moveVelocity(0);
 	}
