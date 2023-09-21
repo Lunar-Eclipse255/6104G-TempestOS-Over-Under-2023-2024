@@ -28,20 +28,19 @@ double motorVelocityCalc(double joystickInput) {
 
 double turningValueCalc(double joystickInput) {
     //Coefficients for Quartic model
-    double a = 20.0; 
-    double b = 0.0; 
-	double c = 0.0; 
+    double a = 5.0; 
+    double b = 1.0; 
+	double c = 2.0; 
 	double d = 0.0; 
 	double e = 0.0; 
 
     //motorVelocity = ax^4+ bx^3 + cx^2 + dx + e, where x is the joystick value: Quartic Linear regression model
     double turningValue = (a * pow(joystickInput, 4)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
-
     //Adjusts value to fit into expected input value 
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-    return (joystickInput < 0) ? -turningValue : turningValue;
+    return turningValue;
 }
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -83,8 +82,9 @@ std::shared_ptr<ChassisController> drive =
 		) */
 		.build();
 
-Motor intakeMotorTwo (4);
-Motor intakeMotorOne (-8);
+Motor intakeArmMotorTwo (12);
+Motor intakeArmMotorOne (-19);
+Motor intakeMotor(13);
 Motor catapultMotor (3);
 ADIButton catapultLimit ('A');
 
@@ -154,9 +154,13 @@ void opcontrol() {
 
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
-		ControllerButton catapultButton(ControllerDigital::L2);
+		ControllerButton catapultButton(ControllerDigital::L1);
+		ControllerButton catapultProgressionButton(ControllerDigital::L2);
 		ControllerButton catapultButtonBack(ControllerDigital::up);
-		ControllerButton indexCloseThreeButton(ControllerDigital::Y);
+		ControllerButton intakeArmUpButton(ControllerDigital::Y);
+		ControllerButton intakeArmDownButton(ControllerDigital::down);
+		//ControllerButton indexCloseThreeButton(ControllerDigital::Y);
+		
 
 		pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
@@ -164,20 +168,44 @@ void opcontrol() {
     pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 	pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
 
-	/*if (Controller1.ButtonL1.pressing()){
-    if (limitswitch.pressing()){
-      Catapult.stop(brakeType::coast);
-    } else {
-      Catapult.spin(vex::directionType::rev, 200, vex::velocityUnits::pct);
-    }
-  }
+	/*if (!limitswitch.pressing()){
+        cataspin();
+      } else {
+          if (Controller1.ButtonL1.pressing()){
+            cataspin();
+          } else {
+            Catapult.stop(brakeType::hold);
+          }
+        }
+      }
+	
+	
+	
+	if (Controller1.ButtonL1.pressing()){
+	Catapult.spin(forward ...
+} 
+else if (Controller1.ButtonL2.pressing()){
+	Catapult.spin(reverse ...
+}
+else if (!limitswitch.pressing()){
+	Catapult.spin(forward ... 
+}
+else {
+	Catapult.stop(brakeType::hold);
 }*/
-	if (catapultLimit.isPressed()) {
-    	catapultMotor.moveVelocity(0);
-	}
-	else {
+	
 		if (catapultButton.isPressed()) {
-        	catapultMotor.moveVoltage(12000);
+        	if (!catapultLimit.isPressed()){
+				catapultMotor.moveVoltage(12000);
+			}
+			else{
+				if (catapultProgressionButton.isPressed()){
+					catapultMotor.moveVoltage(12000);
+				}
+				else{
+					catapultMotor.moveVoltage(0);
+				}
+			}
     	} 
 		else if (catapultButtonBack.isPressed()) {
         	catapultMotor.moveVoltage(-12000);
@@ -185,36 +213,29 @@ void opcontrol() {
 		else {
         	catapultMotor.moveVoltage(0);
     	}
-	}
-		if (intakeOutButton.isPressed()) {
-        	intakeMotorOne.moveVoltage(12000);
-			intakeMotorTwo.moveVoltage(12000);
+		if (intakeInButton.isPressed()) {
+        	intakeMotor.moveVoltage(12000);
     	} 
-
-		else if (intakeInButton.isPressed()) {
-        	intakeMotorOne.moveVoltage(-12000);
-			intakeMotorTwo.moveVoltage(-12000);
-   		} 
-
+		else if (intakeOutButton.isPressed()) {
+        	intakeMotor.moveVoltage(-12000);
+		}
 		else {
-        	intakeMotorOne.moveVoltage(0);
-			intakeMotorTwo.moveVoltage(0);
+        	intakeMotor.moveVoltage(0);
     	}
-		if (indexCloseThreeButton.isPressed()) {
-			pros::delay(3000);
-			index.set_value(true);
-			pros::delay(500);
-			index.set_value(false);
-			pros::delay(500);
-			index.set_value(true);
-			pros::delay(500);
-			index.set_value(false);
-			pros::delay(500);
-			index.set_value(true);
-			pros::delay(500);
-			index.set_value(false);
-			pros::delay(500);
+		if (intakeArmUpButton.isPressed()) {
+        	intakeArmMotorOne.moveVoltage(12000);
+			intakeArmMotorTwo.moveVoltage(12000);
     	} 
+		else if (intakeArmDownButton.isPressed()) {
+        	intakeArmMotorOne.moveVoltage(-12000);
+			intakeArmMotorTwo.moveVoltage(-12000);
+		}
+		else {
+        	intakeArmMotorOne.moveVoltage(0);
+			intakeArmMotorTwo.moveVoltage(0);
+    	}
+	
+    	
 		
 		
 		// Wait and give up the time we don't need to other tasks.
