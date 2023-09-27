@@ -2,22 +2,21 @@
 #include "display.hpp"
 #include "autons.hpp"
 #include "motors.h"
-#define INDEX_PORT 'B'
+//#define CATA_PORT 'A'
 //#define ENDGAME_PORT 'C'
 
 
 
 double motorVelocityCalc(double joystickInput) {
 	//Coefficients for Cubic model
-    double a = 1.0; 
-    double b = 0.0; 
-    double c = 0.0; 
+    double a = 5.0; 
+    double b = 1.0; 
+	double c = 2.0; 
 	double d = 0.0; 
+	double e = 0.0; 
 
-	//Original value for pow is 2
-	//Maybe remove the absolute value
-	//motorVelocity = ax^3 + bx^2 + cx +d, where x is the absolute value of the joystick value: Cubic Linear regression model
-    double motorVelocity = (a * pow(fabs(joystickInput), 2)) + (b * pow(fabs(joystickInput), 1)) + c;
+    //motorVelocity = ax^4+ bx^3 + cx^2 + dx + e, where x is the joystick value: Quartic Linear regression model
+    double motorVelocity = (a * pow(joystickInput, 4)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
 
     //Adjusts value to fit into expected input value 
     motorVelocity = std::min(100.0, std::max(-100.0, motorVelocity));
@@ -38,6 +37,7 @@ double turningValueCalc(double joystickInput) {
     double turningValue = (a * pow(joystickInput, 4)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
     //Adjusts value to fit into expected input value 
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
+	return (joystickInput < 0) ? -turningValue : turningValue;
 
 	//returns the turningValue
     return turningValue;
@@ -55,12 +55,14 @@ void on_center_button() {
 }
 
 
-Motor backLeftDriveMotor (-10);
-Motor middleLeftDriveMotor (-9);
-Motor frontLeftDriveMotor (-20);
-Motor backRightDriveMotor (1);
-Motor middleRightDriveMotor (2);
-Motor frontRightDriveMotor (11);
+Motor backLeftDriveMotor (20);
+Motor middleLeftDriveMotor (19);
+Motor frontLeftDriveMotor (18);
+Motor upLeftDriveMotor (17);
+Motor backRightDriveMotor (-10);
+Motor middleRightDriveMotor (-9);
+Motor frontRightDriveMotor (-8);
+Motor upRightDriveMotor (-7);
 MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor});
 MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor});
 
@@ -82,10 +84,8 @@ std::shared_ptr<ChassisController> drive =
 		) */
 		.build();
 
-Motor intakeArmMotorTwo (12);
-Motor intakeArmMotorOne (-19);
-Motor intakeMotor(13);
-Motor catapultMotor (3);
+Motor intakeMotor(16);
+Motor catapultMotor (11);
 ADIButton catapultLimit ('A');
 
 
@@ -157,62 +157,34 @@ void opcontrol() {
 		ControllerButton catapultButton(ControllerDigital::L1);
 		ControllerButton catapultProgressionButton(ControllerDigital::L2);
 		ControllerButton catapultButtonBack(ControllerDigital::up);
-		ControllerButton intakeArmUpButton(ControllerDigital::Y);
-		ControllerButton intakeArmDownButton(ControllerDigital::down);
 		//ControllerButton indexCloseThreeButton(ControllerDigital::Y);
-		
+		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 
-		pros::ADIDigitalOut index (INDEX_PORT);
+
+		//pros::ADIDigitalOut index (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
 	pros::screen::set_pen(COLOR_BLUE);
     pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 	pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
 
-	/*if (!limitswitch.pressing()){
-        cataspin();
-      } else {
-          if (Controller1.ButtonL1.pressing()){
-            cataspin();
-          } else {
-            Catapult.stop(brakeType::hold);
-          }
-        }
-      }
-	
-	
-	
-	if (Controller1.ButtonL1.pressing()){
-	Catapult.spin(forward ...
-} 
-else if (Controller1.ButtonL2.pressing()){
-	Catapult.spin(reverse ...
-}
-else if (!limitswitch.pressing()){
-	Catapult.spin(forward ... 
-}
-else {
-	Catapult.stop(brakeType::hold);
-}*/
-	
+
 		if (catapultButton.isPressed()) {
-        	if (!catapultLimit.isPressed()){
+			if (catapultProgressionButton.isPressed()){
 				catapultMotor.moveVoltage(12000);
 			}
-			else{
-				if (catapultProgressionButton.isPressed()){
-					catapultMotor.moveVoltage(12000);
-				}
-				else{
-					catapultMotor.moveVoltage(0);
-				}
+			else if (catapultLimit.isPressed()){
+				catapultMotor.moveVoltage(0);
 			}
-    	} 
+			else  {
+				catapultMotor.moveVoltage(12000);
+			}
+		}
 		else if (catapultButtonBack.isPressed()) {
         	catapultMotor.moveVoltage(-12000);
 		}
-		else {
-        	catapultMotor.moveVoltage(0);
-    	}
+		else{
+			catapultMotor.moveVoltage(0);
+		}
 		if (intakeInButton.isPressed()) {
         	intakeMotor.moveVoltage(12000);
     	} 
@@ -221,18 +193,6 @@ else {
 		}
 		else {
         	intakeMotor.moveVoltage(0);
-    	}
-		if (intakeArmUpButton.isPressed()) {
-        	intakeArmMotorOne.moveVoltage(12000);
-			intakeArmMotorTwo.moveVoltage(12000);
-    	} 
-		else if (intakeArmDownButton.isPressed()) {
-        	intakeArmMotorOne.moveVoltage(-12000);
-			intakeArmMotorTwo.moveVoltage(-12000);
-		}
-		else {
-        	intakeArmMotorOne.moveVoltage(0);
-			intakeArmMotorTwo.moveVoltage(0);
     	}
 	
     	
