@@ -139,7 +139,9 @@ void opcontrol() {
 	// Joystick to read analog values for tank or arcade control.
 	// Master controller by default.                                                                        
 	Controller controller;
-
+	pros::ADIDigitalOut leftWing (WING_LEFT);
+	pros::ADIDigitalOut rightWing (WING_RIGHT);
+	pros::ADIDigitalOut arm (ARM);
 	while (true) {
 		// Arcade drive with the left stick.
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
@@ -164,9 +166,7 @@ void opcontrol() {
 		ControllerButton catapultButtonBack(ControllerDigital::up);
 		ControllerButton wingButton(ControllerDigital::Y);
 		ControllerButton armButton(ControllerDigital::right);
-		pros::ADIDigitalOut leftWing (WING_LEFT);
-		pros::ADIDigitalOut rightWing (WING_RIGHT);
-		pros::ADIDigitalOut arm (ARM);
+		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 		
 
@@ -205,15 +205,7 @@ void opcontrol() {
 		else {
         	intakeMotor.moveVoltage(0);
     	}
-		if (wingButton.isPressed() && !pistonExtended) {
-            leftWing.set_value(true); // Extend the piston
-            pistonExtended = true; // Set the piston state to extended
-        } else if (!wingButton.isPressed() && pistonExtended) {
-            // If the button is released and the piston is extended, retract it
-            leftWing.set_value(false); // Retract the piston
-            pistonExtended = false; // Set the piston state to retracted
-        }
-		/*
+
 		if (wingButton.isPressed()) {
 			//leftWing.set_value(true);
 			//rightWing.set_value(true);
@@ -239,7 +231,7 @@ void opcontrol() {
 			arm.set_value(true);
 			pros::delay(5000);
 		}	
-		*/
+
 	
     	
 		
