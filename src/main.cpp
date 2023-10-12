@@ -96,13 +96,13 @@ Motor intakeMotor(16);
 Motor catapultMotor (11);
 ADIButton catapultLimit ('A');
 bool wingCheck;
-bool pistonExtended;
+bool armCheck;
 
 
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
-	wingCheck=true;
-	pistonExtended = false;
+	wingCheck=false;
+	armCheck = false;
 
 	//pros::lcd::initialize();
    	sylib::initialize();
@@ -164,11 +164,12 @@ void opcontrol() {
 		ControllerButton catapultButton(ControllerDigital::L2);
 		ControllerButton catapultProgressionButton(ControllerDigital::L1);
 		ControllerButton catapultButtonBack(ControllerDigital::up);
-		ControllerButton wingButton(ControllerDigital::Y);
-		ControllerButton armButton(ControllerDigital::right);
+		ControllerButton wingOutButton(ControllerDigital::Y);
+		ControllerButton wingInButton(ControllerDigital::right);
+		ControllerButton armOutButton(ControllerDigital::A);
+		ControllerButton armInButton(ControllerDigital::left);
 		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
-		
 
 
 		//pros::ADIDigitalOut leftWing (INDEX_PORT);
@@ -206,31 +207,35 @@ void opcontrol() {
         	intakeMotor.moveVoltage(0);
     	}
 
-		if (wingButton.isPressed()) {
-			//leftWing.set_value(true);
-			//rightWing.set_value(true);
-			//pros::delay(5000);
-
-    	
-		
-			
-			if (wingCheck==true){
+		if (wingOutButton.isPressed()) {
+			if (wingCheck==false){
 				leftWing.set_value(true);
 				rightWing.set_value(true);
-				wingCheck=false;
-				pros::delay(5000);
-			}
-			else {
-				leftWing.set_value(false);
-				rightWing.set_value(false);
 				wingCheck=true;
-				pros::delay(5000);
 			}
 		}
-		if (armButton.isPressed()) {
-			arm.set_value(true);
-			pros::delay(5000);
+		else if (wingInButton.isPressed()) {
+			if (wingCheck){
+				leftWing.set_value(false);
+				rightWing.set_value(false);
+				wingCheck=false;
+			}
+		}
+		if (armOutButton.isPressed()) {
+			if (armCheck==false){
+				arm.set_value(true);
+				arm.set_value(true);
+				armCheck=true;
+			}
+
 		}	
+		else if (armInButton.isPressed()) {
+			if (armCheck){
+				arm.set_value(false);
+				arm.set_value(false);
+				armCheck=false;
+			}
+		}
 
 	
     	
