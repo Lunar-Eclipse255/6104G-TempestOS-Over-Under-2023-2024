@@ -8,8 +8,7 @@ extern Motor middleRightDriveMotor;
 extern Motor frontRightDriveMotor;
 extern MotorGroup leftChassis;
 extern MotorGroup rightChassis;
-extern Motor intakeMotorOne;
-extern Motor intakeMotorTwo;
+extern Motor intakeMotor;
 extern Motor catapultMotor;
 extern ADIButton catapultLimit;
 
