@@ -8,8 +8,11 @@
 using namespace okapi;
 
 void rightBlueAuton(void) {
-    intakeMotor.moveVoltage(12000); //might be reversed
-    pros::delay(800);
+    intakeMotor.moveVoltage(-12000); //might be reversed
+    pros::delay(200);
+    intakeMotor.moveVoltage(12000);
+    pros::delay(200);
     intakeMotor.moveVoltage(0);
-	drive->moveDistance(40_cm);
+	drive->moveDistance(45_cm);
+    drive->turnAngle(-22_deg);
 }
