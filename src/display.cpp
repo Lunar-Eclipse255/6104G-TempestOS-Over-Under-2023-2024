@@ -324,7 +324,7 @@ void MainLVGL(void)
     //}
 
     //Creates second red checkbox
-    //if (sizeof(redTitles) / sizeof(redTitles[0]) > 1) {
+    if (sizeof(redTitles) / sizeof(redTitles[0]) > 1) {
     redOption2 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption2, redTitles[1]);
@@ -332,8 +332,8 @@ void MainLVGL(void)
     lv_cb_set_action(redOption2, (lv_action_t)setRed);
     //Aligns the checkbox
     lv_obj_align(redOption2, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,20); 
-    //}
-    //if (sizeof(redTitles) / sizeof(redTitles[0]) > 2) {
+    }
+    if (sizeof(redTitles) / sizeof(redTitles[0]) > 2) {
     redOption3 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption3, redTitles[2]);
@@ -341,7 +341,7 @@ void MainLVGL(void)
     lv_cb_set_action(redOption3, (lv_action_t)setRed);
     //Aligns the checkbox
     lv_obj_align(redOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,30); 
-    //}
+    }
 
     //Creates first blue checkbox
     if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 0) {
