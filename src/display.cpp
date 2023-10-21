@@ -4,15 +4,15 @@
 #include "motors.h"
 
 #define DO_NOT_RUN 1982
-//Adds Placeholder Script
-void placeHolder(void){};
+//Adds disabled Script
+void disabled(void){};
 //Sets up Variables
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
 int autoType = 0;
 bool isLeft = false;
 bool selected = false;
-bool driverSkillsMode = false;
+bool dSkillsMode = false;
 int selectedProfile = 0;
 
 //Sets up the names for the checkboxes
@@ -22,8 +22,8 @@ const char* skillsTitles[] = {"Programming Skills","Driver Skills"};
 const char* profileTitles[] = {"Gaston", "Patrick"};
 
 //Sets up which programs to select from
-void (*leftScripts[])() = {leftRedAuton, leftBlueAuton, placeHolder};
-void (*rightScripts[])() = {rightRedAuton, rightBlueAuton, placeHolder};
+void (*redScripts[])() = {leftRedAuton, rightRedAuton, disabled};
+void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, disabled};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
@@ -112,7 +112,7 @@ static lv_res_t backButton_click_event(lv_obj_t* button)
 
 //test button for debug
 
-
+//doesn't work due to not letting you run motors in disabled
 static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
 {
     backRightDriveMotor.moveVoltage(12000);
@@ -157,27 +157,37 @@ void uncheckColor(bool red, bool blue, bool skills) {
 
 
 //Sets up the actions that happen when the checckboxes in the Red tab are checked
+/*selected program is how far to index within their respective scripts
+ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, disabled};
+and autoType=Blue an selectedProgram=1 it would run rightBlueAuton
+*/
+
 lv_action_t setRed(lv_obj_t* checkBox) {
+    /*if redOption1 is checked, it sets the other redoptions to false, then unchecks 
+    all the boxes in the blue and skills tab, after it sets the driverSkills mode to 
+    false and the selectedProgram to 0
+    */
 	if (lv_cb_is_checked(redOption1) && redOption1 == checkBox) {
 		lv_cb_set_checked(redOption2, false);
         lv_cb_set_checked(redOption3, false);
 		uncheckColor(false, true, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(redOption2) && redOption2 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption3, false);
 		uncheckColor(false, true, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 1;
 	} 
     else if (lv_cb_is_checked(redOption3) && redOption3 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption2, false);
 		uncheckColor(false, true, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 2;
 	} 
+    //Sets autoType to red, and sets that an option was selected to true
 	autoType = AUTONOMOUS_RED;
 	selected = true;
 	return (lv_action_t)LV_RES_OK;
@@ -189,20 +199,20 @@ lv_action_t setBlue(lv_obj_t* checkBox) {
 		lv_cb_set_checked(blueOption2, false);
         lv_cb_set_checked(blueOption3, false);
 		uncheckColor(true, false, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(blueOption2) && blueOption2 == checkBox) {
 		lv_cb_set_checked(blueOption1, false);
         lv_cb_set_checked(blueOption3, false);
 		uncheckColor(true, false, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 1;
 	} 
     else if (lv_cb_is_checked(blueOption3) && blueOption3 == checkBox) {
 		lv_cb_set_checked(blueOption1, false);
         lv_cb_set_checked(blueOption2, false);
 		uncheckColor(true, false, true);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 2;
 	} 
 	autoType = AUTONOMOUS_BLUE;
@@ -215,12 +225,12 @@ lv_action_t setSkills(lv_obj_t* checkBox) {
 	if (lv_cb_is_checked(skillsOption1) && skillsOption1 == checkBox) {
 		lv_cb_set_checked(skillsOption2, false);
 		uncheckColor(true, true, false);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(skillsOption2) && skillsOption2 == checkBox) {
 		lv_cb_set_checked(skillsOption1, false);
 		uncheckColor(true, true, false);
-		driverSkillsMode = false;
+		dSkillsMode = false;
 		selectedProgram = 1;
 	} 
 	autoType = AUTONOMOUS_SKILLS;
@@ -488,11 +498,11 @@ void runSelectedAuto(void) {
 	switch (autoType) {
 		case AUTONOMOUS_RED:
 			printf("LEFT\n");
-			leftScripts[selectedProgram]();
+			redScripts[selectedProgram]();
 			break;
 		case AUTONOMOUS_BLUE:
 			printf("RIGHT\n");
-			rightScripts[selectedProgram]();
+			blueScripts[selectedProgram]();
 			break;
 		case AUTONOMOUS_SKILLS:
 			printf("SKILLS\n");

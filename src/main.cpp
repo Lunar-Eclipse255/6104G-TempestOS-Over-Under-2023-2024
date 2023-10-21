@@ -76,8 +76,8 @@ std::shared_ptr<ChassisController> drive =
 	ChassisControllerBuilder()
 		//.withMotors(leftChassis,rightChassis)
 		.withMotors(
-			leftChassis,
-			rightChassis
+			rightChassis,
+			leftChassis
 		)
 		// Green gearset, 4 in wheel diam, 11.5 in wheel track
 		.withDimensions({AbstractMotor::gearset::green, (60.0 / 36.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
@@ -175,8 +175,8 @@ void opcontrol() {
 		//pros::ADIDigitalOut leftWing (INDEX_PORT);
 		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
 	pros::screen::set_pen(COLOR_BLUE);
-    pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
-	pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
+    //pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
+	//pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
 
 		
 		
@@ -198,10 +198,10 @@ void opcontrol() {
 			catapultMotor.moveVoltage(0);
 		}
 		if (intakeInButton.isPressed()) {
-        	intakeMotor.moveVoltage(12000);
+        	intakeMotor.moveVoltage(-12000);
     	} 
 		else if (intakeOutButton.isPressed()) {
-        	intakeMotor.moveVoltage(-12000);
+        	intakeMotor.moveVoltage(12000);
 		}
 		else {
         	intakeMotor.moveVoltage(0);

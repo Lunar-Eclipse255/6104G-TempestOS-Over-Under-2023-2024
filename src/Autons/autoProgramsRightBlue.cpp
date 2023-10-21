@@ -13,11 +13,12 @@ void rightBlueAuton(void) {
     intakeMotor.moveVoltage(12000);
     pros::delay(200);
     intakeMotor.moveVoltage(0);
-	drive->moveDistance(45_cm);
+	drive->moveDistance(47_cm);
     drive->turnAngle(-22_deg); //≈90 degrees
-    drive->moveDistance(15_cm);
     intakeMotor.moveVoltage(-12000);
+    drive->moveDistance(5_cm);
     pros::delay(200);
+    intakeMotor.moveVoltage(0);
     drive->moveDistance(-15_cm);
     drive->turnAngle(22_deg);
     drive->moveDistance(-40_cm);
