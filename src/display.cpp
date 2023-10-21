@@ -227,12 +227,10 @@ lv_action_t setSkills(lv_obj_t* checkBox) {
 	if (lv_cb_is_checked(skillsOption1) && skillsOption1 == checkBox) {
 		lv_cb_set_checked(skillsOption2, false);
 		uncheckColor(true, true, false);
-		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(skillsOption2) && skillsOption2 == checkBox) {
 		lv_cb_set_checked(skillsOption1, false);
 		uncheckColor(true, true, false);
-		dSkillsMode = true;
 		selectedProgram = 1;
 	} 
     //Sets autoType to skills, and sets that an option was selected to true
