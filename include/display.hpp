@@ -4,7 +4,7 @@
 #include "display/lvgl.h"
 #include "main.h"
 
-
+//Declares an integer and functions.
 extern int selectedProfile;
 void MainLVGL();
 static lv_res_t button_click_event(lv_obj_t* button);
@@ -15,7 +15,7 @@ void display(void);
 
 
 
-
+//Sets an enumeration type for autonomous type
 typedef enum autonomous_type {
   AUTONOMOUS_RED = 0,
   AUTONOMOUS_BLUE = 1,

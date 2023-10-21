@@ -4,6 +4,7 @@
 #include "display/lvgl.h"
 #include "okapi/api.hpp"
 
+//Declares the autonomous and skills functions
 void leftRedAuton(void);
 void leftBlueAuton(void);
 void rightRedAuton(void);
