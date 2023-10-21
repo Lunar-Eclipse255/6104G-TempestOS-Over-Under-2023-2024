@@ -12,7 +12,6 @@ int selectedProgram = DO_NOT_RUN;
 int autoType = 0;
 bool isLeft = false;
 bool selected = false;
-bool dSkillsMode = false;
 int selectedProfile = 0;
 
 //Sets up the names for the checkboxes
@@ -156,14 +155,14 @@ void uncheckColor(bool red, bool blue, bool skills) {
 }
 
 
-//Sets up the actions that happen when the checckboxes in the Red tab are checked
+//Sets up the actions that happen when the checkboxes are checked
 /*selected program is how far to index within their respective scripts
 ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, disabled};
 and autoType=Blue an selectedProgram=1 it would run rightBlueAuton
 */
 
 lv_action_t setRed(lv_obj_t* checkBox) {
-    /*if redOption1 is checked, it sets the other redoptions to false, then unchecks 
+    /*if redOption1 is checked, it sets the other red options to false, then unchecks 
     all the boxes in the blue and skills tab, after it sets the driverSkills mode to 
     false and the selectedProgram to 0
     */
@@ -171,20 +170,17 @@ lv_action_t setRed(lv_obj_t* checkBox) {
 		lv_cb_set_checked(redOption2, false);
         lv_cb_set_checked(redOption3, false);
 		uncheckColor(false, true, true);
-		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(redOption2) && redOption2 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption3, false);
 		uncheckColor(false, true, true);
-		dSkillsMode = false;
 		selectedProgram = 1;
 	} 
     else if (lv_cb_is_checked(redOption3) && redOption3 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption2, false);
 		uncheckColor(false, true, true);
-		dSkillsMode = false;
 		selectedProgram = 2;
 	} 
     //Sets autoType to red, and sets that an option was selected to true
@@ -195,26 +191,28 @@ lv_action_t setRed(lv_obj_t* checkBox) {
 
 //Sets up the actions that happen when the checckboxes in the Blue tab are checked
 lv_action_t setBlue(lv_obj_t* checkBox) {
+    /*if blueOption1 is checked, it sets the other blue options to false, then unchecks 
+    all the boxes in the red and skills tab, after it sets the driverSkills mode to 
+    false and the selectedProgram to 0
+    */
 	if (lv_cb_is_checked(blueOption1) && blueOption1 == checkBox) {
 		lv_cb_set_checked(blueOption2, false);
         lv_cb_set_checked(blueOption3, false);
 		uncheckColor(true, false, true);
-		dSkillsMode = false;
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(blueOption2) && blueOption2 == checkBox) {
 		lv_cb_set_checked(blueOption1, false);
         lv_cb_set_checked(blueOption3, false);
 		uncheckColor(true, false, true);
-		dSkillsMode = false;
 		selectedProgram = 1;
 	} 
     else if (lv_cb_is_checked(blueOption3) && blueOption3 == checkBox) {
 		lv_cb_set_checked(blueOption1, false);
         lv_cb_set_checked(blueOption2, false);
 		uncheckColor(true, false, true);
-		dSkillsMode = false;
 		selectedProgram = 2;
 	} 
+    //Sets autoType to blue, and sets that an option was selected to true
 	autoType = AUTONOMOUS_BLUE;
 	selected = true;
 	return (lv_action_t)LV_RES_OK;
@@ -222,6 +220,10 @@ lv_action_t setBlue(lv_obj_t* checkBox) {
 
 //Sets up the actions that happen when the checckboxes in the Skills tab are checked
 lv_action_t setSkills(lv_obj_t* checkBox) {
+    /*if skiillsOption1 is checked, it sets the other swkill options to false, then unchecks 
+    all the boxes in the red and blue tab, after it sets the driverSkills mode to 
+    false and the selectedProgram to 0
+    */
 	if (lv_cb_is_checked(skillsOption1) && skillsOption1 == checkBox) {
 		lv_cb_set_checked(skillsOption2, false);
 		uncheckColor(true, true, false);
@@ -230,14 +232,15 @@ lv_action_t setSkills(lv_obj_t* checkBox) {
 	} else if (lv_cb_is_checked(skillsOption2) && skillsOption2 == checkBox) {
 		lv_cb_set_checked(skillsOption1, false);
 		uncheckColor(true, true, false);
-		dSkillsMode = false;
+		dSkillsMode = true;
 		selectedProgram = 1;
 	} 
+    //Sets autoType to skills, and sets that an option was selected to true
 	autoType = AUTONOMOUS_SKILLS;
 	selected = true;
 	return (lv_action_t)LV_RES_OK;
 }
-
+//If profile1 was selected thern profile 2 is set to false and vice versa
 lv_action_t setProfile(lv_obj_t* checkBox) {
 	if (lv_cb_is_checked(profile1) && profile1 == checkBox) {
 		lv_cb_set_checked(profile2, false);
@@ -487,11 +490,13 @@ void display(void) {
 //Code to run the right auton based off the checkboxes
 // DO NOT TOUCH
 void runSelectedAuto(void) {
+    /*
 	printf("RAN\n");
 	printf("%d\n", selectedProgram);
 	printf("%d\n", autoType);
 	printf("%d\n", AUTONOMOUS_RED);
 	printf("%d\n", AUTONOMOUS_BLUE);
+    */
 	if (selectedProgram == DO_NOT_RUN) {
 		return;
 	}
