@@ -4,8 +4,8 @@
 #include "motors.h"
 
 #define DO_NOT_RUN 1982
-//Adds disabled Script
-void disabled(void){};
+//Adds placeHolder Script
+void placeHolder(void){};
 //Sets up Variables
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
@@ -21,8 +21,8 @@ const char* skillsTitles[] = {"Programming Skills","Driver Skills"};
 const char* profileTitles[] = {"Gaston", "Patrick"};
 
 //Sets up which programs to select from
-void (*redScripts[])() = {leftRedAuton, rightRedAuton, disabled};
-void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, disabled};
+void (*redScripts[])() = {leftRedAuton, rightRedAuton, placeHolder};
+void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, placeHolder};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
@@ -111,7 +111,7 @@ static lv_res_t backButton_click_event(lv_obj_t* button)
 
 //test button for debug
 
-//doesn't work due to not letting you run motors in disabled
+//doesn't work due to not letting you run motors in placeHolder
 static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
 {
     backRightDriveMotor.moveVoltage(12000);
@@ -157,7 +157,7 @@ void uncheckColor(bool red, bool blue, bool skills) {
 
 //Sets up the actions that happen when the checkboxes are checked
 /*selected program is how far to index within their respective scripts
-ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, disabled};
+ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, placeHolder};
 and autoType=Blue an selectedProgram=1 it would run rightBlueAuton
 */
 

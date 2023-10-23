@@ -82,8 +82,8 @@ std::shared_ptr<ChassisController> drive =
 		//.withMotors(leftChassis,rightChassis)
 		//Sets which motors to use
 		.withMotors(
-			rightChassis,
-			leftChassis
+			leftChassis,
+			rightChassis
 		)
 		
 		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
@@ -219,11 +219,11 @@ void opcontrol() {
 		}
 		//if the intakeIn button is pressed it gives the intake 12000 mV
 		if (intakeInButton.isPressed()) {
-        	intakeMotor.moveVoltage(-12000);
+        	intakeMotor.moveVoltage(12000);
     	} 
 		//else if the intakeOut button is pressed it gives the intake -12000 mV
 		else if (intakeOutButton.isPressed()) {
-        	intakeMotor.moveVoltage(12000);
+        	intakeMotor.moveVoltage(-12000);
 		}
 		//else it stops powering the intake motor
 		else {
