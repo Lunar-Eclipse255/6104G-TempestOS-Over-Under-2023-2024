@@ -36,6 +36,7 @@ double motorVelocityCalc(double joystickInput) {
 
 double turningValueCalc(double joystickInput) {
     //Coefficients for Quartic model
+	
     double a = 3.0; 
     double b = 1.0; 
 	double c = 2.0; 
@@ -82,12 +83,12 @@ std::shared_ptr<ChassisController> drive =
 		//.withMotors(leftChassis,rightChassis)
 		//Sets which motors to use
 		.withMotors(
-			leftChassis,
-			rightChassis
+			rightChassis,
+			leftChassis
 		)
 		
 		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
+		.withDimensions({AbstractMotor::gearset::green, (60.0 / 36.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
     	/*.withOdometry() // Use the same scales as the chassis (above)
 		.withGains(
 			{0.001, 0, 0.0001}, // Distance controller gains
@@ -171,7 +172,7 @@ void opcontrol() {
         double motorVelocity = motorVelocityCalc(joysticMotion);
 
        //Uses these new values to control the bot
-        drive->getModel()->arcade(motorVelocity, turningValue);
+        drive->getModel()->arcade(motorVelocity, controller.getAnalog(ControllerAnalog::rightX));
 		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		//Initializes all the controller buttons
