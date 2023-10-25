@@ -382,7 +382,7 @@ void MainLVGL(void)
     //Sets up what happens when selected
     lv_cb_set_action(blueOption3, (lv_action_t)setBlue);
     //Aligns the checkbox
-    lv_obj_align(blueOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,40);
+    lv_obj_align(blueOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,30);
     }
 
     //Creates first skills checkbox
