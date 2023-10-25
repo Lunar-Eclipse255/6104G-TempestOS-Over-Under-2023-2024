@@ -5,7 +5,7 @@
 
 //#include "okapi/api.hpp"
 
-using namespace okapi;
+//using namespace okapi; might be required
 
 void rightBlueAuton(void) {
     drive->setMaxVelocity(100);
@@ -24,11 +24,4 @@ void rightBlueAuton(void) {
     drive->moveDistance(-15_cm);
     drive->turnAngle(45_deg); //≈90 degrees
     drive->moveDistance(60_cm);
-    /*
-    drive->moveDistance(-30_cm);
-    drive->turnAngle(22_deg);
-    drive->moveDistance(40_cm);
-    drive->turnAngle(22_deg);
-    drive->moveDistance(45_cm);
-    */
 }
