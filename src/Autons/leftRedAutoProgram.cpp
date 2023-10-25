@@ -8,6 +8,5 @@
 using namespace okapi;
 
 void leftRedAuton(void) {
-	//pros::screen::set_pen(COLOR_BLUE);
-    //pros::screen::print(pros::E_TEXT_MEDIUM, 3, "Blue Flag");
+	leftBlueAuton();
 }
