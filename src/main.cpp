@@ -215,7 +215,7 @@ void opcontrol() {
 		else if (catapultButtonBack.isPressed()) {
         	catapultMotor.moveVoltage(-12000);
 		}
-		//else its stops powerign the motor
+		//else its stops powering the motor
 		else{
 			catapultMotor.moveVoltage(0);
 		}
