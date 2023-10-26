@@ -15,14 +15,14 @@ bool selected = false;
 int selectedProfile = 0;
 
 //Sets up the names for the checkboxes
-const char* redTitles[] = {"Left Auton", "Right Auton", "Disabled"};
-const char* blueTitles[] = {"Left Auton", "Right Auton", "Disabled"};
+const char* redTitles[] = {"Left Auton", "Right Auton", "Disabled", "Left Auton No Bar","Right Auton No Bar"};
+const char* blueTitles[] = {"Left Auton", "Right Auton", "Disabled", "Left Auton No Bar","Right Auton No Bar"};
 const char* skillsTitles[] = {"Programming Skills","Driver Skills"};
 const char* profileTitles[] = {"Gaston", "Patrick"};
 
 //Sets up which programs to select from
-void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder};
-void (*blueScripts[])() = {leftBlueOneAuton, rightBlueOneAuton, placeHolder};
+void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder, leftRedTwoAuton, rightRedTwoAuton};
+void (*blueScripts[])() = {leftBlueOneAuton, rightBlueOneAuton, placeHolder, leftBlueTwoAuton, rightBlueTwoAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
@@ -49,11 +49,15 @@ lv_obj_t* backButtonVisual;
 lv_obj_t* redOption1;
 lv_obj_t* redOption2;
 lv_obj_t* redOption3;
+lv_obj_t* redOption4;
+lv_obj_t* redOption5;
 
 //Creates Blue Auton Checkboxes
 lv_obj_t* blueOption1;
 lv_obj_t* blueOption2;
 lv_obj_t* blueOption3;
+lv_obj_t* blueOption4;
+lv_obj_t* blueOption5;
 
 //Creates Checkboxes for Skills
 lv_obj_t* skillsOption1;
@@ -142,11 +146,15 @@ void uncheckColor(bool red, bool blue, bool skills) {
 		lv_cb_set_checked(redOption1, false);
 		lv_cb_set_checked(redOption2, false);
         lv_cb_set_checked(redOption3, false);
+        lv_cb_set_checked(redOption4, false);
+        lv_cb_set_checked(redOption5, false);
 	}
 	if (blue) {
 		lv_cb_set_checked(blueOption1, false);
 		lv_cb_set_checked(blueOption2, false);
         lv_cb_set_checked(blueOption3, false);
+        lv_cb_set_checked(blueOption4, false);
+        lv_cb_set_checked(blueOption5, false);
 	}
 	if (skills) {
 		lv_cb_set_checked(skillsOption1, false);
@@ -169,20 +177,42 @@ lv_action_t setRed(lv_obj_t* checkBox) {
 	if (lv_cb_is_checked(redOption1) && redOption1 == checkBox) {
 		lv_cb_set_checked(redOption2, false);
         lv_cb_set_checked(redOption3, false);
+        lv_cb_set_checked(redOption4, false);
+        lv_cb_set_checked(redOption5, false);
 		uncheckColor(false, true, true);
 		selectedProgram = 0;
 	} else if (lv_cb_is_checked(redOption2) && redOption2 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption3, false);
+        lv_cb_set_checked(redOption4, false);
+        lv_cb_set_checked(redOption5, false);
 		uncheckColor(false, true, true);
 		selectedProgram = 1;
 	} 
     else if (lv_cb_is_checked(redOption3) && redOption3 == checkBox) {
 		lv_cb_set_checked(redOption1, false);
         lv_cb_set_checked(redOption2, false);
+        lv_cb_set_checked(redOption4, false);
+        lv_cb_set_checked(redOption5, false);
 		uncheckColor(false, true, true);
 		selectedProgram = 2;
-	} 
+	}
+    else if (lv_cb_is_checked(redOption4) && redOption4 == checkBox) {
+		lv_cb_set_checked(redOption1, false);
+        lv_cb_set_checked(redOption2, false);
+        lv_cb_set_checked(redOption3, false);
+        lv_cb_set_checked(redOption5, false);
+		uncheckColor(false, true, true);
+		selectedProgram = 3;
+	}
+    else if (lv_cb_is_checked(redOption5) && redOption5 == checkBox) {
+		lv_cb_set_checked(redOption1, false);
+        lv_cb_set_checked(redOption2, false);
+        lv_cb_set_checked(redOption3, false);
+        lv_cb_set_checked(redOption4, false);
+		uncheckColor(false, true, true);
+		selectedProgram = 4;
+	}    
     //Sets autoType to red, and sets that an option was selected to true
 	autoType = AUTONOMOUS_RED;
 	selected = true;
@@ -324,7 +354,7 @@ void MainLVGL(void)
     lv_label_set_text(backLabelAuton, "Back");
 
     //Creates first red checkbox
-    //if (sizeof(redTitles) / sizeof(redTitles[0]) > 0) {
+    if (sizeof(redTitles) / sizeof(redTitles[0]) > 0) {
     redOption1 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption1, redTitles[0]);
@@ -352,6 +382,24 @@ void MainLVGL(void)
     lv_cb_set_action(redOption3, (lv_action_t)setRed);
     //Aligns the checkbox
     lv_obj_align(redOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,30); 
+    }
+    if (sizeof(redTitles) / sizeof(redTitles[0]) > 3) {
+    redOption4 = lv_cb_create(redTab, NULL);
+    //Adds label to the checkbox
+    lv_cb_set_text(redOption4, redTitles[3]);
+    //Sets up what happens when selected
+    lv_cb_set_action(redOption4, (lv_action_t)setRed);
+    //Aligns the checkbox
+    lv_obj_align(redOption4, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,10); 
+    }
+    if (sizeof(redTitles) / sizeof(redTitles[0]) > 4) {
+    redOption5 = lv_cb_create(redTab, NULL);
+    //Adds label to the checkbox
+    lv_cb_set_text(redOption5, redTitles[4]);
+    //Sets up what happens when selected
+    lv_cb_set_action(redOption5, (lv_action_t)setRed);
+    //Aligns the checkbox
+    lv_obj_align(redOption5, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,20); 
     }
 
     //Creates first blue checkbox
