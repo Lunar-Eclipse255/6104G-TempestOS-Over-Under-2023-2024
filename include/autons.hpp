@@ -5,10 +5,10 @@
 #include "okapi/api.hpp"
 
 //Declares the autonomous and skills functions
-void leftRedAuton(void);
-void leftBlueAuton(void);
-void rightRedAuton(void);
-void rightBlueAuton(void);
+void leftRedOneAuton(void);
+void leftBlueOneAuton(void);
+void rightRedOneAuton(void);
+void rightBlueOneAuton(void);
 void pSkills(void);
 void dSkills(void);
 

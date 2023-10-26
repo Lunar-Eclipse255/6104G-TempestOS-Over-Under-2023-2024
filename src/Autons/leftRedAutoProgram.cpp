@@ -7,6 +7,6 @@
 
 using namespace okapi;
 
-void leftRedAuton(void) {
-	leftBlueAuton();
+void leftRedOneAuton(void) {
+	leftBlueOneAuton();
 }

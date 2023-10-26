@@ -7,7 +7,7 @@
 
 //using namespace okapi; might be required
 
-void rightBlueAuton(void) {
+void rightBlueOneAuton(void) {
     drive->setMaxVelocity(120);
     intakeMotor.moveVoltage(-12000); //might be reversed
     pros::delay(200);

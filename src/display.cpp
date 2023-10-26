@@ -21,8 +21,8 @@ const char* skillsTitles[] = {"Programming Skills","Driver Skills"};
 const char* profileTitles[] = {"Gaston", "Patrick"};
 
 //Sets up which programs to select from
-void (*redScripts[])() = {leftRedAuton, rightRedAuton, placeHolder};
-void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, placeHolder};
+void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder};
+void (*blueScripts[])() = {leftBlueOneAuton, rightBlueOneAuton, placeHolder};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
