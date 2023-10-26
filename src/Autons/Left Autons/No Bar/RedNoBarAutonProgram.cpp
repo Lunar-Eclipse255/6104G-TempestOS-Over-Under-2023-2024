@@ -2,10 +2,11 @@
 #include "display.hpp"
 #include "motors.h"
 #include "main.h"
+
 //#include "okapi/api.hpp"
 
 using namespace okapi;
 
-void rightRedOneAuton(void) {
-	rightBlueAuton();
+void leftRedTwoAuton(void) {
+	leftBlueOneAuton();
 }
