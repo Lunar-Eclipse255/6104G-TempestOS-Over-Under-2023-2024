@@ -369,7 +369,7 @@ void MainLVGL(void)
     backButtonAuton = lv_btn_create(autonScreen, NULL);
     lv_btn_set_action(backButtonAuton, LV_BTN_ACTION_CLICK, backButton_click_event);
     //Aligns and changes the size of the button
-    lv_obj_align(backButtonAuton, NULL, LV_ALIGN_IN_BOTTOM_RIGHT,-30,10);
+    lv_obj_align(backButtonAuton, NULL, LV_ALIGN_IN_BOTTOM_RIGHT,-30,30);
     lv_obj_set_size(backButtonAuton, 150, 50);
     //Gives the button a label
     lv_obj_t* backLabelAuton = lv_label_create(backButtonAuton, NULL);
@@ -383,46 +383,39 @@ void MainLVGL(void)
     //Sets up what happens when selected
     lv_cb_set_action(redOption1, (lv_action_t)setRed);
     //Aligns the checkbox
-    lv_obj_align(redOption1, NULL, LV_ALIGN_IN_TOP_LEFT, 10,10);
+    lv_obj_align(redOption1, NULL, LV_ALIGN_IN_TOP_LEFT, 0,10);
     }
 
     //Creates second red checkbox
-    if (sizeof(redTitles) / sizeof(redTitles[0]) > 1) {
     redOption2 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption2, redTitles[1]);
     //Sets up what happens when selected
     lv_cb_set_action(redOption2, (lv_action_t)setRed);
     //Aligns the checkbox
-    lv_obj_align(redOption2, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,20); 
-    }
-    if (sizeof(redTitles) / sizeof(redTitles[0]) > 2) {
+    lv_obj_align(redOption2, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,0,20); 
     redOption3 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption3, redTitles[2]);
     //Sets up what happens when selected
     lv_cb_set_action(redOption3, (lv_action_t)setRed);
     //Aligns the checkbox
-    lv_obj_align(redOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,30); 
-    }
-    if (sizeof(redTitles) / sizeof(redTitles[0]) > 3) {
+    lv_obj_align(redOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,0,30); 
+
     redOption4 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption4, redTitles[3]);
     //Sets up what happens when selected
     lv_cb_set_action(redOption4, (lv_action_t)setRed);
     //Aligns the checkbox
-    lv_obj_align(redOption4, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,10); 
-    }
-    if (sizeof(redTitles) / sizeof(redTitles[0]) > 4) {
+    lv_obj_align(redOption4, NULL, LV_ALIGN_IN_TOP_MID,5,10); 
     redOption5 = lv_cb_create(redTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(redOption5, redTitles[4]);
     //Sets up what happens when selected
     lv_cb_set_action(redOption5, (lv_action_t)setRed);
     //Aligns the checkbox
-    lv_obj_align(redOption5, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,20); 
-    }
+    lv_obj_align(redOption5, NULL, LV_ALIGN_CENTER,5,5); 
 
     //Creates first blue checkbox
     if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 0) {
