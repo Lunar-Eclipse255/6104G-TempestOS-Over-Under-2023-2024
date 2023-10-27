@@ -418,7 +418,7 @@ void MainLVGL(void)
     lv_obj_align(redOption5, NULL, LV_ALIGN_CENTER,5,5); 
 
     //Creates first blue checkbox
-    if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 0) {
+    //if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 0) {
     blueOption1 = lv_cb_create(blueTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(blueOption1, blueTitles[0]);
@@ -426,10 +426,10 @@ void MainLVGL(void)
     lv_cb_set_action(blueOption1, (lv_action_t)setBlue);
     //Aligns the checkbox
     lv_obj_align(blueOption1, NULL, LV_ALIGN_IN_TOP_LEFT, 10,10);
-    }
+    //}
 
     //Creates second blue checkbox
-    if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 1) {
+    //if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 1) {
     blueOption2 = lv_cb_create(blueTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(blueOption2, blueTitles[1]);
@@ -437,8 +437,8 @@ void MainLVGL(void)
     lv_cb_set_action(blueOption2, (lv_action_t)setBlue);
     //Aligns the checkbox
     lv_obj_align(blueOption2, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,20);
-    }
-    if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 2) {
+    //}
+
     blueOption3 = lv_cb_create(blueTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(blueOption3, blueTitles[2]);
@@ -446,25 +446,25 @@ void MainLVGL(void)
     lv_cb_set_action(blueOption3, (lv_action_t)setBlue);
     //Aligns the checkbox
     lv_obj_align(blueOption3, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,10,30);
-    }
-    if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 3) {
+
+
     blueOption4 = lv_cb_create(blueTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(blueOption4, blueTitles[3]);
     //Sets up what happens when selected
     lv_cb_set_action(blueOption4, (lv_action_t)setBlue);
     //Aligns the checkbox
-    lv_obj_align(blueOption4, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,10);
-    }
-    if (sizeof(blueTitles) / sizeof(blueTitles[0]) > 4) {
+    lv_obj_align(blueOption4, NULL, LV_ALIGN_IN_TOP_MID,5,10);
+
+
     blueOption5 = lv_cb_create(blueTab, NULL);
     //Adds label to the checkbox
     lv_cb_set_text(blueOption5, blueTitles[4]);
     //Sets up what happens when selected
     lv_cb_set_action(blueOption5, (lv_action_t)setBlue);
     //Aligns the checkbox
-    lv_obj_align(blueOption5, NULL, LV_ALIGN_OUT_BOTTOM_LEFT,50,20);
-    }
+    lv_obj_align(blueOption5, NULL, LV_ALIGN_CENTER,5,5);
+
 
     //Creates first skills checkbox
     if (sizeof(skillsTitles) / sizeof(skillsTitles[0]) > 0) {
