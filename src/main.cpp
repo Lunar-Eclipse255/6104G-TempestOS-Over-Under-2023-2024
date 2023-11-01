@@ -159,8 +159,7 @@ void opcontrol() {
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut arm (ARM);
-	while (true) {
-		 // Reads joystick input for left/right motion on the right stick
+	 // Reads joystick input for left/right motion on the right stick
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
 
         // Calculate turning behavior using the regression model
@@ -186,6 +185,8 @@ void opcontrol() {
 		ControllerButton wingInButton(ControllerDigital::right);
 		ControllerButton armOutButton(ControllerDigital::A);
 		ControllerButton armInButton(ControllerDigital::left);
+	while (true) {
+		
 		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 
