@@ -49,7 +49,7 @@ double turningValueCalc(double joystickInput) {
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-	return -turningValue;
+	return -turningValue*0.9;
 }
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -185,6 +185,7 @@ void opcontrol() {
 		ControllerButton wingInButton(ControllerDigital::right);
 		ControllerButton armOutButton(ControllerDigital::A);
 		ControllerButton armInButton(ControllerDigital::left);
+
 	while (true) {
 		
 		
