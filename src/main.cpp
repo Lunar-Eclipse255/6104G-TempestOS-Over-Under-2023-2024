@@ -26,10 +26,10 @@ double motorVelocityCalc(double joystickInput) {
 
     //Adds the direction back to the motor power
 	if (selectedProfile==0){
-    return (joystickInput < 0) ? -motorVelocity : motorVelocity;
+    return (joystickInput < 0) ? -motorVelocity*0.85 : motorVelocity*0.85;
 	}
 	else {
-		return (joystickInput < 0) ? motorVelocity : -motorVelocity;
+		return (joystickInput < 0) ? motorVelocity*0.85 : -motorVelocity*0.85;
 	}
 
 }
@@ -49,7 +49,7 @@ double turningValueCalc(double joystickInput) {
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-	return -turningValue*0.9;
+	return -turningValue;
 }
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -78,7 +78,7 @@ MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveM
 MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor, upRightDriveMotor});
 
 //Initializes the drive chassis
-std::shared_ptr<ChassisController> drive =
+std::shared_ptr<ChassisController> driveChassis =
 	ChassisControllerBuilder()
 		//.withMotors(leftChassis,rightChassis)
 		//Sets which motors to use
@@ -140,8 +140,8 @@ void autonomous() {
 	//initializes the lcd for pros
 	pros::lcd::initialize();
 	//runs the selected autonomous/skills program
-	//runSelectedAuto();
-	leftBlueOneAuton();
+	runSelectedAuto();
+	//leftBlueOneAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
@@ -159,7 +159,10 @@ void opcontrol() {
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut arm (ARM);
-	 // Reads joystick input for left/right motion on the right stick
+	 
+
+	while (true) {
+		// Reads joystick input for left/right motion on the right stick
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
 
         // Calculate turning behavior using the regression model
@@ -185,9 +188,6 @@ void opcontrol() {
 		ControllerButton wingInButton(ControllerDigital::right);
 		ControllerButton armOutButton(ControllerDigital::A);
 		ControllerButton armInButton(ControllerDigital::left);
-
-	while (true) {
-		
 		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 

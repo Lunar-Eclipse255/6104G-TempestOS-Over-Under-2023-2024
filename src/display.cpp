@@ -118,6 +118,7 @@ static lv_res_t backButton_click_event(lv_obj_t* button)
 //doesn't work due to not letting you run motors in placeHolder
 static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
 {
+    /*
     backRightDriveMotor.moveVoltage(12000);
     pros::delay(1000);
     backRightDriveMotor.moveVoltage(0);
@@ -137,6 +138,7 @@ static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
     pros::delay(1000);
     frontLeftDriveMotor.moveVoltage(0);
     return LV_RES_OK;
+    */
 }
 
 

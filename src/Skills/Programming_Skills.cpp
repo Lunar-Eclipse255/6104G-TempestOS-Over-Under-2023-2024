@@ -8,17 +8,12 @@
 using namespace okapi;
 
 void pSkills(void) {
-    intakeMotor.moveVoltage(-12000);
-	drive->moveDistance(-50_cm);
-    drive->moveDistance(15_cm);
-    drive->turnAngle(-18_deg);
+    driveChassis->moveDistance(-30_cm);
+    //intakeMotor.(-100, 100);
+    //intakeMotor.moveVoltage(-12000);
+    driveChassis->turnAngle(20_deg);
     intakeMotor.moveVoltage(0);
-    drive->setMaxVelocity(50);
-    drive->moveDistance(5_cm);
-    drive->setMaxVelocity(1);
-    drive->moveDistanceAsync(10000_cm);
+    driveChassis->moveDistance(40_cm);
     catapultMotor.moveVoltage(12000);
     pros::delay(46000);
-    drive->stop();
-    catapultMotor.moveVoltage(0);
 }

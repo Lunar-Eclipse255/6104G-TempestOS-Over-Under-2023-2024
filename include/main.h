@@ -56,7 +56,7 @@
 // using namespace pros::literals;
 using namespace okapi;
 
-extern std::shared_ptr<ChassisController> drive;
+//extern std::shared_ptr<ChassisController> drive;
 // We apply a sinusoidal curve (twice) to the joystick input to give finer
 // control at small inputs.
 
