@@ -31,6 +31,6 @@ void rightBlueOneAuton(void) {
     driveChassis->setMaxVelocity(135);
     driveChassis->moveDistance(122_cm);
     driveChassis->moveDistance(-8_cm);
-    driveChassis->turnAngle(-57_deg);
+    driveChassis->turnAngle(-60_deg);
     driveChassis->moveDistance(-110_cm);
 }

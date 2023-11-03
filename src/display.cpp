@@ -137,8 +137,8 @@ static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
     frontLeftDriveMotor.moveVoltage(12000);
     pros::delay(1000);
     frontLeftDriveMotor.moveVoltage(0);
-    return LV_RES_OK;
     */
+    return LV_RES_OK;
 }
 
 

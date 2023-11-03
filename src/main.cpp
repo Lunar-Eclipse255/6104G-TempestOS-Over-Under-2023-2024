@@ -119,6 +119,7 @@ void initialize() {
 	//initializes sylib
    	sylib::initialize();
 	//Digitally Builds the Chassis
+	
 }
 
 
@@ -175,7 +176,7 @@ void opcontrol() {
         double motorVelocity = motorVelocityCalc(joysticMotion);
 
        //Uses these new values to control the bot
-        drive->getModel()->arcade(motorVelocity, controller.getAnalog(ControllerAnalog::rightX));
+        driveChassis->getModel()->arcade(motorVelocity, controller.getAnalog(ControllerAnalog::rightX));
 		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		//Initializes all the controller buttons
