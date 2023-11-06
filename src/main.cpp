@@ -72,6 +72,7 @@ Motor backRightDriveMotor (-10);
 Motor middleRightDriveMotor (-9);
 Motor frontRightDriveMotor (-8);
 Motor upRightDriveMotor (7);
+auto cataDistance = DistanceSensor(12);
 
 //Sets up which side of the bot motors are in.
 MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor, upLeftDriveMotor});
@@ -162,6 +163,7 @@ void opcontrol() {
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut arm (ARM);
+	
 	 
 
 	while (true) {
@@ -264,6 +266,12 @@ void opcontrol() {
 				rightWing.set_value(false);
 				wingCheckRight=false;
 			}
+		}
+		if (cataDistance.get()>100){
+			catapultMotor.moveVoltage(12000);
+		}
+		else{
+			catapultMotor.moveVoltage(12000);
 		}
 		/*
 		if (armOutButton.isPressed()) {
