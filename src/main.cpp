@@ -105,14 +105,16 @@ Motor catapultMotor (11);
 ADIButton catapultLimit ('A');
 
 //Declares variables for state checks.
-bool wingCheck;
+bool wingCheckLeft;
 bool armCheck;
+bool wingCheckRight;
 
 
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
 	//initializers the check varibles to false
-	wingCheck=false;
+	wingCheckLeft=false;
+	wingCheckRight=false;
 	armCheck = false;
 
 	//pros::lcd::initialize();
@@ -185,10 +187,12 @@ void opcontrol() {
 		ControllerButton catapultButton(ControllerDigital::L2);
 		ControllerButton catapultProgressionButton(ControllerDigital::L1);
 		ControllerButton catapultButtonBack(ControllerDigital::up);
-		ControllerButton wingOutButton(ControllerDigital::Y);
-		ControllerButton wingInButton(ControllerDigital::right);
-		ControllerButton armOutButton(ControllerDigital::A);
-		ControllerButton armInButton(ControllerDigital::left);
+		ControllerButton wingOutLeftButton(ControllerDigital::left);
+		ControllerButton wingInLeftButton(ControllerDigital::right);
+		ControllerButton wingOutRightButton(ControllerDigital::A);
+		ControllerButton wingInRightButton(ControllerDigital::Y);
+		//ControllerButton armOutButton(ControllerDigital::A);
+		//ControllerButton armInButton(ControllerDigital::left);
 		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 
@@ -235,19 +239,30 @@ void opcontrol() {
         	intakeMotor.moveVoltage(0);
     	}
 		//If the wingOutButton is pressed and the wings aren't already out it extends 
-		if (wingOutButton.isPressed()) {
-			if (wingCheck==false){
+		if (wingOutLeftButton.isPressed()) {
+			if (wingCheckLeft==false){
 				leftWing.set_value(true);
-				rightWing.set_value(true);
-				wingCheck=true;
+				wingCheckLeft=true;
 			}
 		}
 		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
-		else if (wingInButton.isPressed()) {
-			if (wingCheck){
+		else if (wingInLeftButton.isPressed()) {
+			if (wingCheckLeft){
 				leftWing.set_value(false);
+				wingCheckLeft=false;
+			}
+		}
+		if (wingOutRightButton.isPressed()) {
+			if (wingCheckRight==false){
+				rightWing.set_value(true);
+				wingCheckRight=true;
+			}
+		}
+		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
+		else if (wingInRightButton.isPressed()) {
+			if (wingCheckRight){
 				rightWing.set_value(false);
-				wingCheck=false;
+				wingCheckRight=false;
 			}
 		}
 		/*
