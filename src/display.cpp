@@ -2,6 +2,7 @@
 #include "display.hpp"
 #include "autons.hpp"
 #include "motors.h"
+#include "gif-pros/gifclass.hpp"
 
 #define DO_NOT_RUN 1982
 //Adds placeHolder Script
@@ -558,8 +559,12 @@ void MainLVGL(void)
     lv_obj_set_size(backButtonVisual,150,50);
     lv_obj_t* backLabelVisual = lv_label_create(backButtonVisual,NULL);
     lv_label_set_text(backLabelVisual, "Back");
+    lv_obj_t* gifObj = lv_obj_create(visualScreen, NULL);
+    lv_obj_set_size(gifObj, 480, 240);
+    lv_obj_set_style(gifObj, &lv_style_transp); // make the container invisible
+    lv_obj_align(gifObj, NULL, LV_ALIGN_CENTER, 200, 50);
 
-
+    static Gif gif("/usd/SPSIntro.gif", gifObj);
     // Load the main menu screen
     lv_scr_load(mainMenuScreen);
 }
