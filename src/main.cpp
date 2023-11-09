@@ -193,8 +193,12 @@ void opcontrol() {
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
 		ControllerButton wingInRightButton(ControllerDigital::Y);
+		/*
+		ControllerButton ratchetLockOn(ControllerDigital::X);
+		ControllerButton ratchetLockOff(ControllerDigital::B);
 		//ControllerButton armOutButton(ControllerDigital::A);
 		//ControllerButton armInButton(ControllerDigital::left);
+		*/
 		
 		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
 
@@ -267,12 +271,14 @@ void opcontrol() {
 				wingCheckRight=false;
 			}
 		}
+		/*
 		if (cataDistance.get()>100){
 			catapultMotor.moveVoltage(12000);
 		}
 		else{
 			catapultMotor.moveVoltage(12000);
 		}
+		*/
 		/*
 		if (armOutButton.isPressed()) {
 			if (armCheck==false){
