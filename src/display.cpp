@@ -601,7 +601,7 @@ void runSelectedAuto(void) {
 			break;
 	}
 }
-/* SCreen Clear code
+/* Screen Clear code
 lv_init();
 
 // Create a screen object
