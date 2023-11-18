@@ -1,5 +1,5 @@
-#ifndef DRIVECHASSIS_H
-#define DRIVECHASSIS_H
+#ifndef DRIVECHASSIS_HPP
+#define DRIVECHASSIS_HPP
 
 #include "main.h"
 
@@ -27,4 +27,4 @@ private:
     // Instance variables...
 };
 
-#endif // DRIVECHASSIS_H
+#endif // DRIVECHASSIS_HPP
