@@ -14,7 +14,7 @@ public:
     double drivenGear;
     double driverGear;
     AbstractMotor::gearset cartridgeColor;
-    okapi::QLength  wheelDiameter;
+    okapi::QLength wheelDiameter;
     okapi::QLength wheelTrack;
     int TPR;
     DriveChassis(int motorOneLeft, int motorTwoLeft, int motorThreeLeft, int motorFourLeft, int motorOneRight, int motorTwoRight, int motorThreeRight, int motorFourRight, AbstractMotor::gearset cartridgeColor, double driverGear, double drivenGear, double wheelDiameter, double wheelTrack, double* distance, double* turn, double* angle){
