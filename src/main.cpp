@@ -3,6 +3,7 @@
 #include "autons.hpp"
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
+#include "drivechassis.hpp"
 //defines adi ports for pistons
 #define WING_LEFT 'B'
 #define WING_RIGHT 'C'
@@ -64,6 +65,7 @@ void on_center_button() {
 }
 
 //Initializes the drive motors to what port a motor is plugged into and if its reversed
+/*
 Motor backLeftDriveMotor (20);
 Motor middleLeftDriveMotor (19);
 Motor frontLeftDriveMotor (18);
@@ -72,12 +74,14 @@ Motor backRightDriveMotor (-10);
 Motor middleRightDriveMotor (-9);
 Motor frontRightDriveMotor (-8);
 Motor upRightDriveMotor (7);
+*/
 auto cataDistance = DistanceSensor(12);
-
+/*
 //Sets up which side of the bot motors are in.
 MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor, upLeftDriveMotor});
 MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor, upRightDriveMotor});
-
+*/
+/*
 //Initializes the drive chassis
 std::shared_ptr<ChassisController> driveChassis =
 	ChassisControllerBuilder()
@@ -96,9 +100,11 @@ std::shared_ptr<ChassisController> driveChassis =
         	{0.001, 0, 0.0001}, // Turn controller gains
         	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
 		) */
-		.build();
-
-
+		//.build();
+double distance[3] = {NULL,NULL,NULL};
+double turn[3] = {NULL,NULL,NULL};
+double angle[3] = {NULL,NULL,NULL};
+DriveChassis myChassis(20, 19, 18, -17, -10, -9, -8, 7, AbstractMotor::gearset::green, 60.0, 36.0, 3.25, 17.465, distance, turn, angle);
 
 //Initializes the subsytem motors as well as the Adi Button
 Motor intakeMotor(16);
