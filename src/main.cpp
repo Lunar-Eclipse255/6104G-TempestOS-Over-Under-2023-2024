@@ -101,10 +101,10 @@ std::shared_ptr<ChassisController> driveChassis =
         	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
 		) */
 		//.build();
-double distance[3] = {NULL,NULL,NULL};
-double turn[3] = {NULL,NULL,NULL};
-double angle[3] = {NULL,NULL,NULL};
-DriveChassis myChassis(20, 19, 18, -17, -10, -9, -8, 7, AbstractMotor::gearset::green, 60.0, 36.0, 3.25, 17.465, distance, turn, angle);
+double PIDDistance[3] = {NULL,NULL,NULL};
+double PIDTurn[3] = {NULL,NULL,NULL};
+double PIDAngle[3] = {NULL,NULL,NULL};
+DriveChassis myChassis(20, 19, 18, -17, -10, -9, -8, 7, AbstractMotor::gearset::green, 60.0, 36.0, 3.25, 17.465, PIDDistance, PIDTurn, PIDAngle);
 
 //Initializes the subsytem motors as well as the Adi Button
 Motor intakeMotor(16);
@@ -115,7 +115,6 @@ ADIButton catapultLimit ('A');
 bool wingCheckLeft;
 bool armCheck;
 bool wingCheckRight;
-
 
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
