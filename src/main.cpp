@@ -11,43 +11,8 @@
 #define ARM 'D'
 
 
-//Initializes the drive motors to what port a motor is plugged into and if its reversed
-/*
-Motor backLeftDriveMotor (20);
-Motor middleLeftDriveMotor (19);
-Motor frontLeftDriveMotor (18);
-Motor upLeftDriveMotor (-17);
-Motor backRightDriveMotor (-10);
-Motor middleRightDriveMotor (-9);
-Motor frontRightDriveMotor (-8);
-Motor upRightDriveMotor (7);
-*/
 auto cataDistance = DistanceSensor(12);
-/*
-//Sets up which side of the bot motors are in.
-MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor, upLeftDriveMotor});
-MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor, upRightDriveMotor});
-*/
-/*
-//Initializes the drive chassis
-std::shared_ptr<ChassisController> driveChassis =
-	ChassisControllerBuilder()
-		//.withMotors(leftChassis,rightChassis)
-		//Sets which motors to use
-		.withMotors(
-			rightChassis,
-			leftChassis
-		)
-		
-		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
-    	/*.withOdometry() // Use the same scales as the chassis (above)
-		.withGains(
-			{0.001, 0, 0.0001}, // Distance controller gains
-        	{0.001, 0, 0.0001}, // Turn controller gains
-        	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
-		) */
-		//.build();
+
 double PIDDistance[3] = {NULL,NULL,NULL};
 double PIDTurn[3] = {NULL,NULL,NULL};
 double PIDAngle[3] = {NULL,NULL,NULL};
