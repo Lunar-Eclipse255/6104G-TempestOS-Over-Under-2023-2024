@@ -4,5 +4,5 @@
 
 class MotorFunctions{
     public: 
-        
+        int port;
 };
