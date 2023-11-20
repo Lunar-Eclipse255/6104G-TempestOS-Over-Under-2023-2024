@@ -4,9 +4,9 @@
 
 class MotorFunctions{
     public: 
-        MotorFunctions(okapi::Motor &motor, okapi::ControllerDigital In, okapi::ControllerDigital Out){
-           okapi::Motor motor = motor;
-        }
+        MotorFunctions(int motorNum, okapi::Motor motorName, okapi::ControllerDigital In, okapi::ControllerDigital Out)
+           :motorName(motorNum) {}
+        
 
     /*
         MotorFunctions(Motor motor, okapi::ControllerDigital In, okapi::ControllerDigital Out){
