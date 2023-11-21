@@ -6,7 +6,6 @@
 class DriveChassis {
 public:
     DriveChassis(int motorOneLeft, int motorTwoLeft, int motorThreeLeft, int motorFourLeft, int motorOneRight, int motorTwoRight, int motorThreeRight, int motorFourRight, AbstractMotor::gearset cartridgeColor, double driverGear, double drivenGear, double wheelDiameter, double wheelTrack, double* distance, double* turn, double* angle);
-    std::shared_ptr<ChassisController> driveChassis;
     // Other methods...
 
 private:
@@ -23,8 +22,8 @@ private:
     AbstractMotor::gearset cartridgeColor;
     okapi::QLength  wheelDiameter;
     okapi::QLength wheelTrack;
-    int TPR;
+    double TPR;
     // Instance variables...
 };
-
+extern std::shared_ptr<ChassisController> driveChassis;
 #endif // DRIVECHASSIS_HPP

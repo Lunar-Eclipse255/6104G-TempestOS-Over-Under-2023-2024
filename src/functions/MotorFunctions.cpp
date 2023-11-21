@@ -1,7 +1,7 @@
 #include "main.h"
 #include "motors.h"
 #include "motorfunctions.hpp"
-
+#include <string>
 class MotorFunctions{
     public: 
         MotorFunctions(int motorNum, okapi::Motor motorName, okapi::ControllerDigital In, okapi::ControllerDigital Out)

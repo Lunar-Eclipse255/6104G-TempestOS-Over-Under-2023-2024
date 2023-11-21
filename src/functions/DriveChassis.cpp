@@ -1,23 +1,8 @@
 #include "main.h"
 #include "motors.h"
 #include "drivechassis.hpp"
-class DriveChassis {
-public:
-    int motorOneLeft;
-    int motorTwoLeft;
-    int motorThreeLeft;
-    int motorFourLeft;
-    int motorOneRight;
-    int motorTwoRight;
-    int motorThreeRight;
-    int motorFourRight;
-    double drivenGear;
-    double driverGear;
-    AbstractMotor::gearset cartridgeColor;
-    okapi::QLength wheelDiameter;
-    okapi::QLength wheelTrack;
-    int TPR;
-    DriveChassis(int motorOneLeft, int motorTwoLeft, int motorThreeLeft, int motorFourLeft, int motorOneRight, int motorTwoRight, int motorThreeRight, int motorFourRight, AbstractMotor::gearset cartridgeColor, double driverGear, double drivenGear, double wheelDiameter, double wheelTrack, double* distance, double* turn, double* angle){
+std::shared_ptr<ChassisController> driveChassis;
+DriveChassis::DriveChassis(int motorOneLeft, int motorTwoLeft, int motorThreeLeft, int motorFourLeft, int motorOneRight, int motorTwoRight, int motorThreeRight, int motorFourRight, AbstractMotor::gearset cartridgeColor, double driverGear, double drivenGear, double wheelDiameter, double wheelTrack, double* distance, double* turn, double* angle){
         Motor backLeftDriveMotor (motorOneLeft);
         Motor middleLeftDriveMotor (motorTwoLeft);
         Motor frontLeftDriveMotor (motorThreeLeft);
@@ -59,5 +44,5 @@ public:
             .build();
 
     }
-};
+
 
