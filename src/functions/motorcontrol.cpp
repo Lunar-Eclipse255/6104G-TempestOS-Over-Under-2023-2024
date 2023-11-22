@@ -1,11 +1,10 @@
 #include "main.h"
 #include "motors.h"
-#include "motorfunctions.hpp"
+#include "motorcontrol.hpp"
 #include <string>
 class MotorFunctions{
     public: 
-        MotorFunctions(int motorNum, okapi::Motor motorName, okapi::ControllerDigital In, okapi::ControllerDigital Out)
-           : motorName(motorNum) {}
+        MotorFunctions(okapi::Motor motorName, okapi::ControllerDigital In, okapi::ControllerDigital Out) {}
         
 
     /*
