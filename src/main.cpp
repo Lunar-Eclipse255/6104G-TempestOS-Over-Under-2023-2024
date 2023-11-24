@@ -4,6 +4,7 @@
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
 #include "drivechassis.hpp"
+#include "motorcontrol.hpp"
 #include "nonlinearregression.hpp"
 //defines adi ports for pistons
 #define WING_LEFT 'B'
@@ -19,8 +20,10 @@ double PIDAngle[3] = {0.001, 0, 0.0001};
 DriveChassis myChassis(20, 19, 18, -17, -10, -9, -8, 7, AbstractMotor::gearset::green, 60.0, 36.0, 3.25, 17.465, PIDDistance, PIDTurn, PIDAngle);
 
 //Initializes the subsytem motors as well as the Adi Button
+
 Motor intakeMotor(16);
 Motor catapultMotor (11);
+Motor motorArray[] = {intakeMotor, catapultMotor};
 ADIButton catapultLimit ('A');
 
 //Declares variables for state checks.
@@ -150,17 +153,7 @@ void opcontrol() {
 			catapultMotor.moveVoltage(0);
 		}
 		//if the intakeIn button is pressed it gives the intake 12000 mV
-		if (intakeInButton.isPressed()) {
-        	intakeMotor.moveVoltage(12000);
-    	} 
-		//else if the intakeOut button is pressed it gives the intake -12000 mV
-		else if (intakeOutButton.isPressed()) {
-        	intakeMotor.moveVoltage(-12000);
-		}
-		//else it stops powering the intake motor
-		else {
-        	intakeMotor.moveVoltage(0);
-    	}
+		MotorControl intakeControl(1, intakeInButton, intakeOutButton);
 		//If the wingOutButton is pressed and the wings aren't already out it extends 
 		if (wingOutLeftButton.isPressed()) {
 			if (wingCheckLeft==false){

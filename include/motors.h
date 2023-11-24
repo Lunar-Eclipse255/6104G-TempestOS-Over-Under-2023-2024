@@ -14,6 +14,7 @@ extern MotorGroup leftChassis;
 extern MotorGroup rightChassis;
 extern Motor intakeMotor;
 extern Motor catapultMotor;
+extern Motor motorArray[];
 extern ADIButton catapultLimit;
 extern pros::ADIDigitalOut leftWing ();
 extern pros::ADIDigitalOut rightWing ();

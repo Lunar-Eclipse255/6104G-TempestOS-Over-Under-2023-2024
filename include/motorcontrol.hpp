@@ -5,12 +5,10 @@
 
 class MotorControl {
 public:
-    MotorControl(okapi::Motor motorName, okapi::ControllerDigital In, okapi::ControllerDigital Out){}
-    // Other methods...
+    MotorControl(int motor, okapi::ControllerDigital In, okapi::ControllerDigital Out){}
 
 private:
-    
-    // Instance variables...
+
 };
 
 #endif
