@@ -153,7 +153,8 @@ void opcontrol() {
 			catapultMotor.moveVoltage(0);
 		}
 		//if the intakeIn button is pressed it gives the intake 12000 mV
-		MotorControl intakeControl(1, intakeInButton, intakeOutButton);
+		//MotorControl intakeControl(1, intakeInButton, intakeOutButton);
+		
 		//If the wingOutButton is pressed and the wings aren't already out it extends 
 		if (wingOutLeftButton.isPressed()) {
 			if (wingCheckLeft==false){
