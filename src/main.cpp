@@ -64,12 +64,12 @@ void on_center_button() {
 }
 
 //Initializes the drive motors to what port a motor is plugged into and if its reversed
-Motor backRightDriveMotor (20);
-Motor middleRightDriveMotor (19);
-Motor frontRightDriveMotor (18);
 Motor backLeftDriveMotor (-10);
 Motor middleLeftDriveMotor (-9);
 Motor frontLeftDriveMotor (-8);
+Motor backRightDriveMotor (20);
+Motor middleRightDriveMotor (19);
+Motor frontRightDriveMotor (18);
 auto cataDistance = DistanceSensor(12);
 
 //Sets up which side of the bot motors are in.
