@@ -14,9 +14,9 @@
 
 auto cataDistance = DistanceSensor(12);
 
-double PIDDistance[3] = {0.001, 0, 0.0001};
+double PIDDistance[3] = {0.0015, 0.0005, 0.00001};
 double PIDTurn[3] = {0.001, 0, 0.0001};
-double PIDAngle[3] = {0.001, 0, 0.0001};
+double PIDAngle[3] = {0.001, 0, 0};
 DriveChassis myChassis(-10, -9, -8, 0, 20, 19, 18, 0, AbstractMotor::gearset::green, 60.0, 36.0, 3.25, 17.465, PIDDistance, PIDTurn, PIDAngle);
 
 //Initializes the subsytem motors as well as the Adi Button
