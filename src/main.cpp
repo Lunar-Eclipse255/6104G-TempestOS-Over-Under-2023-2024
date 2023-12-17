@@ -73,8 +73,8 @@ Motor frontRightDriveMotor (18);
 auto cataDistance = DistanceSensor(12);
 
 //Sets up which side of the bot motors are in.
-MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor, upLeftDriveMotor});
-MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor, upRightDriveMotor});
+MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor});
+MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor});
 
 //Initializes the drive chassis
 std::shared_ptr<ChassisController> driveChassis =
@@ -87,12 +87,12 @@ std::shared_ptr<ChassisController> driveChassis =
 		)
 		
 		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
+		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 12_in}, imev5GreenTPR})
 		//{0.002, 0.001, 0.0001}  
 		
 		.withGains(
 			{0.0015, 0.0005, 0.00001}, // Distance controller gains
-        	{0.0009, 0, 0}, // Turn controller gains
+        	{0.0016, 0.0055, 0.00005}, // Turn controller gains
 			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
 		) 
 		
@@ -187,7 +187,7 @@ void opcontrol() {
         double motorVelocity = motorVelocityCalc(joysticMotion);
 
        //Uses these new values to control the bot
-        driveChassis->getModel()->arcade(motorVelocity, controller.getAnalog(ControllerAnalog::rightX));
+        driveChassis->getModel()->arcade(motorVelocity, turningValue);
 		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
 
 		//Initializes all the controller buttons
