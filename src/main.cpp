@@ -67,11 +67,9 @@ void on_center_button() {
 Motor backRightDriveMotor (20);
 Motor middleRightDriveMotor (19);
 Motor frontRightDriveMotor (18);
-Motor upRightDriveMotor (-17);
 Motor backLeftDriveMotor (-10);
 Motor middleLeftDriveMotor (-9);
 Motor frontLeftDriveMotor (-8);
-Motor upLeftDriveMotor (7);
 auto cataDistance = DistanceSensor(12);
 
 //Sets up which side of the bot motors are in.
