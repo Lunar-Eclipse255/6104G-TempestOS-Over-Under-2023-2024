@@ -37,9 +37,9 @@ double motorVelocityCalc(double joystickInput) {
 double turningValueCalc(double joystickInput) {
     //Coefficients for Quartic model
 	
-    double a = 3.0; 
-    double b = 1.0; 
-	double c = 2.0; 
+    double a = 4.0; 
+    double b = 4.0; 
+	double c = 1.0; 
 	double d = 0.0; 
 	double e = 0.0; 
 
@@ -49,7 +49,7 @@ double turningValueCalc(double joystickInput) {
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-	return -turningValue;
+	return turningValue;
 }
 
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
@@ -64,14 +64,14 @@ void on_center_button() {
 }
 
 //Initializes the drive motors to what port a motor is plugged into and if its reversed
-Motor backLeftDriveMotor (20);
-Motor middleLeftDriveMotor (19);
-Motor frontLeftDriveMotor (18);
-Motor upLeftDriveMotor (-17);
-Motor backRightDriveMotor (-10);
-Motor middleRightDriveMotor (-9);
-Motor frontRightDriveMotor (-8);
-Motor upRightDriveMotor (7);
+Motor backRightDriveMotor (20);
+Motor middleRightDriveMotor (19);
+Motor frontRightDriveMotor (18);
+Motor upRightDriveMotor (-17);
+Motor backLeftDriveMotor (-10);
+Motor middleLeftDriveMotor (-9);
+Motor frontLeftDriveMotor (-8);
+Motor upLeftDriveMotor (7);
 auto cataDistance = DistanceSensor(12);
 
 //Sets up which side of the bot motors are in.
@@ -84,25 +84,34 @@ std::shared_ptr<ChassisController> driveChassis =
 		//.withMotors(leftChassis,rightChassis)
 		//Sets which motors to use
 		.withMotors(
-			rightChassis,
-			leftChassis
+			leftChassis,
+			rightChassis
 		)
 		
 		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
 		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 17.465_in}, imev5GreenTPR})
-    	/*.withOdometry() // Use the same scales as the chassis (above)
+		//{0.002, 0.001, 0.0001}  
+		
 		.withGains(
-			{0.001, 0, 0.0001}, // Distance controller gains
-        	{0.001, 0, 0.0001}, // Turn controller gains
-        	{0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
-		) */
+			{0.0015, 0.0005, 0.00001}, // Distance controller gains
+        	{0.0009, 0, 0}, // Turn controller gains
+			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
+		) 
+		
+		.withLogger(
+        	std::make_shared<Logger>(
+            	TimeUtilFactory::createDefault().getTimer(), // It needs a Timer
+            	"/ser/sout", // Output to the PROS terminal
+            	Logger::LogLevel::debug // Most verbose log level
+        	)
+		)
 		.build();
 
 
 
 //Initializes the subsytem motors as well as the Adi Button
-Motor intakeMotor(16);
-Motor catapultMotor (11);
+Motor intakeMotor(-5);
+Motor catapultMotor (7);
 ADIButton catapultLimit ('A');
 
 //Declares variables for state checks.
@@ -144,8 +153,8 @@ void autonomous() {
 	//initializes the lcd for pros
 	pros::lcd::initialize();
 	//runs the selected autonomous/skills program
-	runSelectedAuto();
-	//leftBlueOneAuton();
+	//runSelectedAuto();
+	leftRedOneAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
