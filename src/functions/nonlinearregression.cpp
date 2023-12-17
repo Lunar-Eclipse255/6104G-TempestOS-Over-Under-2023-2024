@@ -41,5 +41,5 @@ double turningValueCalc(double joystickInput) {
     turningValue = std::min(1.0, std::max(-1.0, turningValue));
 
 	//returns the turningValue
-	return -turningValue;
+	return turningValue;
 }

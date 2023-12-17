@@ -29,8 +29,8 @@ DriveChassis::DriveChassis(int motorOneLeft, int motorTwoLeft, int motorThreeLef
             //.withMotors(leftChassis,rightChassis)
             //Sets which motors to use
             .withMotors(
-                rightChassis,
-                leftChassis
+                leftChassis,
+                rightChassis
             )
             
             // Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.

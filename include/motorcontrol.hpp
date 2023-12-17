@@ -5,7 +5,7 @@
 
 class MotorControl {
 public:
-    MotorControl(int motor, okapi::ControllerDigital In, okapi::ControllerDigital Out){}
+    MotorControl(int motor, okapi::ControllerDigital In, okapi::ControllerDigital Out);
 
 private:
 
