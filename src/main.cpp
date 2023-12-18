@@ -87,12 +87,12 @@ std::shared_ptr<ChassisController> driveChassis =
 		)
 		
 		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 12_in}, imev5GreenTPR})
+		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 13.33_in}, imev5GreenTPR})
 		//{0.002, 0.001, 0.0001}  
 		
 		.withGains(
 			{0.0015, 0.0005, 0.00001}, // Distance controller gains
-        	{0.0016, 0.0055, 0.00005}, // Turn controller gains
+        	{0.0015, 0.0015, 0}, // Turn controller gains
 			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
 		) 
 		

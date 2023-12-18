@@ -71,7 +71,8 @@ lv_obj_t* profile2;
 //test button for debug
 lv_obj_t* driveButtonDebug;
 
-
+lv_obj_t *ddl1;  // Declare ddl1 globally
+lv_obj_t *ddl2;
 
 //Creates used Functions
 //Creates click event for Auton Button
@@ -141,7 +142,45 @@ static lv_res_t driveButtonDebug_click_event(lv_obj_t* button)
     */
     return LV_RES_OK;
 }
+static lv_res_t ddlist_action(lv_obj_t *ddlist)
+{
+    // Get the selected option index in the current dropdown list
+    uint16_t selected_index = lv_ddlist_get_selected(ddlist);
+    switch (selected_index)
+    {
+    case 0:
+        // Option 1 selected, load screen1
+        lv_scr_load(debugScreen);
+        break;
+    case 1:
+        // Option 2 selected, load screen2
+        lv_scr_load(autonScreen);
+        break;
+    case 2:
+        // Option 3 selected, load screen3
+        lv_scr_load(visualScreen);
+        break;
+    case 3:
+        lv_scr_load(profileScreen);
+        break;
+    default:
+        // Handle other cases or set a default screen
+        break;
+    }
+    // Get the pointer to the other dropdown list from free_ptr
+    lv_obj_t *other_ddlist = (lv_obj_t *)lv_obj_get_free_ptr(ddlist);
 
+    if (other_ddlist != NULL)
+    {
+        // Update the selected option in the other dropdown list without triggering the callback
+        lv_ddlist_set_selected(other_ddlist, selected_index);
+        
+        // Now, update the free_ptr of the other dropdown list to point back to the current dropdown list
+        lv_obj_set_free_ptr(other_ddlist, ddlist);
+    }
+
+    return LV_RES_OK; /* Return OK if the dropdown list is not deleted */
+}
 
 //In Auton Selector Unchecks all other options in the other tabs
 void uncheckColor(bool red, bool blue, bool skills) {
@@ -368,6 +407,8 @@ void MainLVGL(void)
     lv_obj_t* blueTab =lv_tabview_add_tab(autonTabview, "Blue Offensive");
     lv_obj_t* skillsTab =lv_tabview_add_tab(autonTabview, "Skills");
 
+
+    // Set background color alpha to 0 to make it transparent
     //Creates Back button for Auton Screen and matches it to back button click event
     backButtonAuton = lv_btn_create(autonScreen, NULL);
     lv_btn_set_action(backButtonAuton, LV_BTN_ACTION_CLICK, backButton_click_event);
@@ -494,7 +535,6 @@ void MainLVGL(void)
     
     // Creates Debug Screen
     debugScreen = lv_obj_create(NULL, NULL);
-
     //Creates Back button for Debug Screen and matches it to back button click event
     backButtonDebug = lv_btn_create(debugScreen, NULL);
     lv_btn_set_action(backButtonDebug, LV_BTN_ACTION_CLICK, backButton_click_event);
@@ -504,10 +544,20 @@ void MainLVGL(void)
     //Gives the button a label
     lv_obj_t* backLabelDebug = lv_label_create(backButtonDebug, NULL);
     lv_label_set_text(backLabelDebug, "Back");
-
-
+    lv_obj_t *ddl2 = lv_ddlist_create(debugScreen, NULL);
+    lv_ddlist_set_options(ddl2, "Debug\n" "Auton\n" "Vision\n" "Debug");
+    lv_ddlist_set_action(ddl2, ddlist_action);
+    lv_obj_set_free_ptr(ddl2, ddl1);
+    /*lv_obj_t * ddl1 = lv_ddlist_create(debugScreen, NULL);
+    lv_ddlist_set_options(ddl1, "Auton\n"
+                                "Skills\n"
+                                "Profiles\n"
+                                "GIFs\n"
+                                "Debug");
+    lv_obj_align(ddl1, NULL, LV_ALIGN_IN_TOP_LEFT, 30, 10);
+    //lv_obj_set_free_num(ddl1, 1);  
+    lv_ddlist_set_action(ddl1, ddlist_action); */
     //test button for debug
-    
     driveButtonDebug = lv_btn_create(debugScreen, NULL);
     lv_btn_set_action(driveButtonDebug, LV_BTN_ACTION_CLICK, driveButtonDebug_click_event);
     lv_obj_align(driveButtonDebug, NULL, LV_ALIGN_CENTER,0,0);
@@ -548,8 +598,21 @@ void MainLVGL(void)
     //Aligns the checkbox
     lv_obj_align(profile2 , NULL, LV_ALIGN_IN_BOTTOM_LEFT,30,-105);
     }
-
-
+    lv_obj_t *ddl1 = lv_ddlist_create(profileScreen, NULL);
+    lv_ddlist_set_options(ddl1, "Debug\n" "Auton\n" "Vision\n" "Debug");
+    lv_ddlist_set_action(ddl1, ddlist_action);
+    lv_obj_set_free_ptr(ddl1, ddl2);
+    /*
+    lv_obj_t * ddl2 = lv_ddlist_create(profileScreen, NULL);
+    lv_ddlist_set_options(ddl2, "Auton\n"
+                                "Skills\n"
+                                "Profiles\n"
+                                "GIFs\n"
+                                "Debug");
+    lv_obj_align(ddl2, NULL, LV_ALIGN_IN_TOP_LEFT, 30, 10);
+    //lv_obj_set_free_num(ddl2, 1);           
+    lv_ddlist_set_action(ddl2, ddlist_action);
+    */
     //Creates Visual Screen
     visualScreen = lv_obj_create(NULL,NULL);
 

@@ -9,6 +9,6 @@ using namespace okapi;
 
 void leftRedOneAuton(void) {
 	//leftBlueOneAuton();
-	driveChassis->moveDistance(50.8_cm);
+	//driveChassis->moveDistance(50.8_cm);
 	driveChassis->turnAngle(90_deg);
 }
