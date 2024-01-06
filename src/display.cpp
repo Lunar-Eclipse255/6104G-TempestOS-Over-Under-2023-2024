@@ -150,11 +150,11 @@ static lv_res_t ddlist_action(lv_obj_t *ddlist)
     {
     case 0:
         // Option 1 selected, load screen1
-        lv_scr_load(debugScreen);
+        lv_scr_load(mainMenuScreen);
         break;
     case 1:
         // Option 2 selected, load screen2
-        lv_scr_load(autonScreen);
+        lv_scr_load(debugScreen);
         break;
     case 2:
         // Option 3 selected, load screen3
@@ -350,51 +350,12 @@ void MainLVGL(void)
     // Create the main menu screen
     mainMenuScreen = lv_obj_create(NULL, NULL);
 
-    // Creates Auton Button and matches it to Auton click event
-    autonButton = lv_btn_create(mainMenuScreen, NULL);
-    lv_btn_set_action(autonButton, LV_BTN_ACTION_CLICK, autonButton_click_event);
-    // Set the position and size of Auton Button
-    lv_obj_align(autonButton, NULL, LV_ALIGN_IN_TOP_LEFT,40,40);
-    lv_obj_set_size(autonButton, 150, 50);
-    //Creates label for Auton Button
-    lv_obj_t* autonButtonLabel = lv_label_create(autonButton, NULL);
-    lv_label_set_text(autonButtonLabel, "Auton Screen");
-
-    // Create Debug Button and matches it to Debug click event
-    debugButton = lv_btn_create(mainMenuScreen, NULL);
-    lv_btn_set_action(debugButton, LV_BTN_ACTION_CLICK, debugButton_click_event);
-    // Set the position and size of Debug Button 
-    lv_obj_align(debugButton, NULL, LV_ALIGN_IN_BOTTOM_LEFT,40,-10);
-    lv_obj_set_size(debugButton, 150, 50);
-     //Creates label for Debug Button
-    lv_obj_t* debugButtonLabel = lv_label_create(debugButton, NULL);
-    lv_label_set_text(debugButtonLabel, "Debug Screen");
-
-    //Creates Profile Button and matches it to Profile click event
-    profileButton= lv_btn_create(mainMenuScreen, NULL);
-    lv_btn_set_action(profileButton, LV_BTN_ACTION_CLICK, profileButton_click_event);
-    //Set position and size of Profile button
-    lv_obj_align(profileButton, NULL, LV_ALIGN_IN_TOP_RIGHT,-60,40);
-    lv_obj_set_size(profileButton,150,50);
-    //Creates label for Profile button
-    lv_obj_t* profileButtonLabel = lv_label_create(profileButton,NULL);
-    lv_label_set_text(profileButtonLabel, "Profile Screen");
-
-    //Creates Visual Button and matches it to Visual click event
-    visualButton= lv_btn_create(mainMenuScreen, NULL);
-    lv_btn_set_action(visualButton, LV_BTN_ACTION_CLICK, visualButton_click_event);
-    //Set position and size of Visual button
-    lv_obj_align(visualButton,NULL,LV_ALIGN_IN_BOTTOM_RIGHT,-60,-10);
-    lv_obj_set_size(visualButton,150,50);
-    //Creates label for Visual button
-    lv_obj_t* visualButtonLabel = lv_label_create(visualButton,NULL);
-    lv_label_set_text(visualButtonLabel, "Visual Screen");
-    
-
-    
-
-    
-    
+    lv_obj_t *ddl2 = lv_ddlist_create(mainMenuScreen, NULL);
+    lv_ddlist_set_options(ddl2, "Auton\n" "Debug\n" "Vision\n" "Profile");
+    lv_ddlist_set_action(ddl2, ddlist_action);
+    lv_obj_set_free_ptr(ddl2, ddl1);
+    lv_obj_align(ddl2, NULL, LV_ALIGN_IN_TOP_LEFT, 30, 10);
+    static lv_style_t ddlist_style;
     // Creates Auton Screen
     autonScreen = lv_obj_create(NULL, NULL);
 
@@ -544,10 +505,7 @@ void MainLVGL(void)
     //Gives the button a label
     lv_obj_t* backLabelDebug = lv_label_create(backButtonDebug, NULL);
     lv_label_set_text(backLabelDebug, "Back");
-    lv_obj_t *ddl2 = lv_ddlist_create(debugScreen, NULL);
-    lv_ddlist_set_options(ddl2, "Debug\n" "Auton\n" "Vision\n" "Debug");
-    lv_ddlist_set_action(ddl2, ddlist_action);
-    lv_obj_set_free_ptr(ddl2, ddl1);
+    
     /*lv_obj_t * ddl1 = lv_ddlist_create(debugScreen, NULL);
     lv_ddlist_set_options(ddl1, "Auton\n"
                                 "Skills\n"
@@ -599,9 +557,11 @@ void MainLVGL(void)
     lv_obj_align(profile2 , NULL, LV_ALIGN_IN_BOTTOM_LEFT,30,-105);
     }
     lv_obj_t *ddl1 = lv_ddlist_create(profileScreen, NULL);
-    lv_ddlist_set_options(ddl1, "Debug\n" "Auton\n" "Vision\n" "Debug");
+    lv_ddlist_set_options(ddl1, "Auton\n" "Debug\n" "Vision\n" "Profile");
     lv_ddlist_set_action(ddl1, ddlist_action);
     lv_obj_set_free_ptr(ddl1, ddl2);
+    lv_obj_set_free_ptr(ddl2, ddl1);
+    lv_obj_align(ddl2, NULL, LV_ALIGN_IN_TOP_LEFT, 30, 10);
     /*
     lv_obj_t * ddl2 = lv_ddlist_create(profileScreen, NULL);
     lv_ddlist_set_options(ddl2, "Auton\n"

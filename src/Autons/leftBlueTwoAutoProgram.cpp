@@ -2,33 +2,15 @@
 #include "display.hpp"
 #include "motors.h"
 #include "main.h"
+#include "paths.hpp"
 
 //#include "okapi/api.hpp"
 
 using namespace okapi;
 
 void leftBlueTwoAuton(void) {
-	driveChassis->setMaxVelocity(120);
-    intakeMotor.moveVoltage(-12000); //might be reversed
-    pros::delay(200);
-    intakeMotor.moveVoltage(12000);
-    pros::delay(200);
-    driveChassis->turnAngle(1.5_deg);
-    intakeMotor.moveVoltage(0);
-	driveChassis->moveDistance(127_cm);
-    driveChassis->turnAngle(-60_deg); //≈90 degrees
-    driveChassis->setMaxVelocity(400);
-    intakeMotor.moveVoltage(-12000);
-    driveChassis->moveDistance(18.5_cm);
-    driveChassis->moveDistance(-18_cm);
-    intakeMotor.moveVoltage(0);
-    driveChassis->moveDistance(18_cm);
-    driveChassis->setMaxVelocity(90);
-    pros::delay(200);
-    intakeMotor.moveVoltage(0);
-    driveChassis->moveDistance(-18_cm);
-    driveChassis->turnAngle(-45_deg); //≈90 degrees
-    driveChassis->setMaxVelocity(135);
-    driveChassis->moveDistance(122_cm);
-    //Align
+	generateMotionProfile(profileController);
+    // Set the target and wait for the robot to settle
+    profileController->setTarget("Left Points");
+    profileController->waitUntilSettled();
 }

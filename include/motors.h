@@ -16,6 +16,7 @@ extern Motor intakeMotor;
 extern Motor catapultMotor;
 extern ADIButton catapultLimit;
 extern std::shared_ptr<ChassisController> driveChassis;
+extern std::shared_ptr<AsyncMotionProfileController> profileController;
 extern pros::ADIDigitalOut leftWing ();
 extern pros::ADIDigitalOut rightWing ();
 

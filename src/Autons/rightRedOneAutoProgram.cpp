@@ -2,10 +2,14 @@
 #include "display.hpp"
 #include "motors.h"
 #include "main.h"
+#include "paths.hpp"
 //#include "okapi/api.hpp"
 
 using namespace okapi;
 
 void rightRedOneAuton(void) {
-	rightBlueOneAuton();
+	generateMotionProfile(profileController);
+    // Set the target and wait for the robot to settle
+    profileController->setTarget("Right AWP");
+    profileController->waitUntilSettled();
 }
