@@ -3,7 +3,9 @@
 #include "autons.hpp"
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
+#include "paths.hpp"
 //defines adi ports for pistons
+#define BLOCKER 'A'
 #define WING_LEFT 'B'
 #define WING_RIGHT 'C'
 #define ARM 'D'
@@ -107,9 +109,9 @@ std::shared_ptr<ChassisController> driveChassis =
 std::shared_ptr<AsyncMotionProfileController> profileController =
   AsyncMotionProfileControllerBuilder()
     .withLimits({
-      1.0, // Maximum linear velocity of the Chassis in m/s
-      2.0, // Maximum linear acceleration of the Chassis in m/s/s
-      10.0 // Maximum linear jerk of the Chassis in m/s/s/s
+      1.44003888887, // Maximum linear velocity of the Chassis in m/s
+      87.2198667474, // Maximum linear acceleration of the Chassis in m/s/s
+      174.439733495  // Maximum linear jerk of the Chassis in m/s/s/s
     })
     .withOutput(driveChassis)
     .buildMotionProfileController();
@@ -124,15 +126,15 @@ ADIButton catapultLimit ('A');
 bool wingCheckLeft;
 bool armCheck;
 bool wingCheckRight;
-
+bool blockerCheck;
 
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
 	//initializers the check varibles to false
 	wingCheckLeft=false;
 	wingCheckRight=false;
-	armCheck = false;
-
+	armCheck=false;
+	blockerCheck=false;
 	//pros::lcd::initialize();
 	//initializes sylib
    	sylib::initialize();
@@ -159,7 +161,11 @@ void autonomous() {
 	//initializes the lcd for pros
 	pros::lcd::initialize();
 	//runs the selected autonomous/skills program
-	runSelectedAuto();
+	//runSelectedAuto();
+	generateMotionProfile(profileController);
+    // Set the target and wait for the robot to settle
+    profileController->setTarget("Left AWP");
+    profileController->waitUntilSettled();
 	//leftRedOneAuton();
 	}
 	
@@ -178,7 +184,7 @@ void opcontrol() {
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut arm (ARM);
-	
+	pros::ADIDigitalOut blocker (BLOCKER);
 	 
 
 	while (true) {
@@ -208,6 +214,8 @@ void opcontrol() {
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
 		ControllerButton wingInRightButton(ControllerDigital::Y);
+		ControllerButton blockerUpButton(ControllerDigital::down);
+		ControllerButton blockerDownButton(ControllerDigital::B);
 		/*
 		ControllerButton ratchetLockOn(ControllerDigital::X);
 		ControllerButton ratchetLockOff(ControllerDigital::B);
@@ -286,6 +294,20 @@ void opcontrol() {
 				wingCheckRight=false;
 			}
 		}
+		if (blockerUpButton.isPressed()) {
+			if (blockerCheck==false){
+				blocker.set_value(true);
+				blockerCheck=true;
+			}
+		}
+		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
+		else if (blockerDownButton.isPressed()) {
+			if (blockerCheck){
+				blocker.set_value(false);
+				blockerCheck=false;
+			}
+		}
+		
 		/*
 		if (cataDistance.get()>100){
 			catapultMotor.moveVoltage(12000);
