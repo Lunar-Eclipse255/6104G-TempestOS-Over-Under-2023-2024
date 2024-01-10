@@ -26,12 +26,12 @@ bool blockerCheck;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // drive motors
-pros::Motor backLeftDriveMotor(10, pros::E_MOTOR_GEARSET_18, true); // left front motor. port 12, reversed
-pros::Motor middleLeftDriveMotor(9, pros::E_MOTOR_GEARSET_18,true); // left middle motor. port 11, reversed
-pros::Motor frontLeftDriveMotor(8, pros::E_MOTOR_GEARSET_18,true); // left back motor. port 1, reversed
-pros::Motor backRightDriveMotor(20, pros::E_MOTOR_GEARSET_18,false); // right front motor. port 2
-pros::Motor middleRightDriveMotor(19, pros::E_MOTOR_GEARSET_18,false); // right middle motor. port 11
-pros::Motor frontRightDriveMotor(18, pros::E_MOTOR_GEARSET_18,false); // right back motor. port 13
+pros::Motor backLeftDriveMotor(10, pros::E_MOTOR_GEARSET_18); // left front motor. port 12, reversed
+pros::Motor middleLeftDriveMotor(9, pros::E_MOTOR_GEARSET_18); // left middle motor. port 11, reversed
+pros::Motor frontLeftDriveMotor(8, pros::E_MOTOR_GEARSET_18); // left back motor. port 1, reversed
+pros::Motor backRightDriveMotor(-20, pros::E_MOTOR_GEARSET_18); // right front motor. port 2
+pros::Motor middleRightDriveMotor(-19, pros::E_MOTOR_GEARSET_18); // right middle motor. port 11
+pros::Motor frontRightDriveMotor(-18, pros::E_MOTOR_GEARSET_18); // right back motor. port 13
 
 // motor groups
 pros::MotorGroup leftChassis({backLeftDriveMotor, middleLeftDriveMotor, frontLeftDriveMotor}); // left motor group
@@ -162,7 +162,7 @@ void opcontrol() {
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         // move the chassis with curvature drive
-        chassis.curvature(leftY, rightX);
+        chassis.curvature(rightX, leftY);
         // delay to save resources
         pros::delay(10);
     }
