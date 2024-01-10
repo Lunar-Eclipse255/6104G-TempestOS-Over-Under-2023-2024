@@ -15,5 +15,9 @@ temp.log
 temp.errors
 *.ini
 .d/
-LVGL Scrap
-Button.cpp
+
+# template files
+*.zip
+
+# Doxygen
+latex

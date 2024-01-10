@@ -1,123 +1,17 @@
+
 #include "main.h"
 #include "display.hpp"
 #include "autons.hpp"
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
 #include "paths.hpp"
+#include "lemlib/api.hpp"
 //defines adi ports for pistons
 #define BLOCKER 'A'
 #define WING_LEFT 'B'
 #define WING_RIGHT 'C'
 #define ARM 'D'
 
-
-
-double motorVelocityCalc(double joystickInput) {
-	//Coefficients for Cubic model
-    double a = 5.0; 
-    double b = 1.0; 
-	double c = 2.0; 
-	double d = 0.0; 
-	double e = 0.0; 
-
-    //motorVelocity = ax^4+ bx^3 + cx^2 + dx + e, where x is the joystick value: Quartic Linear regression model
-    double motorVelocity = (a * pow(joystickInput, 4)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
-
-    //Adjusts value to fit into expected input value 
-    motorVelocity = std::min(100.0, std::max(-100.0, motorVelocity));
-
-    //Adds the direction back to the motor power
-	if (selectedProfile==0){
-    return (joystickInput < 0) ? -motorVelocity*0.85 : motorVelocity*0.85;
-	}
-	else {
-		return (joystickInput < 0) ? motorVelocity*0.85 : -motorVelocity*0.85;
-	}
-
-}
-
-double turningValueCalc(double joystickInput) {
-    //Coefficients for Quartic model
-	
-    double a = 4.0; 
-    double b = 4.0; 
-	double c = 1.0; 
-	double d = 0.0; 
-	double e = 0.0; 
-
-    //motorVelocity = ax^4+ bx^3 + cx^2 + dx + e, where x is the joystick value: Quartic Linear regression model
-    double turningValue = (a * pow(joystickInput, 3)) + (b * pow(joystickInput, 3)) + (c * pow(joystickInput, 2))+ (d * joystickInput)+e;
-    //Adjusts value to fit into expected input value 
-    turningValue = std::min(1.0, std::max(-1.0, turningValue));
-
-	//returns the turningValue
-	return turningValue;
-}
-
-//A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
-
-//Initializes the drive motors to what port a motor is plugged into and if its reversed
-Motor backLeftDriveMotor (-10);
-Motor middleLeftDriveMotor (-9);
-Motor frontLeftDriveMotor (-8);
-Motor backRightDriveMotor (20);
-Motor middleRightDriveMotor (19);
-Motor frontRightDriveMotor (18);
-auto cataDistance = DistanceSensor(12);
-
-//Sets up which side of the bot motors are in.
-MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor});
-MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor});
-
-//Initializes the drive chassis
-std::shared_ptr<ChassisController> driveChassis =
-	ChassisControllerBuilder()
-		//.withMotors(leftChassis,rightChassis)
-		//Sets which motors to use
-		.withMotors(
-			leftChassis,
-			rightChassis
-		)
-		
-		// Green cartridge, 3.25 in wheel diam, 17 in wheel track, 36:60 gear ratio.
-		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 13.33_in}, imev5GreenTPR})
-		//{0.002, 0.001, 0.0001}  
-		
-		.withGains(
-			{0.0015, 0.0005, 0.00001}, // Distance controller gains
-        	{0.0015, 0.0015, 0}, // Turn controller gains
-			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
-		) 
-		
-		.withLogger(
-        	std::make_shared<Logger>(
-            	TimeUtilFactory::createDefault().getTimer(), // It needs a Timer
-            	"/ser/sout", // Output to the PROS terminal
-            	Logger::LogLevel::debug // Most verbose log level
-        	)
-		)
-		.build();
-std::shared_ptr<AsyncMotionProfileController> profileController =
-  AsyncMotionProfileControllerBuilder()
-    .withLimits({
-      1.44003888887, // Maximum linear velocity of the Chassis in m/s
-      87.2198667474, // Maximum linear acceleration of the Chassis in m/s/s
-      174.439733495  // Maximum linear jerk of the Chassis in m/s/s/s
-    })
-    .withOutput(driveChassis)
-    .buildMotionProfileController();
-
-
-//Initializes the subsytem motors as well as the Adi Button
 Motor intakeMotor(-5);
 Motor catapultMotor (7);
 ADIButton catapultLimit ('A');
@@ -128,220 +22,148 @@ bool armCheck;
 bool wingCheckRight;
 bool blockerCheck;
 
-//Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
+// controller
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
+
+// drive motors
+pros::Motor backLeftDriveMotor(10, pros::E_MOTOR_GEARSET_18, true); // left front motor. port 12, reversed
+pros::Motor middleLeftDriveMotor(9, pros::E_MOTOR_GEARSET_18,true); // left middle motor. port 11, reversed
+pros::Motor frontLeftDriveMotor(8, pros::E_MOTOR_GEARSET_18,true); // left back motor. port 1, reversed
+pros::Motor backRightDriveMotor(20, pros::E_MOTOR_GEARSET_18,false); // right front motor. port 2
+pros::Motor middleRightDriveMotor(19, pros::E_MOTOR_GEARSET_18,false); // right middle motor. port 11
+pros::Motor frontRightDriveMotor(18, pros::E_MOTOR_GEARSET_18,false); // right back motor. port 13
+
+// motor groups
+pros::MotorGroup leftChassis({backLeftDriveMotor, middleLeftDriveMotor, frontLeftDriveMotor}); // left motor group
+pros::MotorGroup rightChassis({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor}); // right motor group
+
+// Inertial Sensor on port 2
+pros::Imu imu(16);
+
+// drivetrain settings
+lemlib::Drivetrain drivetrain(&leftChassis, // left motor group
+                              &rightChassis, // right motor group
+                              17, // 10 inch track width
+                              lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
+                              333, // drivetrain rpm is 360
+                              2 // chase power is 2. If we had traction wheels, it would have been 8
+);
+
+// lateral motion controller
+lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+                                            0, // integral gain (kI)
+                                            3, // derivative gain (kD)
+                                            3, // anti windup
+                                            1, // small error range, in inches
+                                            100, // small error range timeout, in milliseconds
+                                            3, // large error range, in inches
+                                            500, // large error range timeout, in milliseconds
+                                            20 // maximum acceleration (slew)
+);
+
+// angular motion controller
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+                                             0, // integral gain (kI)
+                                             10, // derivative gain (kD)
+                                             3, // anti windup
+                                             1, // small error range, in degrees
+                                             100, // small error range timeout, in milliseconds
+                                             3, // large error range, in degrees
+                                             500, // large error range timeout, in milliseconds
+                                             0 // maximum acceleration (slew)
+);
+
+// sensors for odometry
+// note that in this example we use internal motor encoders (IMEs), so we don't pass vertical tracking wheels
+lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
+                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
+                            nullptr, // horizontal tracking wheel 1
+                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
+                            &imu // inertial sensor
+);
+
+// create the chassis
+lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors);
+
+/**
+ * Runs initialization code. This occurs as soon as the program is started.
+ *
+ * All other competition modes are blocked by initialize; it is recommended
+ * to keep execution time for this mode under a few seconds.
+ */
 void initialize() {
-	//initializers the check varibles to false
-	wingCheckLeft=false;
+    pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
+    wingCheckLeft=false;
 	wingCheckRight=false;
 	armCheck=false;
 	blockerCheck=false;
 	//pros::lcd::initialize();
 	//initializes sylib
    	sylib::initialize();
-	//Digitally Builds the Chassis
-	
+    // the default rate is 50. however, if you need to change the rate, you
+    // can do the following.
+    // lemlib::bufferedStdout().setRate(...);
+    // If you use bluetooth or a wired connection, you will want to have a rate of 10ms
+
+    // for more information on how the formatting for the loggers
+    // works, refer to the fmtlib docs
+    chassis.setPose(0, 0, 0);
+    // thread to for brain screen and position logging
+    pros::Task screenTask([&]() {
+        lemlib::Pose pose(0, 0, 0);
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 }
 
+/**
+ * Runs while the robot is disabled
+ */
+void disabled() {}
 
-//Runs while the robot is in the disabled state of Field Management System or the VEX Competition Switch, following either autonomous or opcontrol. When the robot is enabled, this task will exit.
-void disabled() {
-	
-}
-
-
-//Runs after initialize(), and before autonomous when connected to the Field Management System or the VEX Competition Switch. This is intended for competition-specific initialization routines, such as an autonomous selector on the LCD. This task will exit when the robot is enabled and autonomous or opcontrol starts.
+/**
+ * runs after initialize if the robot is connected to field control
+ */
 void competition_initialize() {
-	// Set up LVGL display
-	MainLVGL();
+    MainLVGL();
+// get a path used for pure pursuit
+// this needs to be put outside a function
+    // '.' replaced with "_" to make c++ happy
+}
+ASSET(leftAWP_txt); 
+/**
+ * Runs during auto
+ *
+ * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
+ */
+void autonomous() {
+    chassis.moveToPose(2, 0, 0, 5000);
+    chassis.follow(leftAWP_txt, 15, 4000, false);
 }
 
-
-//Runs the user autonomous code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the autonomous mode. Alternatively, this function may be called in initialize or opcontrol for non-competition testing purposes. If the robot is disabled or communications is lost, the autonomous task will be stopped. Re-enabling the robot will restart the task, not re-start it from where it left off.
-void autonomous() {
-	//initializes the lcd for pros
-	pros::lcd::initialize();
-	//runs the selected autonomous/skills program
-	//runSelectedAuto();
-	generateMotionProfile(profileController);
-    // Set the target and wait for the robot to settle
-    profileController->setTarget("Left AWP");
-    profileController->waitUntilSettled();
-	//leftRedOneAuton();
-	}
-	
-//Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
+/**
+ * Runs in driver control
+ */
 void opcontrol() {
-	//clears screen
-	//lv_init();
-	//Testing: MainLVGL();
-	
-
-	
-	// Joystick to read analog values for tank or arcade control.
-	// Master controller by default.
-	//initializes controller and pistons                                                                        
-	Controller controller;
-	pros::ADIDigitalOut leftWing (WING_LEFT);
-	pros::ADIDigitalOut rightWing (WING_RIGHT);
-	pros::ADIDigitalOut arm (ARM);
-	pros::ADIDigitalOut blocker (BLOCKER);
-	 
-
-	while (true) {
-		// Reads joystick input for left/right motion on the right stick
-		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
-
-        // Calculate turning behavior using the regression model
-        double turningValue = turningValueCalc(joysticTurning);
-
-       // Reads joystick input for up/down motion on the left stick
-        double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
-
-        // Calculate motor power using the regression model
-        double motorVelocity = motorVelocityCalc(joysticMotion);
-
-       //Uses these new values to control the bot
-        driveChassis->getModel()->arcade(motorVelocity, turningValue);
-		//drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
-
-		//Initializes all the controller buttons
-		ControllerButton intakeOutButton(ControllerDigital::R2);
-		ControllerButton intakeInButton(ControllerDigital::R1);
-		ControllerButton catapultButton(ControllerDigital::L2);
-		ControllerButton catapultProgressionButton(ControllerDigital::L1);
-		ControllerButton catapultButtonBack(ControllerDigital::up);
-		ControllerButton wingOutLeftButton(ControllerDigital::left);
-		ControllerButton wingInLeftButton(ControllerDigital::right);
-		ControllerButton wingOutRightButton(ControllerDigital::A);
-		ControllerButton wingInRightButton(ControllerDigital::Y);
-		ControllerButton blockerUpButton(ControllerDigital::down);
-		ControllerButton blockerDownButton(ControllerDigital::B);
-		/*
-		ControllerButton ratchetLockOn(ControllerDigital::X);
-		ControllerButton ratchetLockOff(ControllerDigital::B);
-		//ControllerButton armOutButton(ControllerDigital::A);
-		//ControllerButton armInButton(ControllerDigital::left);
-		*/
-		
-		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
-
-
-		//pros::ADIDigitalOut leftWing (INDEX_PORT);
-		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
-	//pros::screen::set_pen(COLOR_BLUE);
-    //pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
-	//pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
-
-		
-		//Checks if the button for catapult is pressed
-		if (catapultButton.isPressed()) {
-			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
-			if (catapultProgressionButton.isPressed()){
-				catapultMotor.moveVoltage(11000);
-			}
-			//if the catapult limit switch is pressed it stops the motor
-			else if (catapultLimit.isPressed()){
-				catapultMotor.moveVoltage(0);
-			}
-			else  {
-				//else the motor is given 12000 mV
-				catapultMotor.moveVoltage(11000);
-			}
-		} //else if the catapult back button it gives -12000 mV
-		else if (catapultButtonBack.isPressed()) {
-        	catapultMotor.moveVoltage(-12000);
-		}
-		//else its stops powering the motor
-		else{
-			catapultMotor.moveVoltage(0);
-		}
-		//if the intakeIn button is pressed it gives the intake 12000 mV
-		if (intakeInButton.isPressed()) {
-        	intakeMotor.moveVoltage(12000);
-    	} 
-		//else if the intakeOut button is pressed it gives the intake -12000 mV
-		else if (intakeOutButton.isPressed()) {
-        	intakeMotor.moveVoltage(-12000);
-		}
-		//else it stops powering the intake motor
-		else {
-        	intakeMotor.moveVoltage(0);
-    	}
-		//If the wingOutButton is pressed and the wings aren't already out it extends 
-		if (wingOutLeftButton.isPressed()) {
-			if (wingCheckLeft==false){
-				leftWing.set_value(true);
-				wingCheckLeft=true;
-			}
-		}
-		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
-		else if (wingInLeftButton.isPressed()) {
-			if (wingCheckLeft){
-				leftWing.set_value(false);
-				wingCheckLeft=false;
-			}
-		}
-		if (wingOutRightButton.isPressed()) {
-			if (wingCheckRight==false){
-				rightWing.set_value(true);
-				wingCheckRight=true;
-			}
-		}
-		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
-		else if (wingInRightButton.isPressed()) {
-			if (wingCheckRight){
-				rightWing.set_value(false);
-				wingCheckRight=false;
-			}
-		}
-		if (blockerUpButton.isPressed()) {
-			if (blockerCheck==false){
-				blocker.set_value(true);
-				blockerCheck=true;
-			}
-		}
-		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
-		else if (blockerDownButton.isPressed()) {
-			if (blockerCheck){
-				blocker.set_value(false);
-				blockerCheck=false;
-			}
-		}
-		
-		/*
-		if (cataDistance.get()>100){
-			catapultMotor.moveVoltage(12000);
-		}
-		else{
-			catapultMotor.moveVoltage(12000);
-		}
-		*/
-		/*
-		if (armOutButton.isPressed()) {
-			if (armCheck==false){
-				arm.set_value(true);
-				arm.set_value(true);
-				armCheck=true;
-			}
-
-		}	
-		else if (armInButton.isPressed()) {
-			if (armCheck){
-				arm.set_value(false);
-				arm.set_value(false);
-				armCheck=false;
-			}
-		}
-		*/
-	
-    	
-		
-		
-		// Wait and give up the time we don't need to other tasks.
-		// Additionally, joystick values, motor telemetry, etc. all updates every 10 ms.
-		
-		pros::delay(10);
-		
-	}
-	
+    // controller
+    
+    // loop to continuously update motors
+    while (true) {
+        // get joystick positions
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        // move the chassis with curvature drive
+        chassis.curvature(leftY, rightX);
+        // delay to save resources
+        pros::delay(10);
+    }
 }

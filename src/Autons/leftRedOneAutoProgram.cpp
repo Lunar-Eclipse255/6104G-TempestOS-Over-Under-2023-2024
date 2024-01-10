@@ -9,8 +9,5 @@
 using namespace okapi;
 
 void leftRedOneAuton(void) {
-	generateMotionProfile(profileController);
-    // Set the target and wait for the robot to settle
-    profileController->setTarget("Left AWP");
-    profileController->waitUntilSettled();
+	leftAWP();
 }

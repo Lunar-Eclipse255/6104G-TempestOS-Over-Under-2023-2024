@@ -1,14 +1,6 @@
-/**
- * @file include/lemlib/pose.hpp
- * @author LemLib Team
- * @brief Pose class declarations
- * @version 0.4.5
- * @date 2023-01-23
- *
- * @copyright Copyright (c) 2023
- *
- */
 #pragma once
+
+#include <string>
 
 namespace lemlib {
 class Pose {
@@ -76,14 +68,14 @@ class Pose {
          * @param other the other pose
          * @return float
          */
-        float distance(Pose other);
+        float distance(Pose other) const;
         /**
          * @brief Get the angle between two poses
          *
          * @param other the other pose
          * @return float in radians
          */
-        float angle(Pose other);
+        float angle(Pose other) const;
         /**
          * @brief Rotate a pose by an angle
          *
@@ -92,4 +84,12 @@ class Pose {
          */
         Pose rotate(float angle);
 };
+
+/**
+ * @brief Format a pose
+ *
+ * @param pose
+ * @return std::string
+ */
+std::string format_as(const Pose& pose);
 } // namespace lemlib

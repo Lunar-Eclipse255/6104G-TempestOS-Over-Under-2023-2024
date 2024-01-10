@@ -8,8 +8,5 @@
 using namespace okapi;
 
 void rightRedTwoAuton(void) {
-	generateMotionProfile(profileController);
-    // Set the target and wait for the robot to settle
-    profileController->setTarget("Right Points");
-    profileController->waitUntilSettled();
+	rightPoints();
 }
