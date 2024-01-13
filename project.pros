@@ -168,7 +168,8 @@
     },
     "upload_options": {
       "slot": 1,
-      "after": "run"
+      "after": "run",
+      "description": "No"
     }
   }
 }
