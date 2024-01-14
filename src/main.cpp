@@ -130,7 +130,7 @@ void opcontrol() {
 	//clears screen
 	//lv_init();
 	//Testing: MainLVGL();
-	
+	MainLVGL();
 
 	
 	// Joystick to read analog values for tank or arcade control.
@@ -190,18 +190,10 @@ void opcontrol() {
 		//Checks if the button for catapult is pressed
 		if (catapultButton.isPressed()) {
 			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
-			if (catapultProgressionButton.isPressed()){
 				catapultMotor.moveVoltage(11000);
-			}
 			//if the catapult limit switch is pressed it stops the motor
-			else if (catapultLimit.isPressed()){
-				catapultMotor.moveVoltage(0);
-			}
-			else  {
-				//else the motor is given 12000 mV
-				catapultMotor.moveVoltage(11000);
-			}
-		} //else if the catapult back button it gives -12000 mV
+		}
+		 //else if the catapult back button it gives -12000 mV
 		else if (catapultButtonBack.isPressed()) {
         	catapultMotor.moveVoltage(-12000);
 		}
