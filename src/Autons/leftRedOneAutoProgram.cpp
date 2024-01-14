@@ -9,10 +9,6 @@
 using namespace okapi;
 
 void leftRedOneAuton(void) {
-	intakeMotor.moveVoltage(12000);
-	driveChassis->moveDistance(2.2_ft);
-	driveChassis->moveDistance(-2_ft);
-	intakeMotor.moveVoltage(0);
-	driveChassis->moveDistance(-2_ft);
+	
 
 }
