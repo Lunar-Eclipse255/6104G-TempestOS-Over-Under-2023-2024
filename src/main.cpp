@@ -131,7 +131,7 @@ void opcontrol() {
 	//lv_init();
 	//Testing: MainLVGL();
 	MainLVGL();
-
+	
 	
 	// Joystick to read analog values for tank or arcade control.
 	// Master controller by default.
@@ -146,7 +146,6 @@ void opcontrol() {
 	while (true) {
 		// Reads joystick input for left/right motion on the right stick
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
-
         // Calculate turning behavior using the regression model
 
        // Reads joystick input for up/down motion on the left stick
