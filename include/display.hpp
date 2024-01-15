@@ -3,6 +3,7 @@
 
 #include "display/lvgl.h"
 #include "main.h"
+#include "gif-pros/gifclass.hpp"
 
 //Declares an integer and functions.
 extern int selectedProfile;

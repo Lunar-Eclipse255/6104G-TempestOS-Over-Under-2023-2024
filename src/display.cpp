@@ -14,7 +14,6 @@ int selectedProgram = DO_NOT_RUN;
 int autoType = 0;
 int selectedProfile = 0;
 int selectedGIF =0;
-
 //Sets up which programs to select from
 const char* GIFFilePaths[] = {"/usd/Sylvie.gif","/usd/Catapult.gif","/usd/Alliance.gif","/usd/Glitch.gif","/usd/Lightning.gif","/usd/Rumble.gif"};
 void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder, leftRedTwoAuton, rightRedTwoAuton};
@@ -36,7 +35,6 @@ lv_obj_t* visualScreen = lv_obj_create(NULL,NULL);
 //Creates Checkboxes for Profiles
 lv_obj_t* profile1;
 lv_obj_t* profile2;
-
 lv_obj_t* ddlColorSelection = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlAutonSelector = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlSkillsSelector = lv_ddlist_create(skillsScreen, NULL);
@@ -204,6 +202,7 @@ static lv_res_t ddlistGIFSelectorAction(lv_obj_t* ddlist){
             selectedGIF=5;
         default:
             break;
+        
     }
     return LV_RES_OK;
 }
@@ -278,12 +277,14 @@ void MainLVGL(void)
     lv_ddlist_set_action(ddlVision, ddlist_action);
 
     lv_obj_align(ddlVision, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
-    lv_ddlist_set_options(ddlGIF, "Sylvie\n" "Catapult\n" "Alliance\n" "Glitch\n" "Lightning\n" "Rumble\n");
+    lv_ddlist_set_options(ddlGIF, " \n" "Sylvie\n" "Catapult\n" "Alliance\n" "Glitch\n" "Lightning\n" "Rumble\n");
     lv_ddlist_set_action(ddlGIF, ddlistGIFSelectorAction);
     lv_ddlist_set_fix_height(ddlGIF, 150);
     lv_ddlist_set_sb_mode(ddlGIF, LV_SB_MODE_DRAG);
     lv_obj_align(ddlGIF, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
-
+    
+    
+    
     // Load the main menu screen
     lv_scr_load(autonScreen);
 }
