@@ -12,7 +12,7 @@ void switchToScreen(lv_obj_t* screen);
 void display(void);
 void runSelectedAuto(void);
 void display(void);
-
+void runSelectedGIF(void);
 
 
 //Sets an enumeration type for autonomous type

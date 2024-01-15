@@ -12,17 +12,11 @@ void placeHolder(void){};
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
 int autoType = 0;
-bool isLeft = false;
-bool selected = false;
 int selectedProfile = 0;
-
-//Sets up the names for the checkboxes
-const char* redTitles[] = {"Left Auton", "Right Auton", "Disabled", "Left Auton No Bar","Right Auton No Bar"};
-const char* blueTitles[] = {"Left Auton", "Right Auton", "Disabled", "Left Auton No Bar","Right Auton No Bar"};
-const char* skillsTitles[] = {"Programming Skills","Driver Skills"};
-const char* profileTitles[] = {"Gaston", "Patrick"};
+int selectedGIF =0;
 
 //Sets up which programs to select from
+const char* GIFFilePaths[] = {"/usd/Sylvie.gif","/usd/Catapult.gif","/usd/Alliance.gif","/usd/Glitch.gif","/usd/Lightning.gif","/usd/Rumble.gif"};
 void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder, leftRedTwoAuton, rightRedTwoAuton};
 void (*blueScripts[])() = {leftBlueOneAuton, rightBlueOneAuton, placeHolder, leftBlueTwoAuton, rightBlueTwoAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
@@ -33,38 +27,27 @@ void (*skillsScripts[])() = {pSkills,dSkills};
 //Creates Screens
 lv_obj_t* autonScreen = lv_obj_create(NULL, NULL); 
 lv_obj_t* skillsScreen = lv_obj_create(NULL,NULL);
-lv_obj_t* debugScreen;
+lv_obj_t* debugScreen = lv_obj_create(NULL, NULL);
 lv_obj_t* profileScreen = lv_obj_create(NULL,NULL);
-lv_obj_t* visualScreen;
+lv_obj_t* visualScreen = lv_obj_create(NULL,NULL);
 
 // Creates Buttons
-lv_obj_t* backButtonDebug;
-lv_obj_t* backButtonVisual;
 
 //Creates Checkboxes for Profiles
 lv_obj_t* profile1;
 lv_obj_t* profile2;
 
-lv_obj_t *ddlColorSelection = lv_ddlist_create(autonScreen, NULL);
-lv_obj_t *ddlAutonSelector = lv_ddlist_create(autonScreen, NULL);
+lv_obj_t* ddlColorSelection = lv_ddlist_create(autonScreen, NULL);
+lv_obj_t* ddlAutonSelector = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlSkillsSelector = lv_ddlist_create(skillsScreen, NULL);
-lv_obj_t *ddlAuton = lv_ddlist_create(autonScreen, NULL);
+lv_obj_t* ddlProfileSelector = lv_ddlist_create(profileScreen, NULL);
+lv_obj_t* ddlGIF = lv_ddlist_create(visualScreen,NULL);
+lv_obj_t* ddlAuton = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlSkills = lv_ddlist_create(skillsScreen, NULL);
-lv_obj_t *ddlProfile = lv_ddlist_create(profileScreen, NULL);
-//lv_obj_t *ddlDebug = lv_ddlist_create(debugScreen, NULL);
-//lv_obj_t *ddlVision = lv_ddlist_create(visualScreen, NULL);
+lv_obj_t* ddlProfile = lv_ddlist_create(profileScreen, NULL);
+lv_obj_t* ddlDebug = lv_ddlist_create(debugScreen, NULL);
+lv_obj_t* ddlVision = lv_ddlist_create(visualScreen, NULL);
 
-//lv_obj_t *ddlSkills;
-
-
-
-//Creates click event for back button
-static lv_res_t backButton_click_event(lv_obj_t* button)
-{
-    // Switch to Screen 2
-    lv_scr_load(autonScreen);
-    return LV_RES_OK;
-}
 
 
 static lv_res_t ddlist_action(lv_obj_t *ddlist)
@@ -90,9 +73,11 @@ static lv_res_t ddlist_action(lv_obj_t *ddlist)
         break;
     case 3:
         lv_scr_load(debugScreen);
+        lv_ddlist_set_selected(ddlDebug, 3);
         break;
     case 4:
         lv_scr_load(visualScreen);
+        lv_ddlist_set_selected(ddlVision,4);
         break;
     default:
         // Handle other cases or set a default screen
@@ -135,25 +120,20 @@ static lv_res_t ddlistAutonSelectorAction(lv_obj_t *ddlist)
         break;
     case 1:
         selectedProgram = 0;
-	    selected = true;
     case 2:
         // Option 1 selected, load screen1
         selectedProgram = 1;
-	    selected = true;
         break;
     case 3:
         // Option 2 selected, load screen2
         selectedProgram = 2;
-	    selected = true;
         break;
     case 4:
         // Option 3 selected, load screen3
         selectedProgram = 3;
-	    selected = true;
         break;
     case 5:
         selectedProgram = 4;
-	    selected = true;
         break;
     default:
         // Handle other cases or set a default screen
@@ -170,12 +150,10 @@ static lv_res_t ddlistSkillSelectorAction(lv_obj_t* ddlist) {
         break;
     case 1:
         autoType = AUTONOMOUS_SKILLS;
-	    selected = true;
         selectedProgram=0;
         break;
     case 2:
         autoType = AUTONOMOUS_SKILLS;
-	    selected = true;
         selectedProgram=1;
         break;
     default:
@@ -184,7 +162,53 @@ static lv_res_t ddlistSkillSelectorAction(lv_obj_t* ddlist) {
     return LV_RES_OK;
 }
 
+static lv_res_t ddlistProfileSelectorAction(lv_obj_t* ddlist) {
+    uint16_t selected_index = lv_ddlist_get_selected(ddlist);
+    switch(selected_index)
+    {
+        case 0:
+            break;
+        case 1:
+            selectedProfile = 0;
+            break;
+        case 2:
+            selectedProfile=1;
+            break;
+        default:
+            break;
+    }
+    return LV_RES_OK;
+}
 
+static lv_res_t ddlistGIFSelectorAction(lv_obj_t* ddlist){
+    uint16_t selected_index =lv_ddlist_get_selected(ddlist);
+    switch(selected_index){
+        case 0:
+            break;
+        case 1:
+            selectedGIF=0;
+            break;
+        case 2:
+            selectedGIF=1;
+            break;
+        case 3:
+            selectedGIF=2;
+            break;
+        case 4:
+            selectedGIF=3;
+            break;
+        case 5:
+            selectedGIF=4;
+            break;
+        case 6:
+            selectedGIF=5;
+        default:
+            break;
+    }
+    return LV_RES_OK;
+}
+
+ 
 //Sets up the actions that happen when the checkboxes are checked
 /*selected program is how far to index within their respective scripts
 ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, placeHolder};
@@ -192,17 +216,7 @@ and autoType=Blue an selectedProgram=1 it would run rightBlueAuton
 */
 
 
-//If profile1 was selected thern profile 2 is set to false and vice versa
-lv_action_t setProfile(lv_obj_t* checkBox) {
-	if (lv_cb_is_checked(profile1) && profile1 == checkBox) {
-		lv_cb_set_checked(profile2, false);
-		selectedProfile = 0;
-	} else if (lv_cb_is_checked(profile2) && profile2 == checkBox) {
-		lv_cb_set_checked(profile1, false);
-		selectedProfile = 1;
-	} 
-    return (lv_action_t)LV_RES_OK;
-}
+
 
 //Main Code
 void MainLVGL(void)
@@ -218,20 +232,20 @@ void MainLVGL(void)
     lv_ddlist_set_action(ddlAutonSelector, ddlistAutonSelectorAction);
     lv_ddlist_set_fix_height(ddlAutonSelector, 150);
     lv_ddlist_set_sb_mode(ddlAutonSelector, LV_SB_MODE_DRAG);
-    lv_obj_align(ddlAutonSelector, NULL, LV_ALIGN_IN_LEFT_MID, 100, -20);
+    lv_obj_align(ddlAutonSelector, NULL, LV_ALIGN_IN_LEFT_MID, 95, -20);
     lv_ddlist_set_options(ddlColorSelection, " \n" "Blue\n" "Red\n");
     lv_ddlist_set_action(ddlColorSelection, ddlistColorSelectionAction);
-    lv_obj_align(ddlColorSelection, NULL, LV_ALIGN_IN_LEFT_MID, 10, -20);
+    lv_obj_align(ddlColorSelection, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
     lv_ddlist_set_options(ddlAuton, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
     lv_ddlist_set_action(ddlAuton, ddlist_action);
     lv_ddlist_set_selected(ddlAuton, 0);
     lv_obj_align(ddlAuton, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
-    lv_obj_t* gifObjMain = lv_obj_create(autonScreen, NULL);
-    lv_obj_set_size(gifObjMain, 480, 240);
-    lv_obj_set_style(gifObjMain, &lv_style_transp); // make the container invisible
-    lv_obj_align(gifObjMain, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
+    lv_obj_t* gifObjAuton = lv_obj_create(autonScreen, NULL);
+    lv_obj_set_size(gifObjAuton, 480, 240);
+    lv_obj_set_style(gifObjAuton, &lv_style_transp); // make the container invisible
+    lv_obj_align(gifObjAuton, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
 
-    static Gif gifAuton("/usd/SPSIntro.gif", gifObjMain);
+    static Gif gifAuton("/usd/SPSIntro.gif", gifObjAuton);
 
     
     
@@ -241,47 +255,35 @@ void MainLVGL(void)
     lv_obj_align(ddlSkills, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     lv_ddlist_set_options(ddlSkillsSelector, " \n" "Programming Skills\n" "Driver Skills\n");
     lv_ddlist_set_action(ddlSkillsSelector, ddlistSkillSelectorAction);
-    lv_obj_align(ddlSkillsSelector, NULL, LV_ALIGN_IN_LEFT_MID, 10,-20);
+    lv_obj_align(ddlSkillsSelector, NULL, LV_ALIGN_IN_LEFT_MID, 5,-20);
 
-
+    lv_obj_set_style(profileScreen, &style);
     lv_ddlist_set_options(ddlProfile, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
     lv_ddlist_set_action(ddlProfile, ddlist_action);
-    lv_obj_align(ddlSkills, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
-
+    lv_obj_align(ddlProfile, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
+    lv_ddlist_set_options(ddlProfileSelector, " \n" "Gaston\n" "Patrick\n");
+    lv_ddlist_set_action(ddlProfileSelector, ddlistProfileSelectorAction);
+    lv_obj_align(ddlProfileSelector, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
 
     // Creates Debug Screen
-    debugScreen = lv_obj_create(NULL, NULL);
     //Creates Back button for Debug Screen and matches it to back button click event
-    backButtonDebug = lv_btn_create(debugScreen, NULL);
-    lv_btn_set_action(backButtonDebug, LV_BTN_ACTION_CLICK, backButton_click_event);
-    //Aligns and changes the size of the button
-    lv_obj_align(backButtonDebug, NULL, LV_ALIGN_IN_BOTTOM_RIGHT,-30,10);
-    lv_obj_set_size(backButtonDebug, 150, 50);
-    //Gives the button a label
-    lv_obj_t* backLabelDebug = lv_label_create(backButtonDebug, NULL);
-    lv_label_set_text(backLabelDebug, "Back");
+    lv_obj_set_style(debugScreen, &style);
+    lv_ddlist_set_options(ddlDebug, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
+    lv_ddlist_set_action(ddlDebug, ddlist_action);
+    lv_obj_align(ddlDebug, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     
     
+    lv_obj_set_style(visualScreen, &style);
+    lv_ddlist_set_options(ddlVision, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
+    lv_ddlist_set_action(ddlVision, ddlist_action);
 
+    lv_obj_align(ddlVision, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
+    lv_ddlist_set_options(ddlGIF, "Sylvie\n" "Catapult\n" "Alliance\n" "Glitch\n" "Lightning\n" "Rumble\n");
+    lv_ddlist_set_action(ddlGIF, ddlistGIFSelectorAction);
+    lv_ddlist_set_fix_height(ddlGIF, 150);
+    lv_ddlist_set_sb_mode(ddlGIF, LV_SB_MODE_DRAG);
+    lv_obj_align(ddlGIF, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
 
-
-
-    
-    //Creates Visual Screen
-    visualScreen = lv_obj_create(NULL,NULL);
-
-    backButtonVisual = lv_btn_create(visualScreen, NULL);
-    lv_btn_set_action(backButtonVisual, LV_BTN_ACTION_CLICK, backButton_click_event);
-    lv_obj_align(backButtonVisual,NULL,LV_ALIGN_IN_BOTTOM_RIGHT,-30,10);
-    lv_obj_set_size(backButtonVisual,150,50);
-    lv_obj_t* backLabelVisual = lv_label_create(backButtonVisual,NULL);
-    lv_label_set_text(backLabelVisual, "Back");
-    lv_obj_t* gifObj = lv_obj_create(visualScreen, NULL);
-    lv_obj_set_size(gifObj, 480, 240);
-    lv_obj_set_style(gifObj, &lv_style_transp); // make the container invisible
-    lv_obj_align(gifObj, NULL, LV_ALIGN_CENTER, 200, 50);
-
-    static Gif gif("/usd/SPSIntro.gif", gifObj);
     // Load the main menu screen
     lv_scr_load(autonScreen);
 }
@@ -317,6 +319,15 @@ void runSelectedAuto(void) {
 			skillsScripts[selectedProgram]();
 			break;
 	}
+}
+void runSelectedGIF(void) {
+    lv_obj_t* GIFScreen = lv_obj_create(NULL,NULL);
+    lv_obj_t* gifObjMain = lv_obj_create(GIFScreen, NULL);
+    lv_obj_set_size(gifObjMain, 480, 240);
+    lv_obj_set_style(gifObjMain, &lv_style_transp); // make the container invisible
+    lv_obj_align(gifObjMain, NULL, LV_ALIGN_IN_RIGHT_MID, 0,0);
+    static Gif gifMain(GIFFilePaths[selectedGIF], gifObjMain);
+    lv_scr_load(GIFScreen);
 }
 /* Screen Clear code
 lv_init();
