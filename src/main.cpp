@@ -131,7 +131,7 @@ void opcontrol() {
 	//clears screen
 	//lv_init();
 	//Testing: MainLVGL();
-	MainLVGL();
+	//MainLVGL();
 	
 	
 	
