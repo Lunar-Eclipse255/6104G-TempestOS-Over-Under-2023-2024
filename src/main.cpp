@@ -33,6 +33,7 @@ Motor middleRightDriveMotor (19);
 Motor frontRightDriveMotor (18);
 auto cataDistance = DistanceSensor(12);
 
+
 //Sets up which side of the bot motors are in.
 MotorGroup leftChassis ({backLeftDriveMotor,middleLeftDriveMotor,frontLeftDriveMotor});
 MotorGroup rightChassis ({backRightDriveMotor, middleRightDriveMotor, frontRightDriveMotor});
@@ -53,7 +54,7 @@ std::shared_ptr<ChassisController> driveChassis =
 		
 		.withGains(
 			{0.0015, 0.0005, 0.00001}, // Distance controller gains
-        	{0.0015, 0.0015, 0}, // Turn controller gains
+        	{0.0015, 0.0015, 0.00001}, // Turn controller gains
 			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
 		) 
 		
@@ -65,16 +66,6 @@ std::shared_ptr<ChassisController> driveChassis =
         	)
 		)
 		.build();
-std::shared_ptr<AsyncMotionProfileController> profileController =
-  AsyncMotionProfileControllerBuilder()
-    .withLimits({
-      1.0, // Maximum linear velocity of the Chassis in m/s
-      2.0, // Maximum linear acceleration of the Chassis in m/s/s
-      10.0 // Maximum linear jerk of the Chassis in m/s/s/s
-    })
-    .withOutput(driveChassis)
-    .buildMotionProfileController();
-
 
 //Initializes the subsytem motors as well as the Adi Button
 Motor intakeMotor(-5);
@@ -87,7 +78,6 @@ bool armCheck;
 bool wingCheckRight;
 bool blockerCheck;
 
-
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
 	//initializers the check varibles to false
@@ -98,6 +88,11 @@ void initialize() {
 	//pros::lcd::initialize();
 	//initializes sylib
    	sylib::initialize();
+	pros::ADIDigitalOut leftWing (WING_LEFT);
+	pros::ADIDigitalOut rightWing (WING_RIGHT);
+	pros::ADIDigitalOut arm (ARM);
+	pros::ADIDigitalOut blocker (BLOCKER);
+	blocker.set_value(true);
 	//Digitally Builds the Chassis
 	
 }
@@ -122,8 +117,8 @@ void autonomous() {
 	//pros::lcd::initialize();
 	runSelectedGIF();
 	//runs the selected autonomous/skills program
-	//runSelectedAuto();
-	rightBlueOneAuton();
+	runSelectedAuto();
+	//rightBlueOneAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
@@ -132,16 +127,16 @@ void opcontrol() {
 	//lv_init();
 	//Testing: MainLVGL();
 	//MainLVGL();
-	
+	pros::ADIDigitalOut leftWing (WING_LEFT);
+	pros::ADIDigitalOut rightWing (WING_RIGHT);
+	pros::ADIDigitalOut arm (ARM);
+	pros::ADIDigitalOut blocker (BLOCKER);
 	
 	
 	// Joystick to read analog values for tank or arcade control.
 	// Master controller by default.
 	//initializes controller and pistons                                                                        
 	Controller controller;
-	pros::ADIDigitalOut leftWing (WING_LEFT);
-	pros::ADIDigitalOut rightWing (WING_RIGHT);
-	pros::ADIDigitalOut arm (ARM);
 	
 	 
 
@@ -154,7 +149,7 @@ void opcontrol() {
         double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
 
         // Calculate motor power using the regression model
-		pros::ADIDigitalOut blocker (BLOCKER);
+		
        //Uses these new values to control the bot
         ///driveChassis->getModel()->arcade(joysticMotion, controller.getAnalog(ControllerAnalog::rightX));
 		driveChassis->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
@@ -191,13 +186,10 @@ void opcontrol() {
 		//Checks if the button for catapult is pressed
 		if (catapultButton.isPressed()) {
 			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
-				catapultMotor.moveVoltage(11000);
+				catapultMotor.moveVoltage(9000);
 			//if the catapult limit switch is pressed it stops the motor
 		}
 		 //else if the catapult back button it gives -12000 mV
-		else if (catapultButtonBack.isPressed()) {
-        	catapultMotor.moveVoltage(-12000);
-		}
 		//else its stops powering the motor
 		else{
 			catapultMotor.moveVoltage(0);
@@ -254,6 +246,7 @@ void opcontrol() {
 				blockerCheck=false;
 			}
 		}
+
 		/*
 		if (cataDistance.get()>100){
 			catapultMotor.moveVoltage(12000);
