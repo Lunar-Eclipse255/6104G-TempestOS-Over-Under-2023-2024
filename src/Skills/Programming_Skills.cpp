@@ -23,14 +23,14 @@ void pSkills(void) {
     driveChassis->turnAngle(92_deg);
     driveChassis->moveDistance(-57_cm);
     driveChassis->turnAngle(-90_deg);
-    driveChassis->moveDistance(40_cm);
+    driveChassis->moveDistance(45_cm);
     driveChassis->turnAngle(-90_deg);
     driveChassis->moveDistance(90_cm);
     driveChassis->turnAngle(90_deg);
     leftWing.set_value(true);
     rightWing.set_value(true);
     while (true){
-        driveChassis->moveDistance(-50_cm);
-        driveChassis->moveDistance(50_cm);
+        driveChassis->moveDistance(-55_cm);
+        driveChassis->moveDistance(55_cm);
     }
 }
