@@ -12,25 +12,28 @@ void pSkills(void) {
     intakeMotor.moveVoltage(-12000);
 	pros::delay(200);
     intakeMotor.moveVoltage(0);
+    driveChassis->moveDistance(-4_cm);
     driveChassis->turnAngle(-18_deg);
+    driveChassis->moveDistance(1_cm);
     catapultMotor.moveVoltage(9000);
-    pros::delay(700);
-    //pros::delay(47000);
+    pros::delay(41000);
+    
+    driveChassis->setMaxVelocity(120);
+    driveChassis->moveDistance(-4_cm);
     catapultMotor.moveVoltage(0);
-    driveChassis->moveDistance(-3.5_cm);
-    driveChassis->turnAngle(-28_deg);
-    driveChassis->moveDistance(-200_cm);
-    driveChassis->turnAngle(92_deg);
-    driveChassis->moveDistance(-57_cm);
-    driveChassis->turnAngle(-90_deg);
-    driveChassis->moveDistance(45_cm);
-    driveChassis->turnAngle(-90_deg);
-    driveChassis->moveDistance(90_cm);
+    driveChassis->turnAngle(-31.5_deg);
+    driveChassis->moveDistance(-210_cm);
     driveChassis->turnAngle(90_deg);
+    driveChassis->moveDistance(-60_cm);
+    driveChassis->turnAngle(85_deg);
+    driveChassis->moveDistance(-44_cm);
+    driveChassis->turnAngle(89_deg);
+    driveChassis->moveDistance(79_cm);
+    driveChassis->turnAngle(89_deg);
     leftWing.set_value(true);
     rightWing.set_value(true);
-    while (true){
-        driveChassis->moveDistance(-55_cm);
-        driveChassis->moveDistance(55_cm);
-    }
+    driveChassis->setMaxVelocity(600);
+    driveChassis->moveDistance(-80_cm);
+
+    
 }

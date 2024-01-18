@@ -7,7 +7,7 @@
 #define BLOCKER 'A'
 #define WING_LEFT 'B'
 #define WING_RIGHT 'C'
-#define ARM 'D'
+#define SIDE_HANG 'D'
 
 
 
@@ -52,11 +52,7 @@ std::shared_ptr<ChassisController> driveChassis =
 		.withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 13.33_in}, imev5GreenTPR})
 		//{0.002, 0.001, 0.0001}  
 		
-		.withGains(
-			{0.0015, 0.0005, 0.00001}, // Distance controller gains
-        	{0.0015, 0.0015, 0.00001}, // Turn controller gains
-			{0.001, 0, 0}  // Angle controller gains (helps drive straight)// Angle controller gains (helps drive straight)
-		) 
+		
 		
 		.withLogger(
         	std::make_shared<Logger>(
@@ -74,7 +70,7 @@ Motor catapultMotor (7);
 
 //Declares variables for state checks.
 bool wingCheckLeft;
-bool armCheck;
+bool sideHangCheck;
 bool wingCheckRight;
 bool blockerCheck;
 
@@ -83,14 +79,14 @@ void initialize() {
 	//initializers the check varibles to false
 	wingCheckLeft=false;
 	wingCheckRight=false;
-	armCheck = false;
+	sideHangCheck = false;
 	blockerCheck=false;
 	//pros::lcd::initialize();
 	//initializes sylib
    	sylib::initialize();
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
-	pros::ADIDigitalOut arm (ARM);
+	pros::ADIDigitalOut sideHang (SIDE_HANG);
 	pros::ADIDigitalOut blocker (BLOCKER);
 	blocker.set_value(true);
 	//Digitally Builds the Chassis
@@ -117,8 +113,9 @@ void autonomous() {
 	//pros::lcd::initialize();
 	runSelectedGIF();
 	//runs the selected autonomous/skills program
-	runSelectedAuto();
-	//rightBlueOneAuton();
+	//runSelectedAuto();
+	//pSkills();
+	leftBlueOneAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
@@ -129,7 +126,7 @@ void opcontrol() {
 	//MainLVGL();
 	pros::ADIDigitalOut leftWing (WING_LEFT);
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
-	pros::ADIDigitalOut arm (ARM);
+	pros::ADIDigitalOut sideHang (SIDE_HANG);
 	pros::ADIDigitalOut blocker (BLOCKER);
 	
 	
@@ -159,13 +156,14 @@ void opcontrol() {
 		ControllerButton intakeInButton(ControllerDigital::R1);
 		ControllerButton catapultButton(ControllerDigital::L2);
 		ControllerButton catapultProgressionButton(ControllerDigital::L1);
-		ControllerButton catapultButtonBack(ControllerDigital::up);
 		ControllerButton wingOutLeftButton(ControllerDigital::left);
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
 		ControllerButton wingInRightButton(ControllerDigital::Y);
 		ControllerButton blockerUpButton(ControllerDigital::down);
 		ControllerButton blockerDownButton(ControllerDigital::B);
+		ControllerButton sideHangOutButton(ControllerDigital::up);
+		ControllerButton sideHangInButton(ControllerDigital::X);
 		/*
 		ControllerButton ratchetLockOn(ControllerDigital::X);
 		ControllerButton ratchetLockOff(ControllerDigital::B);
@@ -246,7 +244,19 @@ void opcontrol() {
 				blockerCheck=false;
 			}
 		}
+		if (sideHangOutButton.isPressed()) {
+			if (sideHangCheck==false){
+				sideHang.set_value(true);
+				sideHangCheck=true;
+			}
 
+		}	
+		else if (sideHangInButton.isPressed()) {
+			if (sideHangCheck){
+				sideHang.set_value(false);
+				sideHangCheck=false;
+			}
+		}
 		/*
 		if (cataDistance.get()>100){
 			catapultMotor.moveVoltage(12000);
@@ -255,23 +265,9 @@ void opcontrol() {
 			catapultMotor.moveVoltage(12000);
 		}
 		*/
-		/*
-		if (armOutButton.isPressed()) {
-			if (armCheck==false){
-				arm.set_value(true);
-				arm.set_value(true);
-				armCheck=true;
-			}
-
-		}	
-		else if (armInButton.isPressed()) {
-			if (armCheck){
-				arm.set_value(false);
-				arm.set_value(false);
-				armCheck=false;
-			}
-		}
-		*/
+		
+		
+		
 	
     	
 		

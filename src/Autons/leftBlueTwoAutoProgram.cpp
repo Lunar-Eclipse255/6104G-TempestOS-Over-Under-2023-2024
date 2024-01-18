@@ -9,5 +9,8 @@
 using namespace okapi;
 
 void leftBlueTwoAuton(void) {
-	leftPoints();
+	driveChassis->setMaxVelocity(200);
+	driveChassis->moveDistance(-200_cm);
+	driveChassis->moveDistance(200_cm);
+	//driveChassis->turnAngle(90_deg);
 }

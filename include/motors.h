@@ -1,6 +1,4 @@
 #include "main.h"
-#define WING_LEFT 'B'
-#define WING_RIGHT 'C'
 //declares the motors, chassis, and ADIButton
 extern Motor backLeftDriveMotor;
 extern Motor middleLeftDriveMotor;
