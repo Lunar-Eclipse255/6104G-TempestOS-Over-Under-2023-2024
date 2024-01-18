@@ -34,6 +34,7 @@ void pSkills(void) {
     rightWing.set_value(true);
     driveChassis->setMaxVelocity(600);
     driveChassis->moveDistance(-80_cm);
+    driveChassis->moveDistance(80_cm);
 
     
 }
