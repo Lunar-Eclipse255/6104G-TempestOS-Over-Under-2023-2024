@@ -9,21 +9,16 @@ using namespace okapi;
 pros::ADIDigitalOut leftWing (WING_LEFT);
 pros::ADIDigitalOut rightWing (WING_RIGHT);
 void pSkills(void) {
+    driveChassis->setMaxVelocity(120);
     intakeMotor.moveVoltage(-12000);
 	pros::delay(200);
     intakeMotor.moveVoltage(0);
-    driveChassis->moveDistance(-4_cm);
-    driveChassis->turnAngle(-18_deg);
-    driveChassis->moveDistance(1_cm);
-    catapultMotor.moveVoltage(9000);
-    pros::delay(41000);
-    
-    driveChassis->setMaxVelocity(120);
-    driveChassis->moveDistance(-4_cm);
-    catapultMotor.moveVoltage(0);
-    driveChassis->turnAngle(-31.5_deg);
-    driveChassis->moveDistance(-210_cm);
-    driveChassis->turnAngle(90_deg);
+    pros::delay(200);
+    driveChassis->moveDistance(-38_cm);
+    driveChassis->turnAngle(-80_deg);
+    driveChassis->moveDistance(30_cm);
+    /*
+    driveChassis->turnAngle(100_deg);
     driveChassis->moveDistance(-60_cm);
     driveChassis->turnAngle(85_deg);
     driveChassis->moveDistance(-44_cm);
@@ -35,6 +30,6 @@ void pSkills(void) {
     driveChassis->setMaxVelocity(600);
     driveChassis->moveDistance(-80_cm);
     driveChassis->moveDistance(80_cm);
-
+    */
     
 }
