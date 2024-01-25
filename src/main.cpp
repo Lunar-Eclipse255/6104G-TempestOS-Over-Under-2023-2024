@@ -185,7 +185,7 @@ void opcontrol() {
 		//Checks if the button for catapult is pressed
 		if (catapultButton.isPressed()) {
 			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
-				catapultMotor.moveVoltage(9000);
+				catapultMotor.moveVoltage(11000);
 			//if the catapult limit switch is pressed it stops the motor
 		}
 		 //else if the catapult back button it gives -12000 mV
