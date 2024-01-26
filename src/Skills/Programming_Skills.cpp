@@ -10,7 +10,7 @@ pros::ADIDigitalOut leftWing (WING_LEFT);
 pros::ADIDigitalOut rightWing (WING_RIGHT);
 void pSkills(void) {
 
-
+    //Add code to get the two alliance triballs
     driveChassis->setMaxVelocity(120);
     intakeMotor.moveVoltage(-12000);
 	pros::delay(200);
@@ -37,7 +37,7 @@ void pSkills(void) {
     pros::delay(900);
     rightChassis.moveVoltage(-0);
     leftChassis.moveVoltage(0);
-    rightChassis.moveVoltage(-3500); //old was 4500
+    rightChassis.moveVoltage(-5500); //old was -4500
     rightWing.set_value(true);
     leftWing.set_value(true);
     leftChassis.moveVoltage(-12000);
