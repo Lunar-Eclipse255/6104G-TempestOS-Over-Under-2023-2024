@@ -14,7 +14,8 @@ void display(void);
 void runSelectedAuto(void);
 void display(void);
 void runSelectedGIF(void);
-
+extern int selectedProgram;
+extern int autoType;
 
 //Sets an enumeration type for autonomous type
 typedef enum autonomous_type {

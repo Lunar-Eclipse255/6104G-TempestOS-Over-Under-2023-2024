@@ -73,6 +73,7 @@ bool wingCheckLeft;
 bool sideHangCheck;
 bool wingCheckRight;
 bool blockerCheck;
+bool cataToggle;
 
 //Runs initialization code. This occurs as soon as the program is started. All other competition modes are blocked by initialize; it is recommended to keep execution time for this mode under a few seconds.
 void initialize() {
@@ -81,6 +82,7 @@ void initialize() {
 	wingCheckRight=false;
 	sideHangCheck = false;
 	blockerCheck=false;
+	cataToggle=false;
 	//pros::lcd::initialize();
 	//initializes sylib
    	sylib::initialize();
@@ -120,6 +122,10 @@ void autonomous() {
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
 void opcontrol() {
+	if (autoType == AUTONOMOUS_SKILLS&&selectedProgram==1){
+		dSkills();
+	}
+	
 	driveChassis->setMaxVelocity(600);
 	//clears screen
 	//lv_init();
@@ -139,12 +145,18 @@ void opcontrol() {
 	 
 
 	while (true) {
+		if (autoType == AUTONOMOUS_SKILLS&&selectedProgram==1){
+			double joysticMotion = -controller.getAnalog(ControllerAnalog::leftY);
+		}
+		else{
+			double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
+		}
 		// Reads joystick input for left/right motion on the right stick
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
         // Calculate turning behavior using the regression model
 
        // Reads joystick input for up/down motion on the left stick
-        double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
+        
 
         // Calculate motor power using the regression model
 		
@@ -156,7 +168,9 @@ void opcontrol() {
 		ControllerButton intakeOutButton(ControllerDigital::R2);
 		ControllerButton intakeInButton(ControllerDigital::R1);
 		ControllerButton catapultButton(ControllerDigital::L2);
-		ControllerButton catapultProgressionButton(ControllerDigital::L1);
+		ControllerButton catapultToggleOnButton(ControllerDigital::L2);
+		ControllerButton catapultToggleOffButton(ControllerDigital::R2);
+		ControllerButton shiftKeyButton(ControllerDigital::L1);
 		ControllerButton wingOutLeftButton(ControllerDigital::left);
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
@@ -181,7 +195,21 @@ void opcontrol() {
     //pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 	//pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
 
-		
+		if (shiftKeyButton.isPressed()) {
+			if (catapultToggleOnButton.isPressed()) {
+			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
+				catapultMotor.moveVoltage(11000);
+				cataToggle=true;
+			//if the catapult limit switch is pressed it stops the motor
+			}
+			else if (catapultToggleOffButton.isPressed()) {
+			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
+				catapultMotor.moveVoltage(0);
+				cataToggle=false;
+			//if the catapult limit switch is pressed it stops the motor
+			}
+		}
+		else{
 		//Checks if the button for catapult is pressed
 		if (catapultButton.isPressed()) {
 			//Checks if the button for catapult progression is pressed, if so gives the catapultMotor 12000 mV
@@ -191,7 +219,9 @@ void opcontrol() {
 		 //else if the catapult back button it gives -12000 mV
 		//else its stops powering the motor
 		else{
-			catapultMotor.moveVoltage(0);
+			if(!cataToggle){
+				catapultMotor.moveVoltage(0);
+			}
 		}
 		//if the intakeIn button is pressed it gives the intake 12000 mV
 		if (intakeInButton.isPressed()) {
@@ -257,6 +287,7 @@ void opcontrol() {
 				sideHang.set_value(false);
 				sideHangCheck=false;
 			}
+		}
 		}
 		/*
 		if (cataDistance.get()>100){
