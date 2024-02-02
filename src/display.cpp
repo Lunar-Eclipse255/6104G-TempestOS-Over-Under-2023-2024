@@ -16,8 +16,8 @@ int selectedProfile = 0;
 int selectedGIF =0;
 //Sets up which programs to select from
 const char* GIFFilePaths[] = {"/usd/Sylvie.gif","/usd/Catapult.gif","/usd/Alliance.gif","/usd/Glitch.gif","/usd/Lightning.gif","/usd/Rumble.gif"};
-void (*redScripts[])() = {leftRedOneAuton, rightRedOneAuton, placeHolder, leftRedTwoAuton, rightRedTwoAuton};
-void (*blueScripts[])() = {leftBlueOneAuton, rightBlueOneAuton, placeHolder, leftBlueTwoAuton, rightBlueTwoAuton};
+void (*redScripts[])() = {rightRedOneAuton, rightRedTwoAuton, placeHolder, leftRedOneAuton, leftRedTwoAuton};
+void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, placeHolder, leftBlueOneAuton, leftBlueTwoAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
@@ -118,6 +118,7 @@ static lv_res_t ddlistAutonSelectorAction(lv_obj_t *ddlist)
         break;
     case 1:
         selectedProgram = 0;
+        break;
     case 2:
         // Option 1 selected, load screen1
         selectedProgram = 1;

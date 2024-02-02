@@ -6,6 +6,7 @@
 
 extern pros::ADIDigitalOut leftWing;
 extern pros::ADIDigitalOut rightWing;
+extern pros::ADIDigitalOut blocker;
 //Declares the autonomous and skills functions
 void leftRedOneAuton(void);
 void leftBlueOneAuton(void);

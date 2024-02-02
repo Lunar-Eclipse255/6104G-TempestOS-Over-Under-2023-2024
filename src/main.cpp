@@ -8,6 +8,7 @@
 #define WING_LEFT 'B'
 #define WING_RIGHT 'C'
 #define SIDE_HANG 'D'
+#define BAR_HANG 'E'
 
 
 
@@ -71,6 +72,7 @@ Motor catapultMotor (7);
 //Declares variables for state checks.
 bool wingCheckLeft;
 bool sideHangCheck;
+bool barHangCheck;
 bool wingCheckRight;
 bool blockerCheck;
 bool cataToggle;
@@ -81,6 +83,7 @@ void initialize() {
 	wingCheckLeft=false;
 	wingCheckRight=false;
 	sideHangCheck = false;
+	barHangCheck = false;
 	blockerCheck=false;
 	cataToggle=false;
 	//pros::lcd::initialize();
@@ -90,7 +93,7 @@ void initialize() {
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut sideHang (SIDE_HANG);
 	pros::ADIDigitalOut blocker (BLOCKER);
-	blocker.set_value(true);
+	pros::ADIDigitalOut barHang (BAR_HANG);
 	//Digitally Builds the Chassis
 	
 }
@@ -115,14 +118,14 @@ void autonomous() {
 	//pros::lcd::initialize();
 	runSelectedGIF();
 	//runs the selected autonomous/skills program
-	//runSelectedAuto();
-	pSkills();
-	//rightBlueOneAuton();
+	runSelectedAuto();
+	//pSkills();
+	//leftBlueOneAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
 void opcontrol() {
-	if (autoType == AUTONOMOUS_SKILLS&&selectedProgram==1){
+	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 		dSkills();
 	}
 	
@@ -135,6 +138,7 @@ void opcontrol() {
 	pros::ADIDigitalOut rightWing (WING_RIGHT);
 	pros::ADIDigitalOut sideHang (SIDE_HANG);
 	pros::ADIDigitalOut blocker (BLOCKER);
+	pros::ADIDigitalOut barHang (BAR_HANG);
 	
 	
 	// Joystick to read analog values for tank or arcade control.
@@ -175,10 +179,12 @@ void opcontrol() {
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
 		ControllerButton wingInRightButton(ControllerDigital::Y);
-		ControllerButton blockerUpButton(ControllerDigital::down);
-		ControllerButton blockerDownButton(ControllerDigital::B);
-		ControllerButton sideHangOutButton(ControllerDigital::up);
-		ControllerButton sideHangInButton(ControllerDigital::X);
+		ControllerButton blockerUpButton(ControllerDigital::up);
+		ControllerButton blockerDownButton(ControllerDigital::X);
+		ControllerButton sideHangOutButton(ControllerDigital::down);
+		ControllerButton sideHangInButton(ControllerDigital::B);
+		ControllerButton barHangOutButton(ControllerDigital::down);
+		ControllerButton barHangInButton(ControllerDigital::B);
 		/*
 		ControllerButton ratchetLockOn(ControllerDigital::X);
 		ControllerButton ratchetLockOff(ControllerDigital::B);
@@ -208,6 +214,19 @@ void opcontrol() {
 				cataToggle=false;
 			//if the catapult limit switch is pressed it stops the motor
 			}
+			if (barHangOutButton.isPressed()) {
+			if (barHangCheck==false){
+				barHang.set_value(true);
+				barHangCheck=true;
+			}
+
+		}	
+		else if (barHangInButton.isPressed()) {
+			if (barHangCheck){
+				barHang.set_value(false);
+				barHangCheck=false;
+			}
+		}
 		}
 		else{
 		//Checks if the button for catapult is pressed
@@ -262,14 +281,14 @@ void opcontrol() {
 				wingCheckRight=false;
 			}
 		}
-		if (blockerUpButton.isPressed()) {
+		if (blockerDownButton.isPressed()) {
 			if (blockerCheck==false){
 				blocker.set_value(true);
 				blockerCheck=true;
 			}
 		}
 		//Else if the wingOutButton is pressed and the wings aren't already in it extends 
-		else if (blockerDownButton.isPressed()) {
+		else if (blockerUpButton.isPressed()) {
 			if (blockerCheck){
 				blocker.set_value(false);
 				blockerCheck=false;

@@ -3,50 +3,53 @@
 #include "motors.h"
 #include "main.h"
 #include "okapi/api.hpp"
+#define BLOCKER 'A'
 using namespace okapi;
 
+pros::ADIDigitalOut blocker (BLOCKER);
 void rightBlueOneAuton(void) {
+
+
+	 //do auto retraction
+
+
+	
 	driveChassis->setMaxVelocity(120);
 	intakeMotor.moveVoltage(-12000);
 	pros::delay(200);
-    intakeMotor.moveVoltage(12000);
-	driveChassis->setMaxVelocity(70);
-	driveChassis->moveDistance(20_cm);
-	intakeMotor.moveVoltage(500);
-	driveChassis->moveDistance(-106_cm);
-	driveChassis->setMaxVelocity(50);
-	driveChassis->turnAngle(-43_deg);
+    intakeMotor.moveVoltage(0);
 	rightWing.set_value(true);
-
-	driveChassis->moveDistance(-45_cm);
-	driveChassis->turnAngle(-23_deg);
+	rightChassis.moveVoltage(-5000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(500);
 	rightWing.set_value(false);
-	driveChassis->setMaxVelocity(120);
+	rightChassis.moveVoltage(-8000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(400);
+	rightChassis.moveVoltage(12000);
+	leftChassis.moveVoltage(12000);
 	pros::delay(200);
-	driveChassis->turnAngle(-26_deg);
-	driveChassis->moveDistance(-20_cm);
-	driveChassis->turnAngle(-13_deg);
-	driveChassis->moveDistance(10_cm);
-	driveChassis->setMaxVelocity(600);
-	driveChassis->moveDistance(-30_cm);
-	driveChassis->moveDistance(25_cm);
-	driveChassis->setMaxVelocity(600);
-	driveChassis->moveDistance(-30_cm);
-	driveChassis->moveDistance(15_cm);
-	driveChassis->turnAngle(-112_deg);
-	driveChassis->moveDistance(-110_cm);
-	intakeMotor.moveVoltage(-12000);
-	intakeMotor.moveVoltage(0);
-	driveChassis->turnAngle(45_deg);
-	driveChassis->moveDistance(-55_cm);
-	rightWing.set_value(true);
-	leftWing.set_value(true);
+	rightChassis.moveVoltage(-12000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(600);
+	rightChassis.moveVoltage(12000);
+	leftChassis.moveVoltage(12000);
+	pros::delay(300);
+	rightChassis.moveVoltage(-12000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(600);
+	rightChassis.moveVoltage(6000);
+	leftChassis.moveVoltage(12000);
+	pros::delay(1200);
+	rightChassis.moveVoltage(0);
+	leftChassis.moveVoltage(0);
+	driveChassis->moveDistance(75_cm);
+	intakeMotor.moveVoltage(12000);
+	catapultMotor.moveVoltage(12000);
+	pros::delay(350);
+	catapultMotor.moveVoltage(0);
+	blocker.set_value(true);
+	
 
-	//driveChassis->moveDistance(15_cm);
-	//driveChassis->setMaxVelocity(600);
-	//driveChassis->moveDistance(-60_cm);
-	//driveChassis->moveDistance(60_cm);
-
-	//driveChassis->moveDistance(-60_cm);
 
 }
