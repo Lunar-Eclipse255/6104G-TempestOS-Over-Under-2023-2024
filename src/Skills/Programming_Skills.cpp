@@ -39,8 +39,8 @@ void pSkills(void) {
     //catapultMotor.moveVoltage(-11000);
     //pros::delay(300);
     catapultMotor.moveVoltage(11000);
-    //pros::delay(35000);
-    pros::delay(850);
+    pros::delay(35000);
+    //pros::delay(850);
     //pros::delay(70000);
     catapultMotor.moveVoltage(0);
     driveChassis->setMaxVelocity(120);
@@ -48,7 +48,7 @@ void pSkills(void) {
     driveChassis->turnAngle(-56_deg); 
     rightChassis.moveVoltage(-11000);
     leftChassis.moveVoltage(-9000);
-    pros::delay(1700);
+    pros::delay(1800);
     rightChassis.moveVoltage(0);
     leftChassis.moveVoltage(0);
     rightChassis.moveVoltage(-11000);

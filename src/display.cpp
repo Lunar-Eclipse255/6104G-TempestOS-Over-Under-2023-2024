@@ -16,8 +16,8 @@ int selectedProfile = 0;
 int selectedGIF =0;
 //Sets up which programs to select from
 const char* GIFFilePaths[] = {"/usd/Sylvie.gif","/usd/Catapult.gif","/usd/Alliance.gif","/usd/Glitch.gif","/usd/Lightning.gif","/usd/Rumble.gif"};
-void (*redScripts[])() = {rightRedOneAuton, rightRedTwoAuton, placeHolder, leftRedOneAuton, leftRedTwoAuton};
-void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, placeHolder, leftBlueOneAuton, leftBlueTwoAuton};
+void (*redScripts[])() = {rightRedOneAuton, rightRedTwoAuton, disabledAuton, leftRedOneAuton, leftRedTwoAuton};
+void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, disabledAuton, leftBlueOneAuton, leftBlueTwoAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 

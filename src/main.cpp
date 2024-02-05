@@ -149,8 +149,8 @@ void opcontrol() {
 	 
 
 	while (true) {
-		if (autoType == AUTONOMOUS_SKILLS&&selectedProgram==1){
-			double joysticMotion = -controller.getAnalog(ControllerAnalog::leftY);
+		if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
+			double joysticMotion = -(controller.getAnalog(ControllerAnalog::leftY));
 		}
 		else{
 			double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);

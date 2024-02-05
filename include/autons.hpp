@@ -16,6 +16,7 @@ void rightRedOneAuton(void);
 void rightBlueOneAuton(void);
 void rightRedTwoAuton(void);
 void rightBlueTwoAuton(void);
+void disabledAuton(void);
 void pSkills(void);
 void dSkills(void);
 
