@@ -5,9 +5,7 @@
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
 
-#define DO_NOT_RUN 1982
-//Adds placeHolder Script
-void placeHolder(void){};
+#define DO_NOT_RUN 6104
 //Sets up Variables
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
@@ -16,8 +14,8 @@ int selectedProfile = 0;
 int selectedGIF =0;
 //Sets up which programs to select from
 const char* GIFFilePaths[] = {"/usd/Sylvie.gif","/usd/Catapult.gif","/usd/Alliance.gif","/usd/Glitch.gif","/usd/Lightning.gif","/usd/Rumble.gif"};
-void (*redScripts[])() = {rightRedOneAuton, rightRedTwoAuton, disabledAuton, leftRedOneAuton, leftRedTwoAuton};
-void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, disabledAuton, leftBlueOneAuton, leftBlueTwoAuton};
+void (*redScripts[])() = {rightRedOneAuton, rightRedTwoAuton, elimMatchRightAuton, disabledAuton, leftRedOneAuton, leftRedTwoAuton,elimMatchLeftAuton};
+void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, elimMatchRightAuton, disabledAuton, leftBlueOneAuton, leftBlueTwoAuton,elimMatchLeftAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
 
 
@@ -30,11 +28,7 @@ lv_obj_t* debugScreen = lv_obj_create(NULL, NULL);
 lv_obj_t* profileScreen = lv_obj_create(NULL,NULL);
 lv_obj_t* visualScreen = lv_obj_create(NULL,NULL);
 
-// Creates Buttons
-
-//Creates Checkboxes for Profiles
-lv_obj_t* profile1;
-lv_obj_t* profile2;
+//Creates drowdown menus
 lv_obj_t* ddlColorSelection = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlAutonSelector = lv_ddlist_create(autonScreen, NULL);
 lv_obj_t* ddlSkillsSelector = lv_ddlist_create(skillsScreen, NULL);
@@ -47,62 +41,60 @@ lv_obj_t* ddlDebug = lv_ddlist_create(debugScreen, NULL);
 lv_obj_t* ddlVision = lv_ddlist_create(visualScreen, NULL);
 
 
-
-static lv_res_t ddlist_action(lv_obj_t *ddlist)
+//the action for when using the main dropdownlist
+static lv_res_t ddlistMenuingAction(lv_obj_t *ddlist)
 {
-    // Get the selected option index in the current dropdown list
+    // Gets the selected index of the dropdown list
     uint16_t selected_index = lv_ddlist_get_selected(ddlist);
     switch (selected_index)
     {
     case 0:
-        // Option 1 selected, load screen1
+        // if first option selected loads auton screen and updates the ddl on the auton screen.
         lv_scr_load(autonScreen);
         lv_ddlist_set_selected(ddlAuton, 0);
         break;
     case 1:
-        // Option 2 selected, load screen2
+        // if second option selected loads skills screen and updates the ddl on the skills screen.
         lv_scr_load(skillsScreen);
         lv_ddlist_set_selected(ddlSkills, 1);
         break;
     case 2:
-        // Option 3 selected, load screen3
+        // if third option selected loads profile screen and updates the ddl on the profile screen.
         lv_scr_load(profileScreen);
         lv_ddlist_set_selected(ddlProfile, 2);
         break;
     case 3:
+    // if fourth option selected loads debug screen and updates the ddl on the debug screen.
         lv_scr_load(debugScreen);
         lv_ddlist_set_selected(ddlDebug, 3);
         break;
     case 4:
+    // if fifth option selected loads Gif screen and updates the ddl on the gif screen.
         lv_scr_load(visualScreen);
         lv_ddlist_set_selected(ddlVision,4);
         break;
     default:
-        // Handle other cases or set a default screen
         break;
     }
-    // Get the pointer to the other dropdown list from free_ptr
-
-    return LV_RES_OK; /* Return OK if the dropdown list is not deleted */
+    return LV_RES_OK; 
 }
 static lv_res_t ddlistColorSelectionAction(lv_obj_t *ddlist)
 {
-    // Get the selected option index in the current dropdown list
+    // Gets the selected index of the dropdown list
     uint16_t selected_index = lv_ddlist_get_selected(ddlist);
     switch (selected_index)
     {
     case 0:
         break;
     case 1:
-        // Option 1 selected, load screen1
+        //If the second option is selected sets auto type to blue
 	    autoType = AUTONOMOUS_BLUE;
         break;
     case 2:
-        // Option 2 selected, load screen2
+        //If the third option is selected sets auto type to red
 	    autoType = AUTONOMOUS_RED;
         break;
     default:
-        // Handle other cases or set a default screen
         break;
     }
     return LV_RES_OK;
@@ -110,32 +102,45 @@ static lv_res_t ddlistColorSelectionAction(lv_obj_t *ddlist)
 
 static lv_res_t ddlistAutonSelectorAction(lv_obj_t *ddlist)
 {
-    // Get the selected option index in the current dropdown list
+    // Gets the selected index of the dropdown list
     uint16_t selected_index = lv_ddlist_get_selected(ddlist);
     switch (selected_index)
     {
     case 0:
+        //If the first option is selected sets auton to disabled
+        selectedProgram = 3;    
         break;
     case 1:
+        //If the second option is selected sets auton to rightOneAuton of selected color
         selectedProgram = 0;
         break;
     case 2:
-        // Option 1 selected, load screen1
+        //If the third option is selected sets auton to rightTwoAuton of selected color
         selectedProgram = 1;
         break;
     case 3:
-        // Option 2 selected, load screen2
+        //If the fourth option is selected sets auton to rightElimAuton of selected color
         selectedProgram = 2;
         break;
     case 4:
-        // Option 3 selected, load screen3
+        //If the fifth option is selected sets auton to disabled
         selectedProgram = 3;
         break;
     case 5:
+        //If the sixth option is selected sets auton to leftOneAuton of selected color
         selectedProgram = 4;
         break;
+    case 6:
+        //If the seventh option is selected sets auton to leftTwoAuton of selected color
+        selectedProgram = 5;
+        break;
+    case 7:
+        //If the seventh option is selected sets auton to leftTwoAuton of selected color
+        selectedProgram = 6;
+        break;
     default:
-        // Handle other cases or set a default screen
+       //For the else statement sets auton to disabled
+        selectedProgram = 3;
         break;
     }
     return LV_RES_OK;
@@ -148,10 +153,12 @@ static lv_res_t ddlistSkillSelectorAction(lv_obj_t* ddlist) {
     case 0:
         break;
     case 1:
+        //If the second option is selected sets auto type to skills, and selected program to programming skills
         autoType = AUTONOMOUS_SKILLS;
         selectedProgram=0;
         break;
     case 2:
+        //If the second option is selected sets auto type to skills, and selected program to driver skills
         autoType = AUTONOMOUS_SKILLS;
         selectedProgram=1;
         break;
@@ -168,9 +175,11 @@ static lv_res_t ddlistProfileSelectorAction(lv_obj_t* ddlist) {
         case 0:
             break;
         case 1:
+            //If the second option is selected, it selectes the first profile
             selectedProfile = 0;
             break;
         case 2:
+            //If the third option is selected, it selectes the second profile
             selectedProfile=1;
             break;
         default:
@@ -185,21 +194,27 @@ static lv_res_t ddlistGIFSelectorAction(lv_obj_t* ddlist){
         case 0:
             break;
         case 1:
+            //If the second option is selected, it selectes the first gif
             selectedGIF=0;
             break;
         case 2:
+            //If the third option is selected, it selectes the second gif
             selectedGIF=1;
             break;
         case 3:
+            //If the fourth option is selected, it selectes the third gif
             selectedGIF=2;
             break;
         case 4:
+            //If the fifth option is selected, it selectes the fourth gif
             selectedGIF=3;
             break;
         case 5:
+            //If the sixth option is selected, it selectes the fifth gif
             selectedGIF=4;
             break;
         case 6:
+            //If the seventh option is selected, it selectes the sixth gif
             selectedGIF=5;
         default:
             break;
@@ -208,50 +223,59 @@ static lv_res_t ddlistGIFSelectorAction(lv_obj_t* ddlist){
     return LV_RES_OK;
 }
 
- 
-//Sets up the actions that happen when the checkboxes are checked
-/*selected program is how far to index within their respective scripts
-ie if void (*blueScripts[])() = {leftBlueAuton, rightBlueAuton, placeHolder};
-and autoType=Blue an selectedProgram=1 it would run rightBlueAuton
-*/
-
-
-
 
 //Main Code
 void MainLVGL(void)
 {
+    //sets the style for a screen, with a black and gray gradiant
     static lv_style_t style;
     lv_style_copy(&style, &lv_style_plain);
     style.body.main_color = LV_COLOR_BLACK;
     style.body.grad_color = LV_COLOR_HEX(0x3A3B3C);
     
-    // Create the main menu screen
+    //gives the style to the auton screen
     lv_obj_set_style(autonScreen,&style);
-    lv_ddlist_set_options(ddlAutonSelector, " \n" "Right AWP\n" "Right No Bar\n" "Disabled\n" "Left AWP\n" "Left No Bar\n");
+    //sets the options for ddlAutonSelector
+    lv_ddlist_set_options(ddlAutonSelector, " \n" "Right AWP\n" "Right No Bar\n" "Right Elim\n" "Disabled\n" "Left AWP\n" "Left No Bar\n" "Anti-Auton\n");
+    //links ddlAutonSelector to the action, ddlistAutonSelectorAction to give the ddl logic.
     lv_ddlist_set_action(ddlAutonSelector, ddlistAutonSelectorAction);
+    //sets a fixed height for ddlAutonSelector so it won't go off screen
     lv_ddlist_set_fix_height(ddlAutonSelector, 150);
+    //sets the mode of ddlAutonSelector so you can swipe through the options
     lv_ddlist_set_sb_mode(ddlAutonSelector, LV_SB_MODE_DRAG);
+    //aligns ddlAutonSelector on the screen
     lv_obj_align(ddlAutonSelector, NULL, LV_ALIGN_IN_LEFT_MID, 95, -20);
+    //sets the options for ddlColorSelection
     lv_ddlist_set_options(ddlColorSelection, " \n" "Blue\n" "Red\n");
+    //links ddlColorSelection to the action, ddlistColorSelectionAction to give the ddl logic
     lv_ddlist_set_action(ddlColorSelection, ddlistColorSelectionAction);
+    //aligns ddlColorSelection on the screen
     lv_obj_align(ddlColorSelection, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
+    //sets the options for ddlAuton
     lv_ddlist_set_options(ddlAuton, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
-    lv_ddlist_set_action(ddlAuton, ddlist_action);
+    //links ddlColorSelection to the action, ddlistMenuingAction to give the ddl logic
+    lv_ddlist_set_action(ddlAuton, ddlistMenuingAction);
+    //sets ddlAuton to option 1
     lv_ddlist_set_selected(ddlAuton, 0);
+    //aligns ddlAuton on the screen
     lv_obj_align(ddlAuton, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
-    lv_obj_t* gifObjAuton = lv_obj_create(autonScreen, NULL);
-    lv_obj_set_size(gifObjAuton, 480, 240);
-    lv_obj_set_style(gifObjAuton, &lv_style_transp); // make the container invisible
-    lv_obj_align(gifObjAuton, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
 
+    //creates a lvgl object(gifObjAuton) for the auton screen for a gif
+    lv_obj_t* gifObjAuton = lv_obj_create(autonScreen, NULL);
+    //sets the size of the object(gifObjAuton)
+    lv_obj_set_size(gifObjAuton, 480, 240);
+    //makes gifObjAuton transparent
+    lv_obj_set_style(gifObjAuton, &lv_style_transp); 
+    //aligns gifObjAuton on the screen
+    lv_obj_align(gifObjAuton, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
+    //creates a Gif object in the object gifObjAuton
     static Gif gifAuton("/usd/SPSIntro.gif", gifObjAuton);
 
     
     
     lv_obj_set_style(skillsScreen, &style);
     lv_ddlist_set_options(ddlSkills, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
-    lv_ddlist_set_action(ddlSkills, ddlist_action);
+    lv_ddlist_set_action(ddlSkills, ddlistMenuingAction);
     lv_obj_align(ddlSkills, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     lv_ddlist_set_options(ddlSkillsSelector, " \n" "Programming Skills\n" "Driver Skills\n");
     lv_ddlist_set_action(ddlSkillsSelector, ddlistSkillSelectorAction);
@@ -259,7 +283,7 @@ void MainLVGL(void)
 
     lv_obj_set_style(profileScreen, &style);
     lv_ddlist_set_options(ddlProfile, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
-    lv_ddlist_set_action(ddlProfile, ddlist_action);
+    lv_ddlist_set_action(ddlProfile, ddlistMenuingAction);
     lv_obj_align(ddlProfile, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     lv_ddlist_set_options(ddlProfileSelector, " \n" "Gaston\n" "Patrick\n");
     lv_ddlist_set_action(ddlProfileSelector, ddlistProfileSelectorAction);
@@ -269,13 +293,13 @@ void MainLVGL(void)
     //Creates Back button for Debug Screen and matches it to back button click event
     lv_obj_set_style(debugScreen, &style);
     lv_ddlist_set_options(ddlDebug, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
-    lv_ddlist_set_action(ddlDebug, ddlist_action);
+    lv_ddlist_set_action(ddlDebug, ddlistMenuingAction);
     lv_obj_align(ddlDebug, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     
     
     lv_obj_set_style(visualScreen, &style);
     lv_ddlist_set_options(ddlVision, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
-    lv_ddlist_set_action(ddlVision, ddlist_action);
+    lv_ddlist_set_action(ddlVision, ddlistMenuingAction);
 
     lv_obj_align(ddlVision, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     lv_ddlist_set_options(ddlGIF, " \n" "Sylvie\n" "Catapult\n" "Alliance\n" "Glitch\n" "Lightning\n" "Rumble\n");
@@ -297,13 +321,6 @@ void display(void) {
 //Code to run the right auton based off the checkboxes
 // DO NOT TOUCH
 void runSelectedAuto(void) {
-    /*
-	printf("RAN\n");
-	printf("%d\n", selectedProgram);
-	printf("%d\n", autoType);
-	printf("%d\n", AUTONOMOUS_RED);
-	printf("%d\n", AUTONOMOUS_BLUE);
-    */
 	if (selectedProgram == DO_NOT_RUN) {
 		return;
 	}
