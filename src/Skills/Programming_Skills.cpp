@@ -98,6 +98,8 @@ void pSkills(void) {
     pros::delay(700);
     rightChassis.moveVoltage(0);
     leftChassis.moveVoltage(0);
+    leftWing.set_value(false);
+    rightWing.set_value(false);
     
     //driveChassis->moveDistance(-72_cm);
     //driveChassis->turnAngle(-68_deg); //was 75

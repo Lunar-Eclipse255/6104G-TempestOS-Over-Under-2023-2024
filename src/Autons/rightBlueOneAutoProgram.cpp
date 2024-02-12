@@ -38,12 +38,15 @@ void rightBlueOneAuton(void) {
 	rightChassis.moveVoltage(-12000);
 	leftChassis.moveVoltage(-12000);
 	pros::delay(600);
-	rightChassis.moveVoltage(6000);
+	driveChassis->moveDistance(10_cm);
+	driveChassis->turnAngle(42_deg);
+	rightChassis.moveVoltage(9000);
 	leftChassis.moveVoltage(12000);
-	pros::delay(1200);
+	pros::delay(850);
 	rightChassis.moveVoltage(0);
 	leftChassis.moveVoltage(0);
-	driveChassis->moveDistance(65_cm);
+	driveChassis->turnAngle(15_deg);
+	driveChassis->moveDistance(52_cm);
 	intakeMotor.moveVoltage(12000);
 	catapultMotor.moveVoltage(12000);
 	pros::delay(350);

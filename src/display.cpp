@@ -5,7 +5,7 @@
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
 
-#define DO_NOT_RUN 6104
+#define DO_NOT_RUN 1984
 //Sets up Variables
 int displayMode = 0;
 int selectedProgram = DO_NOT_RUN;
