@@ -8,12 +8,6 @@ using namespace okapi;
 
 pros::ADIDigitalOut blocker (BLOCKER);
 void rightBlueOneAuton(void) {
-
-
-	 //do auto retraction
-
-
-	
 	driveChassis->setMaxVelocity(120);
 	intakeMotor.moveVoltage(-12000);
 	pros::delay(200);

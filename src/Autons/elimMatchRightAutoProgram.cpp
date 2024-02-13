@@ -6,9 +6,13 @@
 using namespace okapi;
 
 void elimMatchRightAuton(void) {
-
     driveChassis->setMaxVelocity(120);
-	intakeMotor.moveVoltage(-12000);
-	pros::delay(200);
-    intakeMotor.moveVoltage(0);
+	rightBlueTwoAuton();
+    rightChassis.moveVoltage(1000);
+    leftChassis.moveVoltage(12000);
+    pros::delay(700);
+    rightChassis.moveVoltage(0);
+    leftChassis.moveVoltage(0);
+    driveChassis->moveDistance(110_cm);
+
 }

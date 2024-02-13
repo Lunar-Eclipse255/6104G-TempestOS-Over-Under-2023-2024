@@ -9,10 +9,8 @@ void elimMatchLeftAuton(void) {
 
     driveChassis->setMaxVelocity(120);
 	intakeMotor.moveVoltage(-12000);
-    leftWing.set_value(true);
-	pros::delay(700);
+	pros::delay(200);
     intakeMotor.moveVoltage(12000);
-    leftWing.set_value(false);
     rightChassis.moveVoltage(9000);
     leftChassis.moveVoltage(12000);
     pros::delay(550);
@@ -28,14 +26,20 @@ void elimMatchLeftAuton(void) {
     driveChassis->turnAngle(90_deg);
     rightChassis.moveVoltage(4000);
     leftChassis.moveVoltage(12000);
-    pros::delay(1000);
+    pros::delay(930);
+    leftChassis.moveVoltage(-500);
+    
     rightChassis.moveVoltage(12000);
-    leftChassis.moveVoltage(500);
-     pros::delay(1200);
+     pros::delay(1000);
      rightChassis.moveVoltage(0);
     leftChassis.moveVoltage(0);
+    //driveChassis->turnAngle(10_deg);
+    rightWing.set_value(false);
+    intakeMotor.moveVoltage(-12000);
+    driveChassis->setMaxVelocity(600);
+    driveChassis->turnAngle(15_deg);
     driveChassis->moveDistance(80_cm);
-
+    
 
     //driveChassis->turnAngle(-90_deg);
     //driveChassis->moveDistance(60_cm);
