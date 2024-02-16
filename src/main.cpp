@@ -13,7 +13,6 @@
 
 
 
-
 //A callback function for LLEMU's center button. When this callback is fired, it will toggle line 2 of the LCD text between "I was pressed!" and nothing. 
 void on_center_button() {
 	static bool pressed = false;
@@ -118,10 +117,10 @@ void autonomous() {
 	//pros::lcd::initialize();
 	runSelectedGIF();
 	//runs the selected autonomous/skills program
-	//runSelectedAuto();
+	runSelectedAuto();
 	//pSkills();
 	//rightBlueOneAuton();
-	elimMatchRightAuton();
+	//elimMatchRightAuton();
 	}
 	
 //Runs the operator control code. This function will be started in its own task with the default priority and stack size whenever the robot is enabled via the Field Management System or the VEX Competition Switch in the operator control mode. If no competition control is connected, this function will run immediately following initialize(). If the robot is disabled or communications is lost, the operator control task will be stopped. Re-enabling the robot will restart the task, not resume it from where it left off.
@@ -150,11 +149,9 @@ void opcontrol() {
 	 
 
 	while (true) {
+		double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
 		if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 			double joysticMotion = -(controller.getAnalog(ControllerAnalog::leftY));
-		}
-		else{
-			double joysticMotion = controller.getAnalog(ControllerAnalog::leftY);
 		}
 		// Reads joystick input for left/right motion on the right stick
 		double joysticTurning = controller.getAnalog(ControllerAnalog::rightX);
@@ -167,7 +164,7 @@ void opcontrol() {
 		
        //Uses these new values to control the bot
         ///driveChassis->getModel()->arcade(joysticMotion, controller.getAnalog(ControllerAnalog::rightX));
-		driveChassis->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY),controller.getAnalog(ControllerAnalog::rightX));
+		driveChassis->getModel()->arcade(joysticMotion,joysticTurning);
 
 		//Initializes all the controller buttons
 		ControllerButton intakeOutButton(ControllerDigital::R2);
@@ -186,18 +183,6 @@ void opcontrol() {
 		ControllerButton sideHangInButton(ControllerDigital::B);
 		ControllerButton barHangOutButton(ControllerDigital::down);
 		ControllerButton barHangInButton(ControllerDigital::B);
-		/*
-		ControllerButton ratchetLockOn(ControllerDigital::X);
-		ControllerButton ratchetLockOff(ControllerDigital::B);
-		//ControllerButton armOutButton(ControllerDigital::A);
-		//ControllerButton armInButton(ControllerDigital::left);
-		*/
-		
-		//pros::ADIDigitalIn catapultLimit (CATA_PORT);
-
-
-		//pros::ADIDigitalOut leftWing (INDEX_PORT);
-		//pros::ADIDigitalOut endgame (ENDGAME_PORT);
 	//pros::screen::set_pen(COLOR_BLUE);
     //pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 	//pros::screen::print(pros::E_TEXT_MEDIUM, 3,"%d", leftChassis.getActualVelocity());
@@ -309,21 +294,6 @@ void opcontrol() {
 			}
 		}
 		}
-		/*
-		if (cataDistance.get()>100){
-			catapultMotor.moveVoltage(12000);
-		}
-		else{
-			catapultMotor.moveVoltage(12000);
-		}
-		*/
-		
-		
-		
-	
-    	
-		
-		
 		// Wait and give up the time we don't need to other tasks.
 		// Additionally, joystick values, motor telemetry, etc. all updates every 10 ms.
 		

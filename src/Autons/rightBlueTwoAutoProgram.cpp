@@ -13,10 +13,11 @@ void rightBlueTwoAuton(void) {
 	pros::delay(200);
     intakeMotor.moveVoltage(0);
 	rightWing.set_value(true);
-	rightChassis.moveVoltage(-5000);
+	rightChassis.moveVoltage(-5500);
 	leftChassis.moveVoltage(-12000);
-	pros::delay(500);
+	pros::delay(300);
 	rightWing.set_value(false);
+	pros::delay(200);
 	rightChassis.moveVoltage(-8000);
 	leftChassis.moveVoltage(-12000);
 	pros::delay(400);
