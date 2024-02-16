@@ -177,10 +177,10 @@ void opcontrol() {
 		ControllerButton wingInLeftButton(ControllerDigital::right);
 		ControllerButton wingOutRightButton(ControllerDigital::A);
 		ControllerButton wingInRightButton(ControllerDigital::Y);
-		ControllerButton blockerUpButton(ControllerDigital::up);
-		ControllerButton blockerDownButton(ControllerDigital::X);
-		ControllerButton sideHangOutButton(ControllerDigital::down);
-		ControllerButton sideHangInButton(ControllerDigital::B);
+		ControllerButton blockerUpButton(ControllerDigital::down);
+		ControllerButton blockerDownButton(ControllerDigital::B);
+		ControllerButton sideHangOutButton(ControllerDigital::up);
+		ControllerButton sideHangInButton(ControllerDigital::X);
 		ControllerButton barHangOutButton(ControllerDigital::down);
 		ControllerButton barHangInButton(ControllerDigital::B);
 	//pros::screen::set_pen(COLOR_BLUE);
