@@ -35,6 +35,7 @@ void rightBlueTwoAuton(void) {
 	pros::delay(600);
 	rightChassis.moveVoltage(0);
 	leftChassis.moveVoltage(0);
+	driveChassis->moveDistance(20_cm);
 	catapultMotor.moveVoltage(12000);
 	pros::delay(350);
 	catapultMotor.moveVoltage(0);

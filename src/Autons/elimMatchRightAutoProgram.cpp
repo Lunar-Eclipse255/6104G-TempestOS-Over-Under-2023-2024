@@ -7,7 +7,33 @@ using namespace okapi;
 
 void elimMatchRightAuton(void) {
     driveChassis->setMaxVelocity(120);
-	rightBlueTwoAuton();
+	driveChassis->setMaxVelocity(120);
+	intakeMotor.moveVoltage(-12000);
+	pros::delay(200);
+    intakeMotor.moveVoltage(0);
+	rightWing.set_value(true);
+	rightChassis.moveVoltage(-5500);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(300);
+	rightWing.set_value(false);
+	pros::delay(200);
+	rightChassis.moveVoltage(-8000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(400);
+	rightChassis.moveVoltage(12000);
+	leftChassis.moveVoltage(12000);
+	pros::delay(200);
+	rightChassis.moveVoltage(-12000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(600);
+	rightChassis.moveVoltage(12000);
+	leftChassis.moveVoltage(12000);
+	pros::delay(300);
+	rightChassis.moveVoltage(-12000);
+	leftChassis.moveVoltage(-12000);
+	pros::delay(600);
+	rightChassis.moveVoltage(0);
+	leftChassis.moveVoltage(0);
     rightChassis.moveVoltage(1000);
     leftChassis.moveVoltage(12000);
     pros::delay(710);
@@ -76,5 +102,8 @@ void elimMatchRightAuton(void) {
     pros::delay(350);
     rightChassis.moveVoltage(0);
     leftChassis.moveVoltage(0);
+    catapultMotor.moveVoltage(12000);
+	pros::delay(350);
+	catapultMotor.moveVoltage(0);
     
 }

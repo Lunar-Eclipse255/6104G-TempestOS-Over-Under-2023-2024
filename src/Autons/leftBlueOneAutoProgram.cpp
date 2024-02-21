@@ -30,7 +30,7 @@ void leftBlueOneAuton(void) {
 	pros::delay(100);
 	driveChassis->turnAngle(-47_deg);
 	driveChassis->setMaxVelocity(120);
-	driveChassis->moveDistance(64_cm);
+	driveChassis->moveDistance(69_cm);
 	blocker.set_value(true);
 	catapultMotor.moveVoltage(12000);
 	pros::delay(350);

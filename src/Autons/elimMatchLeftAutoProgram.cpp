@@ -38,7 +38,10 @@ void elimMatchLeftAuton(void) {
     intakeMotor.moveVoltage(-12000);
     driveChassis->setMaxVelocity(600);
     driveChassis->turnAngle(15_deg);
-    driveChassis->moveDistance(80_cm);
+    driveChassis->moveDistance(75_cm);
+    catapultMotor.moveVoltage(12000);
+	pros::delay(350);
+	catapultMotor.moveVoltage(0); 
     
 
     //driveChassis->turnAngle(-90_deg);

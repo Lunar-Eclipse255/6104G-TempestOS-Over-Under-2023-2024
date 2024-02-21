@@ -40,7 +40,7 @@ void rightBlueOneAuton(void) {
 	rightChassis.moveVoltage(0);
 	leftChassis.moveVoltage(0);
 	driveChassis->turnAngle(15_deg);
-	driveChassis->moveDistance(52_cm);
+	driveChassis->moveDistance(57_cm);
 	intakeMotor.moveVoltage(12000);
 	catapultMotor.moveVoltage(12000);
 	pros::delay(350);
