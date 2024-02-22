@@ -233,8 +233,10 @@ void MainLVGL(void)
     style.body.main_color = LV_COLOR_BLACK;
     style.body.grad_color = LV_COLOR_HEX(0x3A3B3C);
     
+
     //gives the style to the auton screen
     lv_obj_set_style(autonScreen,&style);
+
     //sets the options for ddlAutonSelector
     lv_ddlist_set_options(ddlAutonSelector, " \n" "Right AWP\n" "Right No Bar\n" "Right Elim\n" "Disabled\n" "Left AWP\n" "Left No Bar\n" "Anti-Auton\n");
     //links ddlAutonSelector to the action, ddlistAutonSelectorAction to give the ddl logic.
@@ -245,15 +247,17 @@ void MainLVGL(void)
     lv_ddlist_set_sb_mode(ddlAutonSelector, LV_SB_MODE_DRAG);
     //aligns ddlAutonSelector on the screen
     lv_obj_align(ddlAutonSelector, NULL, LV_ALIGN_IN_LEFT_MID, 95, -20);
+
     //sets the options for ddlColorSelection
     lv_ddlist_set_options(ddlColorSelection, " \n" "Blue\n" "Red\n");
     //links ddlColorSelection to the action, ddlistColorSelectionAction to give the ddl logic
     lv_ddlist_set_action(ddlColorSelection, ddlistColorSelectionAction);
     //aligns ddlColorSelection on the screen
     lv_obj_align(ddlColorSelection, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
+
     //sets the options for ddlAuton
     lv_ddlist_set_options(ddlAuton, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
-    //links ddlColorSelection to the action, ddlistMenuingAction to give the ddl logic
+    //links ddlAuton to the action, ddlistMenuingAction to give the ddl logic
     lv_ddlist_set_action(ddlAuton, ddlistMenuingAction);
     //sets ddlAuton to option 1
     lv_ddlist_set_selected(ddlAuton, 0);
@@ -272,80 +276,131 @@ void MainLVGL(void)
     static Gif gifAuton("/usd/SPSIntro.gif", gifObjAuton);
 
     
-    
+    //gives the style to the skills screen
     lv_obj_set_style(skillsScreen, &style);
+
+    //sets the options for ddlSkills
     lv_ddlist_set_options(ddlSkills, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
+    //links ddlSkills to the action, ddlistMenuingAction to give the ddl logic
     lv_ddlist_set_action(ddlSkills, ddlistMenuingAction);
+    //aligns ddlSkills on the screen
     lv_obj_align(ddlSkills, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
+
+    //sets the options for ddlSkillsSelector
     lv_ddlist_set_options(ddlSkillsSelector, " \n" "Programming Skills\n" "Driver Skills\n");
+    //links ddlSkills to the action, ddlistSkillSelectorAction to give the ddl logic
     lv_ddlist_set_action(ddlSkillsSelector, ddlistSkillSelectorAction);
+    //aligns ddlSkillsSelector on the screen
     lv_obj_align(ddlSkillsSelector, NULL, LV_ALIGN_IN_LEFT_MID, 5,-20);
 
+
+    //gives the style to the profile screen
     lv_obj_set_style(profileScreen, &style);
+
+    //sets the options for ddlProfile
     lv_ddlist_set_options(ddlProfile, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
+    //links ddlProfile to the action, ddlistMenuingAction to give the ddl logic
     lv_ddlist_set_action(ddlProfile, ddlistMenuingAction);
+    //aligns ddlProfile on the screen
     lv_obj_align(ddlProfile, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
+
+    //sets the options for ddlProfileSelector
     lv_ddlist_set_options(ddlProfileSelector, " \n" "Gaston\n" "Patrick\n");
+    //links ddlProfileSelector to the action, ddlistProfileSelectorAction to give the ddl logic
     lv_ddlist_set_action(ddlProfileSelector, ddlistProfileSelectorAction);
+    //aligns ddlProfileSelector on the screen
     lv_obj_align(ddlProfileSelector, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
 
-    // Creates Debug Screen
-    //Creates Back button for Debug Screen and matches it to back button click event
+
+    //gives the style to the debug screen
     lv_obj_set_style(debugScreen, &style);
+
+    //sets the options for ddlDebug
     lv_ddlist_set_options(ddlDebug, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
+    //links ddlDebug to the action, ddlistMenuingAction to give the ddl logic
     lv_ddlist_set_action(ddlDebug, ddlistMenuingAction);
+    //aligns ddlDebug on the screen
     lv_obj_align(ddlDebug, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
     
     
+    //gives the style to the visual screen
     lv_obj_set_style(visualScreen, &style);
-    lv_ddlist_set_options(ddlVision, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
-    lv_ddlist_set_action(ddlVision, ddlistMenuingAction);
 
+    //sets the options for ddlVision
+    lv_ddlist_set_options(ddlVision, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
+    //links ddlVision to the action, ddlistMenuingAction to give the ddl logic
+    lv_ddlist_set_action(ddlVision, ddlistMenuingAction);
+    //aligns ddlVision on the screen
     lv_obj_align(ddlVision, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
+
+    //sets the options for ddlGIF
     lv_ddlist_set_options(ddlGIF, " \n" "Sylvie\n" "Catapult\n" "Alliance\n" "Glitch\n" "Lightning\n" "Rumble\n");
+    //links ddlGIF to the action, ddlistGIFSelectorAction to give the ddl logic
     lv_ddlist_set_action(ddlGIF, ddlistGIFSelectorAction);
+    //sets a fixed height for ddlGIF so it won't go off screen
     lv_ddlist_set_fix_height(ddlGIF, 150);
+    //sets the mode of ddlGIF so you can swipe through the options
     lv_ddlist_set_sb_mode(ddlGIF, LV_SB_MODE_DRAG);
+    //aligns ddlGIF on the screen
     lv_obj_align(ddlGIF, NULL, LV_ALIGN_IN_LEFT_MID, 5, -20);
     
-    
-    
-    // Load the main menu screen
+
+    // Load the auton screen
     lv_scr_load(autonScreen);
 }
+
+
 //Increments the timer
 void display(void) {
 	lv_task_handler();
 	lv_tick_inc(5);
 }
+
+
 //Code to run the right auton based off the checkboxes
-// DO NOT TOUCH
 void runSelectedAuto(void) {
+
+    //checks if an auton was selected
 	if (selectedProgram == DO_NOT_RUN) {
 		return;
 	}
+
+    //if so uses a switch case depending on the autotype
 	switch (autoType) {
 		case AUTONOMOUS_RED:
 			printf("LEFT\n");
+            //runs the function/program in the array redScripts of the index selectedProgram
 			redScripts[selectedProgram]();
 			break;
 		case AUTONOMOUS_BLUE:
 			printf("RIGHT\n");
+            //runs the function/program in the array blueScripts of the index selectedProgram
 			blueScripts[selectedProgram]();
 			break;
 		case AUTONOMOUS_SKILLS:
 			printf("SKILLS\n");
+            //runs the function/program in the array skillsScripts of the index selectedProgram
 			skillsScripts[selectedProgram]();
 			break;
 	}
 }
+
+
+//Creates a function to display a GIF
 void runSelectedGIF(void) {
+    //Creates a screen to display the GIF
     lv_obj_t* GIFScreen = lv_obj_create(NULL,NULL);
+    //Creates a container object on the screen to display the GIF
     lv_obj_t* gifObjMain = lv_obj_create(GIFScreen, NULL);
+    //Sets the size of the container object
     lv_obj_set_size(gifObjMain, 480, 240);
-    lv_obj_set_style(gifObjMain, &lv_style_transp); // make the container invisible
+    //Makes the container object transparent
+    lv_obj_set_style(gifObjMain, &lv_style_transp); 
+    //Aligns the container object
     lv_obj_align(gifObjMain, NULL, LV_ALIGN_IN_RIGHT_MID, 0,0);
+    //Creates on GIF object on the container object, the selected GIF is pulled from the array GIFFilePaths, and the index selectedGIF, to select a GIF
     static Gif gifMain(GIFFilePaths[selectedGIF], gifObjMain);
+    //Loads the screen
     lv_scr_load(GIFScreen);
 }
 /* Screen Clear code
