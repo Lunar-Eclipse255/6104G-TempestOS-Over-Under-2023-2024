@@ -158,10 +158,10 @@ void opcontrol() {
 		ControllerButton catapultToggleOnButton(ControllerDigital::L2);
 		ControllerButton catapultToggleOffButton(ControllerDigital::R2);
 		ControllerButton shiftKeyButton(ControllerDigital::L1);
-		ControllerButton wingOutLeftButton(ControllerDigital::left);
-		ControllerButton wingInLeftButton(ControllerDigital::right);
-		ControllerButton wingOutRightButton(ControllerDigital::A);
-		ControllerButton wingInRightButton(ControllerDigital::Y);
+		ControllerButton wingOutLeftButton(ControllerDigital::right);
+		ControllerButton wingInLeftButton(ControllerDigital::left);
+		ControllerButton wingOutRightButton(ControllerDigital::Y);
+		ControllerButton wingInRightButton(ControllerDigital::A);
 		ControllerButton blockerUpButton(ControllerDigital::down);
 		ControllerButton blockerDownButton(ControllerDigital::B);
 		ControllerButton sideHangOutButton(ControllerDigital::up);
