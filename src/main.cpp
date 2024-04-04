@@ -55,6 +55,7 @@ void opcontrol() {
 	ControllerButton shiftKeyButton(ControllerDigital::L1);
     ControllerButton intakeOutButton(ControllerDigital::R2);
     ControllerButton intakeInButton(ControllerDigital::R1);
+	pros::Task intake (intake::control);
 	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 		dSkills();
 	}
@@ -69,27 +70,9 @@ void opcontrol() {
 		pneumatics::dropdown();
 		pneumatics::curved();
 		pneumatics::pto();
-		intake::control();
-		if (shiftKeyButton.isPressed()){
-			
-		}
-		else {
-			//if the intakeIn button is pressed it gives the intake 12000 mV
-			if (intakeInButton.isPressed()) {
-				intakeMotor.moveVoltage(12000);
-			} 
-			//else if the intakeOut button is pressed it gives the intake -12000 mV
-			else if (intakeOutButton.isPressed()) {
-				intakeMotor.moveVoltage(-12000);
-			}
-			//else it stops powering the intake motor
-			else {
-				intakeMotor.moveVoltage(0);
-			}
 
-			//pros::screen::set_pen(COLOR_BLUE);
+		//pros::screen::set_pen(COLOR_BLUE);
 			//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
 			pros::delay(10);
-		}
 	}
 }
