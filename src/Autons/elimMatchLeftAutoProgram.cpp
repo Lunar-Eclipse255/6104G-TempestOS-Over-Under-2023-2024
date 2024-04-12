@@ -4,8 +4,10 @@
 #include "main.h"
 #include "okapi/api.hpp"
 #include "turn_voltage.hpp"
+#include "subsystems/pneumatics.hpp"
+
 using namespace okapi;
 
 void elimMatchLeftAuton(void) {
-    //leftPTO.set_value(true);
+    pneumatics::leftPTO.set_value(true);
 }

@@ -34,8 +34,8 @@ namespace pneumatics {
     pros::ADIDigitalOut rightWingCurved (WING_RIGHT_CURVED);
     pros::ADIDigitalOut leftWingDD (WING_LEFT_DD);
     pros::ADIDigitalOut rightWingDD (WING_RIGHT_DD);
-
     void init(){
+        
         wingCheckLeftCurved=false;
         wingCheckRightCurved=false;
         wingCheckLeftDD=false;

@@ -5,6 +5,7 @@
 #include "motors.h"
 #include "gif-pros/gifclass.hpp"
 #define DO_NOT_RUN 6104
+#define SYMBOL_CONTROLLER "\xEE\x96\xA2"
 
 
 
@@ -29,6 +30,8 @@ leftRedTwoAuton,elimMatchLeftAuton};
 void (*blueScripts[])() = {rightBlueOneAuton, rightBlueTwoAuton, elimMatchRightAuton, disabledAuton, leftBlueOneAuton, 
 leftBlueTwoAuton,elimMatchLeftAuton};
 void (*skillsScripts[])() = {pSkills,dSkills};
+LV_FONT_DECLARE(Customs);
+
 
 
 
@@ -327,15 +330,21 @@ static lv_res_t btnmPIDAction(lv_obj_t * btnm, const char* txt) {
 void MainLVGL(void)
 {
     //sets the style for a screen, with a black and gray gradiant
+    static lv_style_t styleScreen;
+    lv_style_copy(&styleScreen, &lv_style_plain);
+    styleScreen.body.main_color = LV_COLOR_BLACK;
+    styleScreen.body.grad_color = LV_COLOR_HEX(0x3A3B3C);
     static lv_style_t style;
-    lv_style_copy(&style, &lv_style_plain);
-    style.body.main_color = LV_COLOR_BLACK;
-    style.body.grad_color = LV_COLOR_HEX(0x3A3B3C);
+    style.text.font = &Customs;
     
 
     //gives the style to the auton screen
-    lv_obj_set_style(autonScreen,&style);
-
+    lv_obj_set_style(autonScreen,&styleScreen);
+    lv_obj_t * txt = lv_label_create(autonScreen, NULL);
+    lv_label_set_style(txt, &style);  
+    lv_label_set_text(txt,SYMBOL_CONTROLLER);
+    lv_obj_align(txt, NULL, LV_ALIGN_CENTER, 0, 20);
+    
     //sets the options for ddlAutonSelector
     lv_ddlist_set_options(ddlAutonSelector, " \n" "Right AWP\n" "Right No Bar\n" "Right Elim\n" "Disabled\n" 
     "Left AWP\n" "Left No Bar\n" "Anti-Auton\n");
@@ -365,19 +374,19 @@ void MainLVGL(void)
     lv_obj_align(ddlAuton, NULL, LV_ALIGN_IN_TOP_LEFT, 5, 10);
 
     //creates a lvgl object(gifObjAuton) for the auton screen for a gif
-    lv_obj_t* gifObjAuton = lv_obj_create(autonScreen, NULL);
-    //sets the size of the object(gifObjAuton)
-    lv_obj_set_size(gifObjAuton, 480, 240);
-    //makes gifObjAuton transparent
-    lv_obj_set_style(gifObjAuton, &lv_style_transp); 
-    //aligns gifObjAuton on the screen
-    lv_obj_align(gifObjAuton, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
-    //creates a Gif object in the object gifObjAuton
-    static Gif gifAuton("/usd/SPSIntro.gif", gifObjAuton);
+    // lv_obj_t* gifObjAuton = lv_obj_create(autonScreen, NULL);
+    // //sets the size of the object(gifObjAuton)
+    // lv_obj_set_size(gifObjAuton, 480, 240);
+    // //makes gifObjAuton transparent
+    // lv_obj_set_style(gifObjAuton, &lv_style_transp); 
+    // //aligns gifObjAuton on the screen
+    // lv_obj_align(gifObjAuton, NULL, LV_ALIGN_IN_RIGHT_MID, 300,60);
+    // //creates a Gif object in the object gifObjAuton
+    // static Gif gifAuton("/usd/SPSIntro.gif", gifObjAuton);
 
     
     //gives the style to the skills screen
-    lv_obj_set_style(skillsScreen, &style);
+    lv_obj_set_style(skillsScreen, &styleScreen);
 
     //sets the options for ddlSkills
     lv_ddlist_set_options(ddlSkills, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
@@ -395,7 +404,7 @@ void MainLVGL(void)
 
 
     //gives the style to the profile screen
-    lv_obj_set_style(profileScreen, &style);
+    lv_obj_set_style(profileScreen, &styleScreen);
 
     //sets the options for ddlProfile
     lv_ddlist_set_options(ddlProfile, "Auton\n" "Skills\n" "Profiles\n" "Debug\n" "GIFs");
@@ -413,7 +422,7 @@ void MainLVGL(void)
 
 
     //gives the style to the debug screen
-    lv_obj_set_style(debugScreen, &style);
+    lv_obj_set_style(debugScreen, &styleScreen);
 
     //sets the options for ddlDebug
     lv_ddlist_set_options(ddlDebug, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");
@@ -431,7 +440,7 @@ void MainLVGL(void)
     
     
     //gives the style to the visual screen
-    lv_obj_set_style(visualScreen, &style);
+    lv_obj_set_style(visualScreen, &styleScreen);
 
     //sets the options for ddlVision
     lv_ddlist_set_options(ddlVision, "Auton\n" "Skills\n" "Profile\n" "Debug\n" "GIFs\n");

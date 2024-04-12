@@ -491,7 +491,8 @@
     },
     "upload_options": {
       "description": "",
-      "icon": "pros"
+      "icon": "pros",
+      "after": "run"
     },
     "use_early_access": false
   }

@@ -1,13 +1,8 @@
-#ifndef _INTAKE_HPP_
-#define _INTAKE_HPP_
-
 #include "main.h"
-
-
+#include "okapi/api.hpp"
 
 namespace intake{
+    extern okapi::Motor intakeMotor;
     void init();
     void control();
 }
-
-#endif
