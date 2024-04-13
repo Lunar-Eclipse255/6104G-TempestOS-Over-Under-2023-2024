@@ -60,8 +60,9 @@ void opcontrol() {
     ControllerButton intakeOutButton(ControllerDigital::R2);
     ControllerButton intakeInButton(ControllerDigital::R1);
 
-	intake::intakeMotor.moveVoltage(12000);
+
 	pros::Task intake (intake::control);
+	pros::Task kicker (kicker::control);
 	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 		dSkills();
 	}

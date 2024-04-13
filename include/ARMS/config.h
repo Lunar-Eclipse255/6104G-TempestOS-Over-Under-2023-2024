@@ -38,7 +38,7 @@ namespace arms {
 #define LINEAR_KP 20
 #define LINEAR_KI 0
 #define LINEAR_KD 10
-#define TRACKING_KP 220 // point tracking turning strength
+#define TRACKING_KP 150 // point tracking turning strength
 #define ANGULAR_KP 2
 #define ANGULAR_KI 0
 #define ANGULAR_KD 6
