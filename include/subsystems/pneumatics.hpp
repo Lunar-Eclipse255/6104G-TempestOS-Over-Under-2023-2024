@@ -6,8 +6,10 @@
 
 
 namespace pneumatics {
-    extern pros::ADIDigitalOut leftPTO;
-    extern pros::ADIDigitalOut rightPTO;
+    extern pros::ADIDigitalOut hangOne;
+    extern pros::ADIDigitalOut hangTwo;
+    extern pros::ADIDigitalOut hangThree;
+    extern pros::ADIDigitalOut hangFour;
     extern pros::ADIDigitalOut leftWingCurved;
     extern pros::ADIDigitalOut rightWingCurved;
     extern pros::ADIDigitalOut leftWingDD;
@@ -15,7 +17,7 @@ namespace pneumatics {
     void init();
     void dropdown();
     void curved();
-    void pto();
+    void hang();
 }
 
 #endif

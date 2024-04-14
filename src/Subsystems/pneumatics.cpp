@@ -6,20 +6,22 @@
 #include "ARMS/config.h"
 
 namespace pneumatics {
-    #define PTO_LEFT 'A'
-    #define PTO_RIGHT 'B'
-    #define WING_LEFT_CURVED 'C'
-    #define WING_RIGHT_CURVED 'D'
-    #define WING_LEFT_DD 'E'
-    #define WING_RIGHT_DD 'F'
+    #define HANG_ONE 'A'
+    #define HANG_TWO 'B'
+    #define HANG_THREE 'C'
+    #define HANG_FOUR 'D'
+    #define WING_LEFT_CURVED 'E'
+    #define WING_RIGHT_CURVED 'F'
+    #define WING_LEFT_DD 'G'
+    #define WING_RIGHT_DD 'H'
     bool wingCheckLeftCurved;
     bool wingCheckRightCurved;
     bool wingCheckLeftDD;
     bool wingCheckRightDD;
-    bool PTOCheck;
+    bool hangCheck;
     ControllerButton shiftKeyButton(ControllerDigital::L1);
-    ControllerButton PTOOutButton(ControllerDigital::up);
-    ControllerButton PTOInButton(ControllerDigital::X);
+    ControllerButton HangOutButton(ControllerDigital::up);
+    ControllerButton HangInButton(ControllerDigital::X);
     ControllerButton wingOutLeftCurvedButton(ControllerDigital::right);
     ControllerButton wingInLeftCurvedButton(ControllerDigital::left);
     ControllerButton wingOutRightCurvedButton(ControllerDigital::Y);
@@ -28,8 +30,10 @@ namespace pneumatics {
     ControllerButton wingInLeftDDButton(ControllerDigital::left);
     ControllerButton wingOutRightDDButton(ControllerDigital::Y);
     ControllerButton wingInRightDDButton(ControllerDigital::A);
-    pros::ADIDigitalOut leftPTO (PTO_LEFT);
-    pros::ADIDigitalOut rightPTO (PTO_RIGHT);
+    pros::ADIDigitalOut hangOne (HANG_ONE);
+    pros::ADIDigitalOut hangTwo (HANG_TWO);
+    pros::ADIDigitalOut hangThree (HANG_THREE);
+    pros::ADIDigitalOut hangFour (HANG_FOUR);
     pros::ADIDigitalOut leftWingCurved (WING_LEFT_CURVED);
     pros::ADIDigitalOut rightWingCurved (WING_RIGHT_CURVED);
     pros::ADIDigitalOut leftWingDD (WING_LEFT_DD);
@@ -40,7 +44,7 @@ namespace pneumatics {
         wingCheckRightCurved=false;
         wingCheckLeftDD=false;
         wingCheckRightDD=false;
-        PTOCheck=false;
+        hangCheck=false;
     }
     void dropdown(){
         if (shiftKeyButton.isPressed()){
@@ -102,20 +106,24 @@ namespace pneumatics {
             }
         }
     }
-    void pto(){
+    void hang(){
         if (shiftKeyButton.isPressed()){
-            if (PTOOutButton.isPressed()){
-                if (!PTOCheck){
-                    leftPTO.set_value(true);
-                    rightPTO.set_value(true);
-                    PTOCheck=true;
+            if (HangOutButton.isPressed()){
+                if (!hangCheck){
+                    hangOne.set_value(true);
+                    hangTwo.set_value(true);
+                    hangThree.set_value(true);
+                    hangFour.set_value(true);
+                    hangCheck=true;
                 }
             }
-            else if (PTOInButton.isPressed()){
-                if (PTOCheck){
-                    leftPTO.set_value(false);
-                    rightPTO.set_value(false);
-                    PTOCheck=false;
+            else if (HangInButton.isPressed()){
+                if (hangCheck){
+                    hangOne.set_value(false);
+                    hangTwo.set_value(false);
+                    hangThree.set_value(false);
+                    hangFour.set_value(false);
+                    hangCheck=false;
                 }
             }
         }

@@ -76,7 +76,7 @@ void opcontrol() {
 		drive::control();
 		pneumatics::dropdown();
 		pneumatics::curved();
-		pneumatics::pto();
+		pneumatics::hang();
 
 		//pros::screen::set_pen(COLOR_BLUE);
 			//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());

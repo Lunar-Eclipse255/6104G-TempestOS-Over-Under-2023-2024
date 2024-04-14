@@ -35,8 +35,7 @@ namespace drive {
     }
 
     void control() {
-        drive_curves_arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),
-                                master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
-        //arms::chassis::arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+        //drive_curves_arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+        arms::chassis::arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
     }
 }
