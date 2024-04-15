@@ -28,6 +28,15 @@ void drive_curves_arcade(double forward, double turn) {
     drive::right_motors.move_velocity(right);
 }
 namespace drive {
+    pros::Motor L1 = pros::Motor(-10, pros::E_MOTOR_GEARSET_06);
+    pros::Motor L2 = pros::Motor(-20, pros::E_MOTOR_GEARSET_06);
+    pros::Motor L3 = pros::Motor(-9, pros::E_MOTOR_GEARSET_06);
+    pros::Motor R1 = pros::Motor(1, pros::E_MOTOR_GEARSET_06);
+    pros::Motor R2 = pros::Motor(11, pros::E_MOTOR_GEARSET_06);
+    pros::Motor R3 = pros::Motor(2, pros::E_MOTOR_GEARSET_06);
+
+    pros::MotorGroup left_motors({L1, L2, L3});
+    pros::MotorGroup right_motors({R1, R2, R3});
     pros::Controller master(pros::E_CONTROLLER_MASTER);
 
     void init() {

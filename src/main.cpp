@@ -26,7 +26,6 @@ void initialize() {
    	sylib::initialize();
 	drive::init();
 	pneumatics::init();
-	intake::init();
 	
 }
 

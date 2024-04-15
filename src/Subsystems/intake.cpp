@@ -12,7 +12,10 @@ namespace intake {
     ControllerButton intakeInButton(ControllerDigital::R1);
     Motor intakeMotor(-13);
     void init(){
-        
+        arms::odom::reset({0,0},0);
+        intake::intakeMotor.moveVoltage(-12000);
+        pros::delay(1000);
+        intake::intakeMotor.moveVoltage(0);
     }
     void control(){
         while (true){

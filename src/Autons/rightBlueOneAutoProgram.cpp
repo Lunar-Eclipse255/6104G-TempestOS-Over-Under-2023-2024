@@ -8,11 +8,7 @@
 using namespace arms;
 
 void rightBlueOneAuton(void) {
-
-    arms::odom::reset({0,0},0);
-    intake::intakeMotor.moveVoltage(12000);
-    pros::delay(1000);
-    intake::intakeMotor.moveVoltage(0);
+    intake::init();
 	arms::chassis::move({32,17,45});
     pros::delay(200);
     pneumatics::rightWingDD.set_value(true);
