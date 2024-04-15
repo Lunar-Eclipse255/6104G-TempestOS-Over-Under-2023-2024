@@ -80,6 +80,6 @@ void opcontrol() {
 
 		//pros::screen::set_pen(COLOR_BLUE);
 			//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());
-			pros::delay(10);
+		pros::delay(10);
 	}
 }
