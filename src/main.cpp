@@ -5,7 +5,6 @@
 #include "gif-pros/gifclass.hpp"
 #include "turn_voltage.hpp"
 #include "ARMS/config.h"
-#include "subsystems/intake.h"
 float error;
 float prevError=0;
 float integral=0;

@@ -38,8 +38,8 @@
 #include "ARMS/api.h"
 #include "pros/apix.h"
 #include "subsystems/drive.hpp"
-#include "subsystems/intake.h"
-#include "subsystems/kicker.h"
+#include "subsystems/intake.hpp"
+#include "subsystems/kicker.hpp"
 #include "subsystems/pneumatics.hpp"
 /**
  * You should add more #includes here
