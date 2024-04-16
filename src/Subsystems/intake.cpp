@@ -23,7 +23,7 @@ namespace intake {
         while (true){
             if (shiftKeyButton.isPressed()){
                 if (intakeInAutoStopButton.isPressed()) {
-                    intakeMotor.moveVoltage(-12000);
+                    intakeMotor.moveVoltage(12000);
                 } 
                 else if (!intakeInAutoStopButton.isPressed()&&!intakeInAutoStopButton.isPressed()&&!intakeOutButton.isPressed()) {
                     intakeMotor.moveVoltage(0);
@@ -33,16 +33,16 @@ namespace intake {
 
                 //if the intakeIn button is pressed it gives the intake 12000 mV
                 if (intakeInAutoStopButton.isPressed()) {
-                    if (intakeDistanceSensor.get()<38.6){
+                    if (intakeDistanceSensor.get()<30){
                         intakeMotor.moveVoltage(0);
                     }
                     else{
-                        intakeMotor.moveVoltage(-12000);
+                        intakeMotor.moveVoltage(12000);
                     }
                 } 
                 //else if the intakeOut button is pressed it gives the intake -12000 mV
                 else if (intakeOutButton.isPressed()) {
-                    intakeMotor.moveVoltage(12000);
+                    intakeMotor.moveVoltage(-12000);
                 }
                 //else it stops powering the intake motor
                 else if (!intakeInAutoStopButton.isPressed()&&!intakeInAutoStopButton.isPressed()&&!intakeOutButton.isPressed()){

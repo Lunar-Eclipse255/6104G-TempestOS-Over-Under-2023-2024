@@ -40,8 +40,8 @@ namespace drive {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
 
     void init() {
-        imu_sensor.reset();
-        imu_sensor.set_heading(90);
+        //imu_sensor.reset();
+        //imu_sensor.set_heading(90);
     }
 
     void control() {

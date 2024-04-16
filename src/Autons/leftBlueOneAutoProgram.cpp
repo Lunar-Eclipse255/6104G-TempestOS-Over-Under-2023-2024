@@ -10,10 +10,13 @@ using namespace arms;
 
 void leftBlueOneAuton(void) {
     intake::init();
-    chassis::move(6,100);
+    chassis::move(12,100);
     pneumatics::rightWingDD.set_value(true);
     pros::delay(200);
-    chassis::turn(180,100);
+    chassis::turn(180,100,REVERSE);
+    chassis::turn(15,100, RELATIVE);
+    pneumatics::rightWingDD.set_value(false);
+    pros::delay(500);
     intake::intakeMotor.moveVoltage(-12000);
-    chassis::move(18,100);
+    chassis::move(30,100, RELATIVE);
 }
