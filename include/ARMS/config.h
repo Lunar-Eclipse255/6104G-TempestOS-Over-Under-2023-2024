@@ -23,7 +23,7 @@ namespace arms {
 	0 // Distance from middle wheel to the robot turning center
 
 // Sensors
-#define IMU_PORT 0                           // Port 0 for disabled
+#define IMU_PORT 6                          // Port 0 for disabled
 #define ENCODER_PORTS -19, -12, 0                // Port 0 for disabled,
 #define EXPANDER_PORT 0                      // Port 0 for disabled
 #define ENCODER_TYPE arms::odom::ENCODER_ROTATION // The type of encoders
@@ -68,7 +68,7 @@ inline void init() {
 	          TRACKING_KP, MIN_ERROR, LEAD_PCT);
 
 	const char* b[] = {AUTONS, ""};
-	selector::init(HUE, DEFAULT, b);
+	//selector::init(HUE, DEFAULT, b);
 }
 
 } // namespace arms

@@ -5,6 +5,7 @@
 
 namespace drive {
 extern pros::Controller master;
+extern pros::IMU imu_sensor;
 extern pros::MotorGroup left_motors;
 extern pros::MotorGroup right_motors;
 void init();
