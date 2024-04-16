@@ -9,7 +9,9 @@ namespace intake {
     
     ControllerButton shiftKeyButton(ControllerDigital::L1);
     ControllerButton intakeOutButton(ControllerDigital::R2);
-    ControllerButton intakeInButton(ControllerDigital::R1);
+    ControllerButton intakeInAutoStopButton(ControllerDigital::R1);
+    ControllerButton intakeInManualStopButton(ControllerDigital::R1);
+    DistanceSensor intakeDistanceSensor = DistanceSensor(14);
     Motor intakeMotor(13);
     void init(){
         arms::odom::reset({0,0},0);
@@ -19,18 +21,31 @@ namespace intake {
     }
     void control(){
         while (true){
-            if (!(shiftKeyButton.isPressed())){
+            if (shiftKeyButton.isPressed()){
+                if (intakeInAutoStopButton.isPressed()) {
+                    intakeMotor.moveVoltage(-12000);
+                } 
+                else if (!intakeInAutoStopButton.isPressed()&&!intakeInAutoStopButton.isPressed()&&!intakeOutButton.isPressed()) {
+                    intakeMotor.moveVoltage(0);
+                }
+            }
+           else if (!(shiftKeyButton.isPressed())){
 
                 //if the intakeIn button is pressed it gives the intake 12000 mV
-                if (intakeInButton.isPressed()) {
-                    intakeMotor.moveVoltage(-12000);
+                if (intakeInAutoStopButton.isPressed()) {
+                    if (intakeDistanceSensor.get()<38.6){
+                        intakeMotor.moveVoltage(0);
+                    }
+                    else{
+                        intakeMotor.moveVoltage(-12000);
+                    }
                 } 
                 //else if the intakeOut button is pressed it gives the intake -12000 mV
                 else if (intakeOutButton.isPressed()) {
                     intakeMotor.moveVoltage(12000);
                 }
                 //else it stops powering the intake motor
-                else {
+                else if (!intakeInAutoStopButton.isPressed()&&!intakeInAutoStopButton.isPressed()&&!intakeOutButton.isPressed()){
                     intakeMotor.moveVoltage(0);
                 }
             }

@@ -8,8 +8,7 @@
 
 double calculate_curves(double x, double t) {
     double y =
-        (exp(-t / 10.0) + exp((abs(x) - 127) / 10.0) * (1 - exp(-t / 10.0))) *
-        x;
+        (exp(-t / 10.0) + exp((abs(x) - 127) / 10.0) * (1 - exp(-t / 10.0))) * x;
 
     return y;
 }
