@@ -46,7 +46,7 @@ void autonomous() {
 	//runSelectedGIF();
 	//runs the selected autonomous/skills program
 	//runSelectedAuto();
-	leftBlueOneAuton();
+	elimMatchRightAuton();
 	PIDScreen();
 	//arms::chassis::move({{24, 0}}, 100, arms::THRU | arms::ASYNC);
 	}
