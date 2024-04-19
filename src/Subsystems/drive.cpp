@@ -34,18 +34,34 @@ namespace drive {
     pros::Motor R2 = pros::Motor(11, pros::E_MOTOR_GEARSET_06);
     pros::Motor R3 = pros::Motor(2, pros::E_MOTOR_GEARSET_06);
     pros::IMU imu_sensor(6);
-
+    bool driveCheck;
     pros::MotorGroup left_motors({L1, L2, L3});
     pros::MotorGroup right_motors({R1, R2, R3});
     pros::Controller master(pros::E_CONTROLLER_MASTER);
-
+    ControllerButton shiftKeyButton(ControllerDigital::L1);
+    ControllerButton driveVelocitySwitchButton(ControllerDigital::down);
     void init() {
         //imu_sensor.reset();
         //imu_sensor.set_heading(90);
+        driveCheck=false;
     }
 
     void control() {
-        //drive_curves_arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
-        arms::chassis::arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+        while (true) {
+            if (!shiftKeyButon.isPressed()){
+                if (driveVelocitySwitchButton.isPressed()){
+                    if (!driveCheck) {
+                        double arms::chassis::maxSpeed=360;
+                        driveCheck=true;
+                    }
+                    else {
+                        double arms::chassis::maxSpeed=600;
+                        driveCheck=false;
+                    }
+                }
+            }
+            //drive_curves_arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+            arms::chassis::arcade(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+        }
     }
 }
