@@ -47,6 +47,7 @@ void autonomous() {
 	//runs the selected autonomous/skills program
 	//runSelectedAuto();
 	elimMatchRightAuton();
+
 	PIDScreen();
 	//arms::chassis::move({{24, 0}}, 100, arms::THRU | arms::ASYNC);
 	}
@@ -61,6 +62,9 @@ void opcontrol() {
 
 	pros::Task intake (intake::control);
 	pros::Task kicker (kicker::control);
+	pros::Task dropdown (pneumatics::dropdown);
+	pros::Task curved (pneumatics::curved);
+	pros::Task pto (pneumatics::pto);
 	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 		dSkills();
 	}
@@ -72,9 +76,6 @@ void opcontrol() {
 			PIDConstantUpdating();
 		}
 		drive::control();
-		pneumatics::dropdown();
-		pneumatics::curved();
-		pneumatics::pto();
 
 		//pros::screen::set_pen(COLOR_BLUE);
 			//pros::screen::print(pros::E_TEXT_MEDIUM, 3, "%d",rightChassis.getActualVelocity());

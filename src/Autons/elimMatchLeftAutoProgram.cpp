@@ -9,5 +9,6 @@
 using namespace okapi;
 
 void elimMatchLeftAuton(void) {
-    pneumatics::leftPTO.set_value(true);
+    intake::init();
+    
 }
