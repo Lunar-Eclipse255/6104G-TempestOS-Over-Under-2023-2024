@@ -2,7 +2,8 @@
 #include "okapi/api.hpp"
 
 namespace intake{
-    extern okapi::Motor intakeMotor;
+    extern okapi::Motor intakeMotorOne;
+    extern okapi::Motor intakeMotorTwo;
     void init();
     void control();
 }

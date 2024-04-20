@@ -10,7 +10,8 @@ namespace intake {
     ControllerButton shiftKeyButton(ControllerDigital::L1);
     ControllerButton intakeOutButton(ControllerDigital::R2);
     ControllerButton intakeInButton(ControllerDigital::R1);
-    Motor intakeMotor(-8);
+    Motor intakeMotorOne(-17);
+    Motor intakeMotorTwo(-18);
     void init(){
         
     }
@@ -20,15 +21,18 @@ namespace intake {
 
                 //if the intakeIn button is pressed it gives the intake 12000 mV
                 if (intakeInButton.isPressed()) {
-                    intakeMotor.moveVoltage(12000);
+                    intakeMotorOne.moveVoltage(12000);
+                    intakeMotorTwo.moveVoltage(12000);
                 } 
                 //else if the intakeOut button is pressed it gives the intake -12000 mV
                 else if (intakeOutButton.isPressed()) {
-                    intakeMotor.moveVoltage(-12000);
+                    intakeMotorOne.moveVoltage(-12000);
+                    intakeMotorTwo.moveVoltage(-12000);
                 }
                 //else it stops powering the intake motor
                 else {
-                    intakeMotor.moveVoltage(0);
+                    intakeMotorOne.moveVoltage(0);
+                    intakeMotorTwo.moveVoltage(0);
                 }
             }
         }

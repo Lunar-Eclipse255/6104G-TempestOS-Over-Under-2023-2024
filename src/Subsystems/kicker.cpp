@@ -10,7 +10,7 @@ namespace kicker {
      ControllerButton shiftKeyButton(ControllerDigital::L1);
      ControllerButton kickerToggleButton(ControllerDigital::L2);
      ControllerButton kickerPressButton(ControllerDigital::L2);
-     Motor kickerMotor(-7);
+     Motor kickerMotor(-19);
     void init(){
         
     }

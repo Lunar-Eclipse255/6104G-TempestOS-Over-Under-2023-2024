@@ -9,8 +9,8 @@ namespace arms {
 #define ODOM_DEBUG 0
 
 // Negative numbers mean reversed motor
-#define LEFT_MOTORS 1, 2, 3
-#define RIGHT_MOTORS -4, -5, -6
+#define LEFT_MOTORS 11, 12, 13
+#define RIGHT_MOTORS -14, -15, -16
 #define GEARSET pros::E_MOTOR_GEAR_600 // RPM of chassis motors
 
 // Ticks per inch
@@ -23,7 +23,7 @@ namespace arms {
 	0 // Distance from middle wheel to the robot turning center
 
 // Sensors
-#define IMU_PORT 0                           // Port 0 for disabled
+#define IMU_PORT 0                       // Port 0 for disabled
 #define ENCODER_PORTS -19, -12, 0                // Port 0 for disabled,
 #define EXPANDER_PORT 0                      // Port 0 for disabled
 #define ENCODER_TYPE arms::odom::ENCODER_ROTATION // The type of encoders
@@ -68,7 +68,7 @@ inline void init() {
 	          TRACKING_KP, MIN_ERROR, LEAD_PCT);
 
 	const char* b[] = {AUTONS, ""};
-	selector::init(HUE, DEFAULT, b);
+	//selector::init(HUE, DEFAULT, b);
 }
 
 } // namespace arms
