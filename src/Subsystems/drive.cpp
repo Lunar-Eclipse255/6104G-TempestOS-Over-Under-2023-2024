@@ -26,6 +26,7 @@ void drive_curves_arcade(double forward, double turn) {
     drive::left_motors.move_velocity(left);
     drive::right_motors.move_velocity(right);
 }
+
 namespace drive {
     pros::Motor L1 = pros::Motor(-10, pros::E_MOTOR_GEARSET_06);
     pros::Motor L2 = pros::Motor(-20, pros::E_MOTOR_GEARSET_06);
@@ -48,14 +49,14 @@ namespace drive {
 
     void control() {
         while (true) {
-            if (!shiftKeyButon.isPressed()){
+            if (!shiftKeyButton.isPressed()){
                 if (driveVelocitySwitchButton.isPressed()){
                     if (!driveCheck) {
-                        double arms::chassis::maxSpeed=360;
+                        arms::chassis::maxSpeed=360;
                         driveCheck=true;
                     }
                     else {
-                        double arms::chassis::maxSpeed=600;
+                        arms::chassis::maxSpeed=600;
                         driveCheck=false;
                     }
                 }
