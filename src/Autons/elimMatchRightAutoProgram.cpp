@@ -13,7 +13,10 @@ void elimMatchRightAuton(void) {
     pros::delay(200);
     pneumatics::rightWingDD.set_value(true);
 	arms::chassis::move({25,-2,10});
-     intake::intakeMotor.moveVoltage(-12000);
+    if (odom::getLeftEncoder()<20||odom::getRightEncoder()<20){
+        return;
+    }
+    intake::intakeMotor.moveVoltage(-12000);
     pneumatics::rightWingDD.set_value(false);
     arms::chassis::move(-10, REVERSE);
     chassis::turn(-20, RELATIVE);

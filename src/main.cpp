@@ -45,8 +45,8 @@ void autonomous() {
 	//pros::lcd::initialize();
 	//runSelectedGIF();
 	//runs the selected autonomous/skills program
-	//runSelectedAuto();
-	elimMatchRightAuton();
+	runSelectedAuto();
+	//elimMatchRightAuton();
 
 	PIDScreen();
 	//arms::chassis::move({{24, 0}}, 100, arms::THRU | arms::ASYNC);

@@ -35,13 +35,13 @@ namespace pneumatics {
     pros::ADIDigitalOut rightWingDD (WING_RIGHT_DD);
     pros::ADIDigitalOut winchRelease (WINCH_RELEASE);
     void init(){
-        
+        winchRelease.set_value(true);
         wingCheckLeftCurved=false;
         wingCheckRightCurved=false;
         wingCheckLeftDD=false;
         wingCheckRightDD=false;
         PTOCheck=false;
-        winchReleaseCheck=false;
+        winchReleaseCheck=true;
     }
     void dropdown(){
         while (true){
