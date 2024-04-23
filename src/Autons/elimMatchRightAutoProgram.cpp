@@ -13,8 +13,12 @@ void elimMatchRightAuton(void) {
     pros::delay(200);
     pneumatics::rightWingDD.set_value(true);
 	arms::chassis::move({25,-2,10});
+    printf("Left: %f\n",odom::getLeftEncoder());
+    printf("Right: %f\n",odom::getRightEncoder());
     if (odom::getLeftEncoder()<20||odom::getRightEncoder()<20){
-        return;
+        while (true){
+
+        }
     }
     intake::intakeMotor.moveVoltage(-12000);
     pneumatics::rightWingDD.set_value(false);
@@ -22,26 +26,30 @@ void elimMatchRightAuton(void) {
     chassis::turn(-20, RELATIVE);
     arms::chassis::move(18);
      arms::chassis::move(-14, REVERSE);
-     chassis::turn(80, RELATIVE);
+     chassis::turn(110, RELATIVE);
      intake::intakeMotor.moveVoltage(12000);
-     arms::chassis::move(50, RELATIVE);
+     arms::chassis::move(45, RELATIVE);
      pros::delay(500);
      intake::intakeMotor.moveVoltage(0);
      arms::chassis::move(-5, 100, REVERSE| RELATIVE);
      chassis::turn(-90, RELATIVE);
+     pros::delay(500);
      intake::intakeMotor.moveVoltage(0);
-     arms::chassis::move(15, 100, RELATIVE);
+     arms::chassis::move(20, 100, RELATIVE);
      chassis::turn(-85, RELATIVE);
+     pros::delay(500);
      pneumatics::leftWingCurved.set_value(true);
     intake::intakeMotor.moveVoltage(-12000);
      arms::chassis::move(20, 100, RELATIVE);
      pneumatics::leftWingCurved.set_value(false);
     arms::chassis::move(-20, 100, RELATIVE|REVERSE);
-    chassis::turn(180, RELATIVE);
+    chassis::turn(170, RELATIVE);
+    pros::delay(500);
     intake::intakeMotor.moveVoltage(12000);
     arms::chassis::move(10, 100, RELATIVE);
     arms::chassis::move(-10, 100, RELATIVE|REVERSE);
     chassis::turn(190, RELATIVE);
+    pros::delay(500);
     intake::intakeMotor.moveVoltage(-12000);
     arms::chassis::move(20, 100, RELATIVE);
     arms::chassis::move(-20, 100, RELATIVE|REVERSE);

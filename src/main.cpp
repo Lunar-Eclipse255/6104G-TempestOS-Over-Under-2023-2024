@@ -45,10 +45,10 @@ void autonomous() {
 	//pros::lcd::initialize();
 	//runSelectedGIF();
 	//runs the selected autonomous/skills program
-	runSelectedAuto();
+	//runSelectedAuto();
 	//elimMatchRightAuton();
-
-	PIDScreen();
+	leftBlueOneAuton();
+	//PIDScreen();
 	//arms::chassis::move({{24, 0}}, 100, arms::THRU | arms::ASYNC);
 	}
 	
@@ -62,8 +62,10 @@ void opcontrol() {
 
 	pros::Task intake (intake::control);
 	pros::Task kicker (kicker::control);
-	pros::Task dropdown (pneumatics::dropdown);
-	pros::Task curved (pneumatics::curved);
+	pros::Task dropdown (pneumatics::dropdownLeft);
+	pros::Task dropdown (pneumatics::dropdownRight);
+	pros::Task curved (pneumatics::curvedLeft); 
+	pros::Task curved (pneumatics::curvedRight);
 	pros::Task pto (pneumatics::pto);
 	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
 		dSkills();

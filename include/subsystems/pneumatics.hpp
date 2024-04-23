@@ -14,8 +14,10 @@ namespace pneumatics {
     extern pros::ADIDigitalOut rightWingDD;
     extern pros::ADIDigitalOut winchRelease;
     void init();
-    void dropdown();
-    void curved();
+    void dropdownLeft();
+    void dropdownRight();
+    void curvedLeft();
+    void curvedRight();
     void pto();
 }
 

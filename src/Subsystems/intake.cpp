@@ -15,7 +15,7 @@ namespace intake {
     Motor intakeMotor(13);
     void init(){
         arms::odom::reset({0,0},0);
-        intake::intakeMotor.moveVoltage(12000);
+        intake::intakeMotor.moveVoltage(-12000);
         pros::delay(1000);
         intake::intakeMotor.moveVoltage(0);
     }

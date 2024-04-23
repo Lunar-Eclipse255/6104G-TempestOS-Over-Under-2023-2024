@@ -21,7 +21,8 @@ namespace pneumatics {
     bool winchReleaseCheck;
     ControllerButton shiftKeyButton(ControllerDigital::L1);
     ControllerButton PTOButton(ControllerDigital::up);
-    ControllerButton winchReleaseButton(ControllerDigital::X);
+    ControllerButton winchReleaseDoubleClickButton(ControllerDigital::X);
+    ControllerButton winchReleaseSingleClickButton(ControllerDigital::B);
     ControllerButton wingOutLeftCurvedButton(ControllerDigital::right);
     ControllerButton wingLeftCurvedButton(ControllerDigital::left);
     ControllerButton wingRightCurvedButton(ControllerDigital::A);
@@ -35,15 +36,14 @@ namespace pneumatics {
     pros::ADIDigitalOut rightWingDD (WING_RIGHT_DD);
     pros::ADIDigitalOut winchRelease (WINCH_RELEASE);
     void init(){
-        winchRelease.set_value(true);
         wingCheckLeftCurved=false;
         wingCheckRightCurved=false;
         wingCheckLeftDD=false;
         wingCheckRightDD=false;
         PTOCheck=false;
-        winchReleaseCheck=true;
+        winchReleaseCheck=false;
     }
-    void dropdown(){
+    void dropdownLeft(){
         while (true){
             if (wingLeftDDButton.isPressed()) {
                 if (wingCheckLeftDD==false){
@@ -57,8 +57,12 @@ namespace pneumatics {
                     pros::delay(500);
                 }
             }
-            //Else if the wingOutButton is pressed and the wings aren't already in it extends 
-            else if (wingRightDDButton.isPressed()) {
+        }
+    }
+    void dropdownRight(){
+        while (true){
+            //If the wingOutButton is pressed and the wings aren't already in it extends 
+            if (wingRightDDButton.isPressed()) {
                 if (!wingCheckRightDD){
                     rightWingDD.set_value(true);
                     wingCheckRightDD=true;
@@ -72,32 +76,34 @@ namespace pneumatics {
             }
         }
     }
-    void curved(){
+    void curvedLeft(){
         while (true){
-            if (!(shiftKeyButton.isPressed())){
-                if (wingLeftCurvedButton.isPressed()) {
-                    if (wingCheckLeftCurved==false){
-                        leftWingCurved.set_value(true);
-                        wingCheckLeftCurved=true;
-                        pros::delay(500);
-                    }
-                    else{
-                        leftWingCurved.set_value(false);
-                        wingCheckLeftCurved=false;
-                        pros::delay(500);
-                    }
+            if (wingLeftCurvedButton.isPressed()) {
+                if (wingCheckLeftCurved==false){
+                    leftWingCurved.set_value(true);
+                    wingCheckLeftCurved=true;
+                    pros::delay(500);
                 }
-                if (wingRightCurvedButton.isPressed()) {
-                    if (wingCheckRightCurved==false){
-                        rightWingCurved.set_value(true);
-                        wingCheckRightCurved=true;
-                        pros::delay(500);
-                    }
-                    else{
-                        rightWingCurved.set_value(false);
-                        wingCheckRightCurved=false;
-                        pros::delay(500);
-                    }
+                else{
+                    leftWingCurved.set_value(false);
+                    wingCheckLeftCurved=false;
+                    pros::delay(500);
+                }
+            }
+        }
+    }
+    void curvedRight(){
+        while (true){
+            if (wingRightCurvedButton.isPressed()) {
+                if (wingCheckRightCurved==false){
+                    rightWingCurved.set_value(true);
+                    wingCheckRightCurved=true;
+                    pros::delay(500);
+                }
+                else{
+                    rightWingCurved.set_value(false);
+                    wingCheckRightCurved=false;
+                    pros::delay(500);
                 }
             }
         }
@@ -119,7 +125,7 @@ namespace pneumatics {
                         pros::delay(500);
                     }
                 }
-                if (winchReleaseButton.isPressed()){
+                if (winchReleaseSingleClickButton.isPressed()){
                     if (!winchReleaseCheck){
                         winchRelease.set_value(true);
                         winchReleaseCheck=true;
@@ -130,6 +136,12 @@ namespace pneumatics {
                         winchReleaseCheck=false;
                         pros::delay(500);
                     }
+                }
+                else if (winchReleaseDoubleClickButton.isPressed()){
+                    winchRelease.set_value(true);
+                    pros::delay(500);
+                    winchRelease.set_value(false);
+                    pros::delay(500);
                 }
                 
             }

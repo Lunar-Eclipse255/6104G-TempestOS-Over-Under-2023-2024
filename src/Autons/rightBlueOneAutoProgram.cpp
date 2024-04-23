@@ -22,11 +22,11 @@ void rightBlueOneAuton(void) {
      arms::chassis::move(16,100);
      arms::chassis::move(-12, REVERSE);
     pros::delay(500);
-    chassis::turn(170,100);
+    chassis::turn(160,100);
     pros::delay(500);
-    arms::chassis::move({30,6,-29}, RELATIVE);
+    arms::chassis::move({30,6,-10}, RELATIVE);
     intake::intakeMotor.moveVoltage(12000);
-    arms::chassis::move(21);
+    arms::chassis::move(20);
     pros::delay(1200);
     intake::intakeMotor.moveVoltage(0);
 
