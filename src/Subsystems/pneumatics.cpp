@@ -23,9 +23,10 @@ namespace pneumatics {
     ControllerButton PTOButton(ControllerDigital::up);
     ControllerButton winchReleaseDoubleClickButton(ControllerDigital::X);
     ControllerButton winchReleaseSingleClickButton(ControllerDigital::B);
-    ControllerButton wingOutLeftCurvedButton(ControllerDigital::right);
+    ControllerButton wingCurvedButton(ControllerDigital::left);
     ControllerButton wingLeftCurvedButton(ControllerDigital::left);
     ControllerButton wingRightCurvedButton(ControllerDigital::A);
+    ControllerButton wingDDButton(ControllerDigital::right);
     ControllerButton wingLeftDDButton(ControllerDigital::right);
     ControllerButton wingRightDDButton(ControllerDigital::Y);
     pros::ADIDigitalOut leftPTO (PTO_LEFT);
@@ -45,65 +46,109 @@ namespace pneumatics {
     }
     void dropdownLeft(){
         while (true){
-            if (wingLeftDDButton.isPressed()) {
-                if (wingCheckLeftDD==false){
-                    leftWingDD.set_value(true);
-                    wingCheckLeftDD=true;
-                    pros::delay(500);
+            if (shiftKeyButton.isPressed()){
+                if (wingLeftDDButton.isPressed()) {
+                    if (wingCheckLeftDD==false){
+                        leftWingDD.set_value(true);
+                        wingCheckLeftDD=true;
+                        pros::delay(500);
+                    }
+                    else{
+                        leftWingDD.set_value(false);
+                        wingCheckLeftDD=false;
+                        pros::delay(500);
+                    }
                 }
-                else{
-                    leftWingDD.set_value(false);
-                    wingCheckLeftDD=false;
-                    pros::delay(500);
+            }
+            else {
+                if (wingDDButton.isPressed()) {
+                    if (wingCheckLeftDD==false){
+                        leftWingDD.set_value(true);
+                        rightWingDD.set_value(true);
+                        wingCheckLeftDD=true;
+                        wingCheckRightDD=true;
+                        pros::delay(500);
+                    }
+                    else{
+                        leftWingDD.set_value(false);
+                        rightWingDD.set_value(false);
+                        wingCheckLeftDD=false;
+                        wingCheckRightDD=false;
+                        pros::delay(500);
+                    }
                 }
             }
         }
     }
     void dropdownRight(){
         while (true){
-            //If the wingOutButton is pressed and the wings aren't already in it extends 
-            if (wingRightDDButton.isPressed()) {
-                if (!wingCheckRightDD){
-                    rightWingDD.set_value(true);
-                    wingCheckRightDD=true;
-                    pros::delay(500);
-                }
-                else {
-                    rightWingDD.set_value(false);
-                    wingCheckRightDD=false;
-                    pros::delay(500);
+            if (shiftKeyButton.isPressed()){
+                //If the wingOutButton is pressed and the wings aren't already in it extends 
+                if (wingRightDDButton.isPressed()) {
+                    if (!wingCheckRightDD){
+                        rightWingDD.set_value(true);
+                        wingCheckRightDD=true;
+                        pros::delay(500);
+                    }
+                    else {
+                        rightWingDD.set_value(false);
+                        wingCheckRightDD=false;
+                        pros::delay(500);
+                    }
                 }
             }
         }
     }
     void curvedLeft(){
         while (true){
-            if (wingLeftCurvedButton.isPressed()) {
-                if (wingCheckLeftCurved==false){
-                    leftWingCurved.set_value(true);
-                    wingCheckLeftCurved=true;
-                    pros::delay(500);
+            if (shiftKeyButton.isPressed()){
+                if (wingLeftCurvedButton.isPressed()) {
+                    if (wingCheckLeftCurved==false){
+                        leftWingCurved.set_value(true);
+                        wingCheckLeftCurved=true;
+                        pros::delay(500);
+                    }
+                    else{
+                        leftWingCurved.set_value(false);
+                        wingCheckLeftCurved=false;
+                        pros::delay(500);
+                    }
                 }
-                else{
-                    leftWingCurved.set_value(false);
-                    wingCheckLeftCurved=false;
-                    pros::delay(500);
+            }
+            else {
+                if (wingCurvedButton.isPressed()) {
+                    if (wingCheckLeftCurved==false){
+                        leftWingCurved.set_value(true);
+                        rightWingCurved.set_value(true);
+                        wingCheckLeftCurved=true;
+                        wingCheckRightCurved=true;
+                        pros::delay(500);
+                    }
+                    else{
+                        leftWingCurved.set_value(false);
+                        rightWingCurved.set_value(false);
+                        wingCheckLeftCurved=false;
+                        wingCheckRightCurved=false;
+                        pros::delay(500);
+                    }
                 }
             }
         }
     }
     void curvedRight(){
         while (true){
-            if (wingRightCurvedButton.isPressed()) {
-                if (wingCheckRightCurved==false){
-                    rightWingCurved.set_value(true);
-                    wingCheckRightCurved=true;
-                    pros::delay(500);
-                }
-                else{
-                    rightWingCurved.set_value(false);
-                    wingCheckRightCurved=false;
-                    pros::delay(500);
+            if (shiftKeyButton.isPressed()){
+                if (wingRightCurvedButton.isPressed()) {
+                    if (wingCheckRightCurved==false){
+                        rightWingCurved.set_value(true);
+                        wingCheckRightCurved=true;
+                        pros::delay(500);
+                    }
+                    else{
+                        rightWingCurved.set_value(false);
+                        wingCheckRightCurved=false;
+                        pros::delay(500);
+                    }
                 }
             }
         }
