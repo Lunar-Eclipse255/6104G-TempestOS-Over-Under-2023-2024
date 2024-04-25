@@ -12,6 +12,11 @@ void rightBlueOneAuton(void) {
     pros::delay(200);
     pneumatics::rightWingDD.set_value(true);
 	arms::chassis::move({23,18,55});
+    if (odom::getLeftEncoder()<20||odom::getRightEncoder()<20){
+        while (true){
+
+        }
+    }
      intake::intakeMotor.moveVoltage(-12000);
     pneumatics::rightWingDD.set_value(false);
     pros::delay(1000);

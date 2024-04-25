@@ -4,7 +4,8 @@
 #include "main.h"
 #include "okapi/api.hpp"
 #include "turn_voltage.hpp"
-using namespace okapi;
+#include "ARMS/config.h"
+using namespace arms;
 
 void dSkills(void) {
 	

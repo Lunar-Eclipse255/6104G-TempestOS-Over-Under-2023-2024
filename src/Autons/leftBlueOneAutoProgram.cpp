@@ -11,6 +11,11 @@ using namespace arms;
 void leftBlueOneAuton(void) {
     intake::init();
     chassis::move(12,100);
+    if (odom::getLeftEncoder()<20||odom::getRightEncoder()<20){
+        while (true){
+
+        }
+    }
     pneumatics::rightWingDD.set_value(true);
     pros::delay(200);
     chassis::turn(180,100,REVERSE);
