@@ -17,10 +17,12 @@ void leftBlueOneAuton(void) {
         }
     }
     pneumatics::rightWingDD.set_value(true);
+    pneumatics::leftWingDD.set_value(true);
     pros::delay(200);
     chassis::turn(180,100,REVERSE);
     chassis::turn(15,100, RELATIVE);
     pneumatics::rightWingDD.set_value(false);
+    pneumatics::leftWingDD.set_value(false);
     pros::delay(500);
     intake::intakeMotor.moveVoltage(-12000);
     chassis::move(30,100, RELATIVE);

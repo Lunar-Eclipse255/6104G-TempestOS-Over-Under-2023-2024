@@ -68,7 +68,7 @@ void opcontrol() {
 	pros::Task curvedRight (pneumatics::curvedRight);
 	pros::Task pto (pneumatics::pto);
 	if ((autoType == AUTONOMOUS_SKILLS)&&(selectedProgram==1)){
-		dSkills();
+		//dSkills();
 	}
 	if (selectedDebugOption==1){ 
 		PIDScreen();
