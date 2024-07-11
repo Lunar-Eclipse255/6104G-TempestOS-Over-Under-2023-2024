@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+include/gif-pros linguist-vendored
+include/pros linguist-vendored
+include/okapi linguist-vendored
+include/display linguist-vendored
+include/ARMS linguist-vendored
+include/sylib linguist-vendored
