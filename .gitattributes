@@ -1,12 +1,12 @@
-include/gif-pros/*.h linguist-vendored
-include/gif-pros/*.hpp linguist-vendored
-include/pros/*.h linguist-vendored
-include/pros/*.hpp linguist-vendored
-include/okapi/*.hpp linguist-vendored
-include/display/*.h linguist-vendored
-include/ARMS/*.h linguist-vendored
-include/sylib/*.h linguist-vendored
-include/sylib/*.hpp linguist-vendored
+include/gif-pros/**/*.h linguist-vendored
+include/gif-pros/**/*.hpp linguist-vendored
+include/pros/**/*.h linguist-vendored
+include/pros/**/*.hpp linguist-vendored
+include/okapi/**/*.hpp linguist-vendored
+include/display/**/*.h linguist-vendored
+include/ARMS/**/*.h linguist-vendored
+include/sylib/**/*.h linguist-vendored
+include/sylib**//*.hpp linguist-vendored
 src/Customs.c linguist-vendored
 # Auto detect text files and perform LF normalization
 * text=auto
