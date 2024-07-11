@@ -7,38 +7,40 @@ RiptideOS is the comprehensive operating system for the Riptide robotics team's 
 2. [Dependencies](#dependencies)
 3. [File Structure](#file-structure)
 4. [Key Features](#key-features)
-5. [Setup and Installation](#setup-and-installation)
-6. [Usage Guide](#usage-guide)
-7. [Autonomous Routines](#autonomous-routines)
-8. [Operator Control](#operator-control)
-9. [Display System](#display-system)
-10. [PID Tuning](#pid-tuning)
-11. [Debugging](#debugging)
-12. [Contributing](#contributing)
-13. [License](#license)
-14. [Contact](#contact)
+5. [Usage Guide](#usage-guide)
+6. [Autonomous Routines](#autonomous-routines)
+7. [Operator Control](#operator-control)
+8. [Display System](#display-system)
+9. [PID Tuning](#pid-tuning)
+10. [Debugging](#debugging)
+11. [License](#license)
+12. [Contact](#contact)
 
 ## Project Overview
 
-RiptideOS is built on the PROS development environment, leveraging several additional libraries to enhance functionality and ease of development. The system is designed to provide precise control over the robot's movements, offer an intuitive interface for routine selection and debugging, and allow for rapid iteration and improvement of robot performance.
+RiptideOS is built with PROS, and other libraries to enhance functionality. The code is designed to provide control over the robot's movements, offer an interface for autonomous selection and debugging, and allow for rapid iteration and improvement.
 
 ## Dependencies
 
 This project relies on the following libraries:
 
-1. **PROS (3.8.3)**: The core development environment for VEX V5 robots.
-2. **ARMS (3.2.0)**: Advanced Robot Motion System, providing enhanced motion control algorithms.
-3. **gif-pros (2.1.1)**: Enables GIF display on the V5 brain's screen.
-4. **okapilib (4.8.0)**: Offers a comprehensive suite of utilities for advanced robot control.
-5. **sylib (1.0.0)**: SYLib robotics library, providing additional utilities and abstractions.
+1. **PROS (3.8.3)**: PROS (Purdue Robotics Operating System) is an open-source cross-platform C/C++ programming operating system for VEX robots.
+2. **ARMS (3.2.0)**: Advanced Robot Motion System (ARMS) is a library providing motion control algorithms for improved precision and efficiency.
+3. **gif-pros (2.1.1)**: The gif-pros is a library enabling GIF image display on the brain screen.
+4. **OKAPILib (4.8.0)**: OkapiLib is a library with advanced controls and utilities for the robot, with tools for motion profiling and odometry.
+5. **LVGL (5.3)**: The Light and Versatile Graphics Library (LVGL) used for creating GUIs on the Vex brain
+6. **Sylib (1.0.0)**: The Sylib  library providing additional utilities and abstractions as well as LED control, it is currently included but not utilized in the code.
 
 ## File Structure
 
-- `main.cpp`: Contains the program entry point, autonomous routines, and operator control code.
-- `display.cpp`: Manages the custom LCD display system and user interface.
+- `main.cpp`: This code sets up and manages the main functions of the robot, including initialization, disabled state handling, competition-specific setup, autonomous routines, and drive control. Using calls to namespaces and functions for different subsytems and tasks, as well as creating pros::Tasks for the functions, so the code is independant of eachother.
+- `display.cpp`: This code sets up a GUI for during comp initialize using LVGL. The interface allows you to select and run autonomous routines, skills routines, and debug options, as well selecting a GIF to be displayed during the match.
+- `drive.cpp`:
+- `intake.cpp`:
+- `kicker.cpp`:
+- `pneumatics.cpp`:
 - `autons.hpp`: Likely contains declarations for autonomous routines.
 - `motors.h`: Probably defines motor configurations and related functions.
-- Additional files (not visible in provided snippets) may handle specific subsystems, sensors, and utilities.
 
 ## Key Features
 
@@ -49,15 +51,6 @@ This project relies on the following libraries:
 5. **PID Tuning Interface**: Real-time adjustment of PID constants for optimal performance.
 6. **Debug Options**: Detailed motor and sensor data display for troubleshooting.
 7. **Profile Selection**: Multiple driver profiles for different control styles.
-
-## Setup and Installation
-
-1. Install PROS on your development machine (version 3.8.3 or later recommended).
-2. Clone this repository:git clone https://github.com/your-team/RiptideOS.git
-
-3. Open the project in a PROS-compatible IDE (like Visual Studio Code with PROS extension).
-4. Install required libraries through the PROS CLI or IDE interface.
-5. Compile the project to ensure all dependencies are correctly linked.
 
 ## Usage Guide
 
@@ -106,14 +99,6 @@ Debug options include:
 - PID loop performance visualization
 - Sensor data readouts
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please coordinate with the programming lead before making significant changes.
-
 ## License
+
+MIT License
