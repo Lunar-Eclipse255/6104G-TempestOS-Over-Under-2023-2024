@@ -1,0 +1,6 @@
+include/display/**/*.h linguist-vendored
+include/okapi/**/*.hpp linguist-vendored
+include/pros/**/*.h linguist-vendored
+include/pros/**/*.hpp linguist-vendored
+include/sylib/**/*.h linguist-vendored
+include/sylib/**/*.hpp linguist-vendored
