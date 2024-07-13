@@ -7,5 +7,5 @@
 using namespace okapi;
 
 void elimMatchRightAuton(void) {
-    
+    //kicker::kickerMotor.moveVoltage(12000);
 }

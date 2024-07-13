@@ -10,7 +10,7 @@ namespace intake {
     ControllerButton shiftKeyButton(ControllerDigital::L1);
     ControllerButton intakeOutButton(ControllerDigital::R2);
     ControllerButton intakeInButton(ControllerDigital::R1);
-    Motor intakeMotorOne(-17);
+    Motor intakeMotorOne(9);
     Motor intakeMotorTwo(-18);
     void init(){
         

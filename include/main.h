@@ -11,7 +11,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-#include "sylib/sylib.hpp"
+
 #ifndef _PROS_MAIN_H_
 #define _PROS_MAIN_H_
 
@@ -35,18 +35,12 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "ARMS/api.h"
-#include "pros/apix.h"
-#include "subsystems/drive.hpp"
-#include "subsystems/intake.h"
-#include "subsystems/kicker.h"
-#include "subsystems/pneumatics.hpp"
+
 /**
  * You should add more #includes here
  */
-#include "okapi/api.hpp"
-#include "pros/api_legacy.h"
-//Set up universal motors
+//#include "okapi/api.hpp"
+//#include "pros/api_legacy.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -58,14 +52,7 @@
  */
 // using namespace pros;
 // using namespace pros::literals;
-using namespace okapi;
-
-//extern std::shared_ptr<ChassisController> drive;
-// We apply a sinusoidal curve (twice) to the joystick input to give finer
-// control at small inputs.
-
-
-
+// using namespace okapi;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

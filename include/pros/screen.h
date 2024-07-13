@@ -5,7 +5,7 @@
  *
  * Contains user calls to the v5 screen for touching and displaying graphics.
  *
- * \copyright (c) 2017-2021, Purdue University ACM SIGBots.
+ * \copyright (c) 2017-2023, Purdue University ACM SIGBots.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -67,7 +67,7 @@ typedef struct screen_touch_status_s {
 #define TEXT_MEDIUM pros::E_TEXT_MEDIUM
 #define TEXT_LARGE pros::E_TEXT_LARGE
 #define TEXT_MEDIUM_CENTER pros::E_TEXT_MEDIUM_CENTER
-#define TEXT_LARGE_CENTER pros::E_LARGE_CENTER
+#define TEXT_LARGE_CENTER pros::E_TEXT_LARGE_CENTER
 #define TOUCH_RELEASED pros::E_TOUCH_RELEASED
 #define TOUCH_PRESSED pros::E_TOUCH_PRESSED
 #define TOUCH_HELD pros::E_TOUCH_HELD
