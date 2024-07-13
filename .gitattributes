@@ -8,4 +8,5 @@ include/pros/**/*.hpp linguist-vendored
 include/sylib/**/*.h linguist-vendored
 include/sylib/**/*.hpp linguist-vendored
 src/Customs.c linguist-vendored
-git config pull.rebase false
+common.mk linguist-vendored
+Makefile linguist-vendored
