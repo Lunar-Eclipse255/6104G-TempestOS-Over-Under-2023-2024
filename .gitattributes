@@ -8,5 +8,4 @@ include/ARMS/**/*.h linguist-vendored
 include/sylib/**/*.h linguist-vendored
 include/sylib**//*.hpp linguist-vendored
 src/Customs.c linguist-vendored
-# Auto detect text files and perform LF normalization
-* text=auto
+
