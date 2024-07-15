@@ -1,6 +1,6 @@
 # RiptideOS
 
-RiptideOS is the comprehensive operating system for the Riptide robotics team's VEX V5 robot. This advanced system integrates autonomous routines, operator controls, and a sophisticated user interface to maximize the robot's performance in VEX competitions.
+RiptideOS is the code for the Riptide robot of the team 6104G Tempest. This  system integrates autonomous routines, operator controls, and a graphical user interfaces to maximize the robot's performance in VEX competitions.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
@@ -14,7 +14,6 @@ RiptideOS is the comprehensive operating system for the Riptide robotics team's 
 9. [PID Tuning](#pid-tuning)
 10. [Debugging](#debugging)
 11. [License](#license)
-12. [Contact](#contact)
 
 ## Project Overview
 
@@ -35,10 +34,10 @@ This project relies on the following libraries:
 
 - `main.cpp`: This code sets up and manages the main functions of the robot, including initialization, disabled state handling, competition-specific setup, autonomous routines, and drive control. Using calls to namespaces and functions for different subsytems and tasks, as well as creating pros::Tasks for the functions, so the code is independant of eachother.
 - `display.cpp`: This code sets up a GUI for during comp initialize using LVGL. The interface allows you to select and run autonomous routines, skills routines, and debug options, as well selecting a GIF to be displayed during the match.
-- `drive.cpp`:
-- `intake.cpp`:
-- `kicker.cpp`:
-- `pneumatics.cpp`:
+- `drive.cpp`: This file sets up a drive system for the robot. It includes motor and sensor initialization, as well an arcade-style control system.
+- `intake.cpp`: This code sets up an intake system for the robot. It has an initialization function to drop the intake for the match, and a control loop that manages the intake mechanism. The intake motor will turn off when it detected w/ a distance sensor that it picked up a triball, but the user can can also manually intake w/o the distance sensor if they want.
+- `kicker.cpp`: This code sets up a kicker mechanism for the robot. It includes initialization for the motor and a control loop that manages the kicker. The system can toggle between manual and automatic modes.
+- `pneumatics.cpp`: This code sets up various pneumatic controls for the robot. It includes initialization for pneumatic components and continuous control loops for managing these components based on user inputs. The system uses multiple controller buttons to toggle the state of each pneumatic component, providing flexible control over the robot's pneumatic mechanisms.
 - `autons.hpp`: Likely contains declarations for autonomous routines.
 - `motors.h`: Probably defines motor configurations and related functions.
 
