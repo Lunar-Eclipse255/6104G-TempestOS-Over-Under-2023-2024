@@ -38,65 +38,61 @@ This project relies on the following libraries:
 - `intake.cpp`: This code sets up an intake system for the robot. It has an initialization function to drop the intake for the match, and a control loop that manages the intake mechanism. The intake motor will turn off when it detected w/ a distance sensor that it picked up a triball, but the user can can also manually intake w/o the distance sensor if they want.
 - `kicker.cpp`: This code sets up a kicker mechanism for the robot. It includes initialization for the motor and a control loop that manages the kicker. The system can toggle between manual and automatic modes.
 - `pneumatics.cpp`: This code sets up various pneumatic controls for the robot. It includes initialization for pneumatic components and continuous control loops for managing these components based on user inputs. The system uses multiple controller buttons to toggle the state of each pneumatic component, providing flexible control over the robot's pneumatic mechanisms.
-- `autons.hpp`: Likely contains declarations for autonomous routines.
-- `motors.h`: Probably defines motor configurations and related functions.
+- `autons.hpp`: Contains declarations for autonomous routines.
+- `motors.h`: Contains declarations for motors
 
 ## Key Features
 
-1. **Autonomous Selection**: Multiple autonomous routines for different field positions and alliance colors.
-2. **Operator Control**: Sophisticated teleop functions for precise robot manipulation.
-3. **Custom Display System**: Intuitive interface for routine selection and system status display.
+1. **Autonomous Selection**: Multiple autonomous routines for different field positions and alliance colors, that can be selected from the display
+3. **Custom Display System**: Display for auton, GIF, and profile selector, as well as a debug screen
 4. **GIF Support**: Ability to display GIF animations on the V5 brain screen.
-5. **PID Tuning Interface**: Real-time adjustment of PID constants for optimal performance.
+5. **PID Tuning Interface**: Real-time adjustment of PID constants.
 6. **Debug Options**: Detailed motor and sensor data display for troubleshooting.
 7. **Profile Selection**: Multiple driver profiles for different control styles.
 
 ## Usage Guide
 
-1. **Compile the Project**: Use the PROS CLI or IDE to compile the project.
+1. **Compile the Project**: Use the PROS CLI to compile the project.
 2. **Upload to V5 Brain**: Connect your V5 brain and upload the compiled program.
-3. **Select Autonomous Routine**: Use the touch screen interface to choose the appropriate autonomous routine before the match.
-4. **Monitor Status**: During operation, the screen will display relevant status information.
 
 ## Autonomous Routines
 
 The system includes several autonomous routines:
 
-- `rightRedOneAuton`, `rightRedTwoAuton`, `elimMatchRightAuton`: Right-side routines for red alliance
-- `leftRedOneAuton`, `leftRedTwoAuton`, `elimMatchLeftAuton`: Left-side routines for red alliance
-- `rightBlueOneAuton`, `rightBlueTwoAuton`: Right-side routines for blue alliance
-- `leftBlueOneAuton`, `leftBlueTwoAuton`: Left-side routines for blue alliance
-- `pSkills`, `dSkills`: Programming and driving skills routines
+- `rightRedOneAuton`, `rightRedTwoAuton`: Right-side autons for red alliance
+- `leftRedOneAuton`, `leftRedTwoAuton`: Left-side autons for red alliance
+- `rightBlueOneAuton`, `rightBlueTwoAuton`: Right-side autons for blue alliance
+- `leftBlueOneAuton`, `leftBlueTwoAuton`: Left-side autons for blue alliance
+- `elimMatchRightAuton`, `elimMatchLeftAuton`: Autons for elims 
+- `pSkills`, `dSkills`: Programming and driving skills autons
 
 ## Operator Control
 
 The operator control system includes:
 
 - Intake control
-- Kicker mechanism control
-- Pneumatic systems management (dropdowns, curved mechanisms, PTO)
-- Chassis control with potential for different drive modes
+- Kicker  control
+- Pneumatic systems management (dropdowns, curved mechanisms, and PTO)
+- Chassis control with different drive modes
 
 ## Display System
 
 The custom display system features:
 
-- Multiple screen layouts for different functions (autonomous selection, skills, debug, etc.)
+- Multiple screen layouts for different functions (autonomous selection, skills selection, debug option selection, profile selection, gif selection)
 - Dropdown menus for easy navigation and selection
 - GIF display capabilities for visual feedback
 - PID constant adjustment interface
 
 ## PID Tuning
 
-The PID tuning interface allows for real-time adjustment of kP, kI, and kD constants, enabling rapid optimization of control loops for various robot mechanisms.
+The PID tuning interface allows for real-time adjustment of kP, kI, and kD constants, reducing time wasted from reuploading code just to change constants
 
 ## Debugging
 
 Debug options include:
 
-- Motor information display
 - PID loop performance visualization
-- Sensor data readouts
 
 ## License
 
