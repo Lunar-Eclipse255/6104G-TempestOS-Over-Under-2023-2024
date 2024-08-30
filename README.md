@@ -92,7 +92,7 @@ The PID tuning interface allows for real-time adjustment of kP, kI, and kD const
 
 Debug options include:
 
-- PID loop performance visualization
+- PID constants adjuster
 
 ## License
 
